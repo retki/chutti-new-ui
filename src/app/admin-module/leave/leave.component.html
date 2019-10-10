@@ -1,0 +1,47 @@
+<div class="attendance dashboard__content">
+    <h3>Leave</h3>
+    <div class="nav nav-tabs attendance__tab" id="nav-tab" role="tablist">
+        <a class=" active" id="nav-reports" data-toggle="tab" href="#reports" role="tab" aria-controls="nav-reports"
+            aria-selected="true">Leave Reports</a>
+        <a class="" id="nav-type" data-toggle="tab" href="#type" role="tab" aria-controls="nav-type"
+            aria-selected="false">Leave Type</a>
+        <a class="" id="nav-policy" data-toggle="tab" href="#policy" role="tab" aria-controls="nav-policy"
+            aria-selected="false">Leave Policy</a>
+        <a class="" id="nav-balance-tab" data-toggle="tab" href="#balance" role="tab" aria-controls="nav-balance"
+            aria-selected="false">Manage Leaves</a>
+            <a class="" id="nav-details-tab" data-toggle="tab" href="#details" role="tab" aria-controls="nav-details"
+            aria-selected="false">Leave Details</a>
+            <a class="" id="nav-shifts-tab" data-toggle="tab" href="#shifts" role="tab" aria-controls="nav-shifts"
+            aria-selected="false">Shifts</a>
+
+    </div>
+    <div class="tab-content h-100" id="nav-tabContent">
+        <div class="tab-pane fade show active h-100" id="reports" href="#nav-reports" role="tabpanel"
+            aria-labelledby="nav-reports">
+            <app-leavereports></app-leavereports>
+        </div>
+
+        <div class="tab-pane fade  h-100" id="type" href="#nav-type" role="tabpanel" aria-labelledby="nav-type">
+            <app-leavetype></app-leavetype>
+        </div>
+        <div class="tab-pane fade  h-100" id="policy" href="#nav-policy" role="tabpanel" aria-labelledby="nav-policy">
+            <app-leavepolicy></app-leavepolicy>
+        </div>
+        <div class="tab-pane fade h-100" id="balance" href="#nav-balance" role="tabpanel" aria-labelledby="nav-balance">
+
+            <app-leavebalance></app-leavebalance>
+
+        </div>
+
+        <div class="tab-pane fade h-100" id="details" href="#nav-details" role="tabpanel" aria-labelledby="nav-details">
+
+            <app-leavedetails></app-leavedetails>
+
+        </div>
+        <div class="tab-pane fade h-100" id="shifts" href="#nav-shifts" role="tabpanel" aria-labelledby="nav-shifts">
+
+           <app-shift></app-shift>
+
+        </div>
+    </div>
+</div>

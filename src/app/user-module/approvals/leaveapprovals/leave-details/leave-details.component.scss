@@ -1,0 +1,99 @@
+@import '../../../.././../assets/scss/variables.scss';
+@import '../../../.././../assets/scss/mixin.scss';
+.leave__profile--img 
+{
+   img 
+   {
+    width: 85px;
+    height: 85px;
+   }
+}
+.leave__details 
+{
+    margin: 1rem 0 2.2rem;
+    [class*="col-"]
+    {   
+        h6 
+        {
+            padding-left: 0;color: $gray;
+            font-size: .8em;
+            padding-bottom: 5px;
+        }
+        h5 
+        {
+            padding-left: 0;
+            font-size: .9em;
+        }
+    }
+}
+h5 
+{
+    padding-left: 0;
+}
+.custom__btn 
+{
+    border: 1px solid;
+    border-radius: 4px;
+    padding: 12px 0;
+    letter-spacing: 1.8px;
+    font-size: 0.9em;
+    font-weight: 600;
+    margin: 0 .5rem;
+    width: 86%;
+    margin: 0 7%;
+    background-color: transparent;
+}
+.leave__details--btn 
+{
+    span 
+    {
+        width: 33.333%;
+        display: inline-block;
+        .approveLeave 
+        {
+            color: $darkBlue;
+            border-color: $darkBlue;
+        }
+        .holdLeave 
+        {
+            color: $orange;
+            border-color: $orange;
+        }
+        .rejectLeave 
+        {
+            color: $darkRed;
+            border-color: $darkRed;
+        }
+    }
+}
+.leaveDetails__header 
+{
+p 
+{
+    font-size: .8em;
+}
+}
+.rejection 
+{    padding: 0px;
+    .form-group 
+    {
+        margin-top: 1.5rem;
+        .form-control 
+        {
+            border-left: none;
+            border-right: none;
+            border-top: none;
+            font-size: 0.9em;
+            border-radius: 0;
+            padding-left: 0;
+            color: black !important;
+        }
+        label 
+        {
+            font-size: .8em;
+        }
+    }
+}
+.error {
+    color:  #f7041c;
+}

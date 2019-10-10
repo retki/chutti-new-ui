@@ -1,0 +1,31 @@
+<ngx-loading-bar [color]="'#6747D4'" [includeSpinner]='false'></ngx-loading-bar>
+<div class="admin-content">
+    <div class="page-title with-tabs">
+        <h3 class="m-0">Projects</h3>
+        <div class="nav nav-tabs leave__tab" id="nav-tab" role="tablist">
+            <a class="active" id="nav-list-tab" data-toggle="tab" href="#nav-list" role="tab" aria-controls="nav-list"
+                aria-selected="true">Project List</a>
+            <a class="" id="nav-type-tab" data-toggle="tab" href="#nav-type" role="tab" aria-controls="nav-type"
+                aria-selected="false">Project Types</a>
+            <a class="" id="nav-assignment-tab" data-toggle="tab" href="#nav-assignment" role="tab"
+                aria-controls="nav-assignment" aria-selected="false">Project Assignment</a>
+
+        </div>
+    </div>
+
+
+    <div class="tab-content h-100" id="nav-tabContent">
+        <div class="tab-pane fade  h-100 show active" id="nav-list" role="tabpanel" aria-labelledby="nav-list-tab">
+
+            <app-project-list></app-project-list>
+        </div>
+
+        <div class="tab-pane fade  h-100" id="nav-type" role="tabpanel" aria-labelledby="nav-type-tab">
+            <app-project-type></app-project-type>
+        </div>
+        <div class="tab-pane fade h-100" id="nav-assignment" role="tabpanel" aria-labelledby="nav-assignment-tab">
+            <app-project-assignment></app-project-assignment>
+        </div>
+    </div>
+
+</div>

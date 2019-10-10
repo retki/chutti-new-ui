@@ -1,0 +1,101 @@
+<section id="login__page" class="h-100 welcome-chutti">
+    <div class="container h-100">
+        <div class="row justify-content-center h-100">
+            <div class="col-lg-12">
+                <div class="card shadow-sm admin-generation-card">
+                    <div class="card-body">
+                        <!-- Setup completed screen -->
+                        <div class="completed-screen d-none">
+                            <h3>Yay initial setup has been completed!</h3>
+                            <p>CloudNow offers a comprehensive range of cloud services and
+                                technology solutions built to solve real-world problems
+                                for businesses spanning different sizes, industries and geographies.
+                                Our solid and progressive partnerships with industry-leading vendors</p>
+                            <button class="btn theme__btn" type="button">START</button>
+                        </div>
+                        <!-- Admin generation tabs -->
+                        <div class="nav nav-tabs admin-tab" id="admin-tab" role="tablist">
+                            <a class="active" id="nav-organisation-tab" data-toggle="tab" href="#nav-organisation"
+                                role="tab" aria-controls="nav-organisation" aria-selected="true">Organisation
+                                Details</a>
+                            <a class="" id="nav-import-tab" 
+                                aria-controls="nav-import" aria-selected="false">Import Users</a>
+                            <a class="" id="nav-mapping-tab" 
+                                aria-controls="nav-mapping" aria-selected="false">User Mapping</a>
+                            <a class="" id="nav-policy-tab"
+                                aria-controls="nav-policy" aria-selected="false">Leave Policy</a>
+                        </div>
+                        <!-- Tab content -->
+                        <div class="tab-content admin-tab-content" id="admin-tabContent">
+                            <!-- Organisation Details -->
+                            <div class="tab-pane org-details fade show active" id="nav-organisation" role="tabpanel" aria-labelledby="nav-organisation-tab">
+                                <app-admin-generation-organization></app-admin-generation-organization>
+                            </div>
+                            <!-- Import Users -->
+                            <div class="tab-pane fade import-users" id="nav-import" role="tabpanel" aria-labelledby="nav-import-tab">
+                                <app-admin-generation-import-users></app-admin-generation-import-users>
+                            </div>
+                            <!-- User Mapping -->
+                            <div class="tab-pane fade user-mapping" id="nav-mapping" role="tabpanel" aria-labelledby="nav-mapping-tab">
+                             <app-admin-generation-user-mapping></app-admin-generation-user-mapping>
+                            </div>
+                            <!-- Leave Policy -->
+                            <div class="tab-pane fade" id="nav-policy" role="tabpanel" aria-labelledby="nav-policy-tab">
+                                    <app-leavepolicy></app-leavepolicy>
+                                    <div class="tabs-prev-next">
+                                        <button class="btn theme__btn__cancel" type="button" (click)="tabPrev()">Back</button>
+                                        <button class="btn theme__btn" type="submit"  (click)="tabNext()">Next</button>
+                                    </div>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- Leave Policy Edit Modal -->
+<div class="modal fade admin-gen-modal" id="LeavePolicyEdit" tabindex="-1" role="dialog"
+    aria-labelledby="LeavePolicyEdit" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body projects-body">
+                <form>
+                    <h6>Edit Leave Policy</h6>
+                    <div class="form-group">
+                        <label class="form-label" for="Customer">Leave Name</label>
+                        <input type="text" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="Customer">Description</label>
+                        <input type="text" class="form-control" required>
+                    </div>
+                    <div class="bottom__btn mt-0">
+                        <button class="btn btn-primary cancel" data-dismiss="modal" type="submit">Cancel</button>
+                        <button class="btn btn-primary submit" data-dismiss="modal" type="submit">Add</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Leave Policy Edit Modal -->
+<div class="modal fade admin-gen-modal" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModal"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body projects-body">
+                <form>
+                    <h6>Delete</h6>
+                    <p>Do you want delete the leave policy</p>
+                    <div class="bottom__btn mt-0">
+                        <button class="btn btn-primary cancel" data-dismiss="modal" type="submit">Cancel</button>
+                        <button class="btn btn-primary submit" data-dismiss="modal" type="submit">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

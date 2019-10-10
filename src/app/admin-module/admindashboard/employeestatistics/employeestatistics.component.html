@@ -1,0 +1,25 @@
+<div class="admin__card">
+    <div class="d-flex" id="statistics">
+        <div>
+            <h6>Employee Statistics</h6>
+        </div>
+        <div class="">
+            <h6 class="access__date">
+                <div class="d-flex date__select">
+                    <span class="icon_arrow_thin_left nav-arrow align-self-center"
+                        (click)="changeWeek('previousWeek')"></span>
+                    <p class="m-0 align-self-center pl-2">{{fromDate | date: ' MMM dd'}} - {{toDate | date: ' MMM dd'}}
+                    </p>
+                    <span #todate class="icon_arrow_thin_right nav-arrow align-self-center pl-2" *ngIf="toDay!=toDate"
+                        (click)="changeWeek('nextWeek')"></span>
+                </div>
+            </h6>
+        </div>
+    </div>
+    <p class="cart__info"><span class="color__box"></span> Number of Employees Present</p>
+    <div class="card__value text-center">
+        <!-- <h1 class="card__data"><span class="icon_leave"></span> 152</h1> -->
+        <app-barchart *ngIf="chartData?.length!=0" [chartData]="chartData"></app-barchart>
+        <b class="no-data" *ngIf="chartData?.length==0">Loading...</b>
+    </div>
+</div>

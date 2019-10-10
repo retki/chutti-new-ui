@@ -1,0 +1,53 @@
+@import '../assets/scss/variables.scss';
+
+.danger{
+
+    position: absolute;
+    top: 5px;
+    right: 567px;
+    background-color: #fff;
+    border-color: #FF0000;
+    color: #FF0000;
+}
+.alert__msg 
+{
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    top: 34px;
+    left: 50%;
+    right: 50%;
+    transform: translate(-50%, -50%);
+    &.success 
+    {
+        p 
+        {
+            color: $darkBlue;
+            border:1px solid $darkBlue;
+            display: inline;
+        }
+    }
+    &.failure 
+    {
+        p 
+        {
+            color: $darkRed;
+            border:1px solid $darkRed;
+            display: inline;
+        }
+    }
+    p 
+    {
+        border-radius: 4px;
+        padding: 12px 10px;
+        margin-bottom: 0;
+        box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.06);
+        font-size: .9em;
+        .icon 
+        {
+            font-size: 1.3em;
+            position: relative;
+            top: 2px;
+        }
+    }
+}

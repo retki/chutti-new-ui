@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="55.661" height="55.661" viewBox="0 0 55.661 55.661">
+  <defs>
+    <linearGradient id="linear-gradient" x2="1" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#9a45d2"/>
+      <stop offset="1" stop-color="#6747d4"/>
+    </linearGradient>
+    <filter id="leave_bank" x="0" y="0" width="55.661" height="55.661" filterUnits="userSpaceOnUse">
+      <feOffset dy="4" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feFlood flood-color="#c2afff" flood-opacity="0.631"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g transform="matrix(1, 0, 0, 1, 0, 0)" filter="url(#leave_bank)">
+    <path id="leave_bank-2" data-name="leave_bank" d="M20.477,3H5.185A2.191,2.191,0,0,0,3,5.185V20.477a2.191,2.191,0,0,0,2.185,2.185H20.477a2.191,2.191,0,0,0,2.185-2.185V5.185A2.191,2.191,0,0,0,20.477,3ZM9.554,18.292H7.369V10.646H9.554Zm4.369,0H11.738V7.369h2.185Zm4.369,0H16.107V13.923h2.185Z" transform="translate(15 11)" fill="url(#linear-gradient)"/>
+  </g>
+</svg>

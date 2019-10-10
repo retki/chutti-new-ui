@@ -1,0 +1,55 @@
+<style>
+tspan 
+{
+    font-size: 30px !important;
+}
+</style>
+<div class="leaveBank">
+        <h5>Leave Bank</h5>
+
+        <form class="leaveBank__form">
+                <div class="row">
+                        <div class="col-md-4 text-center px-0">
+                                <circle-progress class="circle-progress" [toFixed]="1" [percent]="elCount" [backgroundPadding]="0" [radius]="44" [space]="-2"
+                                [outerStrokeWidth]="5" [outerStrokeColor]="'#6C44E1'" [innerStrokeWidth]="2"
+                                [innerStrokeColor]="'#E9E9E9'" [titleFontSize]="26" [animation]="true"
+                                [animationDuration]="900" [showUnits]="false" [clockwise]="true" [animateTitle]="true" 
+                                [showSubtitle]="false" [lazy]="false" [titleColor]="'#6C44E1'"
+                                        ></circle-progress>
+                                <div class="leave__title"> <span>EARNED  LEAVE</span></div>
+                        </div>
+                        <div class="col-md-4 text-center px-0">
+                                <circle-progress [toFixed]="1" [percent]="slCount" [backgroundPadding]="0" [radius]="44" [space]="-2"
+                                        [outerStrokeWidth]="5" [outerStrokeColor]="'#C143F5'" [innerStrokeWidth]="2"
+                                        [innerStrokeColor]="'#E9E9E9'" [titleFontSize]="26" [animation]="true"
+                                        [animationDuration]="900" [showUnits]="false" [clockwise]="true" [animateTitle]="true" 
+                                        [showSubtitle]="false" [lazy]="false" [titleColor]="'#C143F5'">
+                                </circle-progress>
+                                <div class="leave__title"> <span>SICK  LEAVE</span></div>
+
+                        </div>
+                        <div class="col-md-4 text-center px-0">
+
+                                <circle-progress [toFixed]="1" [percent]="clCount" [backgroundPadding]="0" [radius]="44" [space]="-2"
+                                        [outerStrokeWidth]="5" [outerStrokeColor]="'#1D8FDF'" [innerStrokeWidth]="2"
+                                        [innerStrokeColor]="'#E9E9E9'" [titleFontSize]="26" [animation]="true"
+                                        [animationDuration]="900" [showUnits]="false" [clockwise]="true" [animateTitle]="true" 
+                                        [showSubtitle]="false" [lazy]="false" [titleColor]="'#1D8FDF'">
+                                </circle-progress>
+                                <div class="leave__title"> <span>CASUAL  LEAVE</span></div>
+                                <!-- [title]="clCount +' '+'/' + ' '+'8'" -->
+
+                        </div>
+
+
+                </div>
+                <div class="lop__bottom">
+                        <h6>LOP for this month: </h6>
+                        <h6 *ngIf="lop"><strong> {{totallop}} days</strong></h6>
+                        <h6 *ngIf="!lop"><strong> {{totallop}} day</strong></h6>
+
+                </div>
+
+
+        </form>
+</div>

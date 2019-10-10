@@ -1,0 +1,36 @@
+<div class="dashboard__content">
+    <h3>Welcome, Admin</h3>
+    <div class="row justify-content-center h-100 dashboard-row ">  
+        <div class="col-12 col-md-6 col-lg-3 h-3 hide__elements ">
+            <div class="inner__section--styles">
+                <app-totalemplooyee></app-totalemplooyee>
+            </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3 h-3 hide__elements ">
+            <div class="inner__section--styles">
+                <app-totalongoingprojects></app-totalongoingprojects>
+            </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3 h-3  hide__elements">
+            <div class="inner__section--styles">
+                <app-employeeonleave></app-employeeonleave>
+            </div>
+        </div>
+        <div  class="col-12 col-md-6 col-lg-3 h-3  hide__elements">
+                <div class="inner__section--styles">
+                    <app-latecomers></app-latecomers>
+                </div>
+            </div>
+        <div class="col-12 col-md-12 col-lg-6 h-7 hide__elements">
+            <div class="inner__section--styles">
+                <app-employeestatistics></app-employeestatistics>
+            </div>
+        </div>
+        <div id="employee_status" class="col-12 col-md-12 col-lg-6">
+            <div  class="inner__section--styles">
+                <app-employeestatus  [showdashwhoseonleavepagination]="showdashwhoseonleavepagination"></app-employeestatus>
+            </div>
+        </div>
+       
+    </div>
+</div>

@@ -1,0 +1,140 @@
+<div class="attendance dashboard__content">
+    <h3>Leave Details</h3>
+    <div class="inner__section--styles h-auto">
+        <div class="row">
+            <div class="col-1 leave__profile--img ">
+                <img class="rounded-circle" [src]="profileImage?profileImage:'assets/images/admin/profile_image.png'" />
+            </div>
+            <div class="col-11 pl-4 align-self-center leaveDetails__header">
+                <h5 class="pt-1">{{employeeLeaveMasterResponse.firstName}}</h5>
+            
+                <p>{{employeeLeaveMasterResponse.createdBy.officialEmailid}}</p>
+            </div>
+            <!-- dummy div for alignment -->
+            <div class="col-12 col-md-1"></div>
+            <div class="col-12 col-md-11 float-right">
+                <div class="row leave__details">
+                    <div class="col-md-2">
+                        <h6>From</h6>
+                        <h5>{{employeeLeaveMasterResponse.fromDate| date:"dd MMM yyyy" | uppercase}}</h5>
+                    </div>
+                    <div class="col-md-2">
+                        <h6>To</h6>
+                        <h5>{{employeeLeaveMasterResponse.toDate| date:"dd MMM yyyy" | uppercase}}</h5>
+                    </div>
+                    <div class="col-md-2">
+                        <h6>Duration</h6>
+                        <h5>{{employeeLeaveMasterResponse.permissionDuration}}</h5>
+                    </div>
+                    <div class="col-md-3">
+                        <h6>Leave Type</h6>
+                        <h5>{{employeeLeaveMasterResponse.leaveCode}}</h5>
+                    </div>
+                    <div class="col-md-3">
+                        <h6>Loss Of Pay</h6>
+                        <h5>{{employeeLeaveMasterResponse.noOfLops}} day(s)</h5>
+                    </div>
+                    <div class="col-md-2 mt-4">
+                        <h6>Status</h6>
+                        <h5>{{employeeLeaveMasterResponse.status}}</h5>
+                    </div>
+                    <div *ngIf="employeeLeaveMasterResponse.status !='PENDING'" class="col-md-4 mt-4">
+                        <h6>Reason</h6>
+                        <h5>{{employeeLeaveMasterResponse.reason}}</h5>
+                    </div>
+                </div>
+                <div class="row leave__details pt-3">
+                    <h6 class="w-100 mb-4 ml-3">LEAVE BALANCE</h6>
+                    <div class="col-md-2" *ngFor="let single of leaveSummaryList">
+
+                        <h6>{{single.gemsLeaveTypeMaster.leaveTypeDescription}}</h6>
+                        <h5>{{single.leaveEntitled}}</h5>
+                    </div>
+                    <div class="col-md-3">
+                        <h6>Reason</h6>
+                        <h5>{{employeeLeaveMasterResponse.reason}}</h5>
+                    </div>
+                    <div class="col-md-3">
+                        <h6>Status</h6>
+                        <h5>{{employeeLeaveMasterResponse.status}}</h5>
+                    </div>
+                </div>
+                <div class="row leave__details rejection" *ngIf="employeeLeaveMasterResponse.status=='PENDING' || employeeLeaveMasterResponse.status=='ONHOLD'">
+                    <div class="col-md-12" >
+                        <div class="form-group">
+                            <label>Reason</label>
+                            <input type="text" class="form-control" (keyup)="onKeyPress($event)"  [(ngModel)]="remarks">
+                            <small [hidden]="!reasonRequired"
+                            class="form-text error">Please fill some characters.</small>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="employeeLeaveMasterResponse.status=='APPROVED'" class="row leave__details rejection">
+                    <div class="col-md-12" *ngIf="approvedLeaveReject(employeeLeaveMasterResponse)">
+                        <div class="form-group">
+                            <label>Reason</label>
+                            <input type="text" class="form-control" (keyup)="onKeyPress($event)"  [(ngModel)]="remarks">
+                            <small [hidden]="!reasonRequired"
+                            class="form-text error">Please fill some characters.</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="row justify-content-center mt-5 pb-2">
+                    <div class="col-6 leave__details--btn">
+                        <span
+                            *ngIf="employeeLeaveMasterResponse.status=='PENDING' || employeeLeaveMasterResponse.status=='ONHOLD'">
+                            <button type="submit" (click)="approveLeaveRequest(employeeLeaveMasterResponse)"
+                                class="custom__btn approveLeave">
+                                Approve</button>
+                        </span>
+                        <!-- <span *ngIf="pendingHoldLeave(employeeLeaveMasterResponse)">
+                            <button type="submit" (click)="holdLeaveRequest(employeeLeaveMasterResponse)"
+                                class="custom__btn holdLeave"> On
+                                hold</button>
+                        </span> -->
+                        <span
+                            *ngIf="employeeLeaveMasterResponse.status=='PENDING' || employeeLeaveMasterResponse.status=='ONHOLD' ">
+                            <button  type="submit" [disabled]="remarks === undefined || reasonRequired" (click)="rejectLeaveRequest(employeeLeaveMasterResponse)"
+                                class="custom__btn rejectLeave">Reject</button>
+                        </span>
+                        <span
+                        *ngIf="employeeLeaveMasterResponse.status=='APPROVED'">
+                        <button  *ngIf="approvedLeaveReject(employeeLeaveMasterResponse)"  [disabled]="remarks == undefined || reasonRequired" type="submit" (click)="rejectLeaveRequest(employeeLeaveMasterResponse)"
+                            class="custom__btn rejectLeave">Reject</button>
+                    </span>
+                        <!-- <span *ngIf="emailRejection">
+                            <button type="submit" (click)="rejectLeaveRequest(employeeLeaveMasterResponse)"
+                                class="custom__btn rejectLeave">Reject</button>
+                        </span> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#rejectionModel">
+    Launch demo modal
+</button> -->
+
+<!-- Modal -->
+<div class="modal fade" id="rejectionModel" tabindex="-1" role="dialog" aria-labelledby="rejectionModel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+
+            <div class="modal-body rejection">
+                <h6>Remarks</h6>
+                <div class="form-group">
+                    <label for=""> Reason for Rejection</label>
+                    <textarea
+                        class="form-control">Need to completed task - Highly important. Cannot approve leave.</textarea>
+                </div>
+                <div class="time__submit text-right mt-4 pt-2">
+                    <button type="button" class="btn cancel-button" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn theme__btn btn-hover color-3" data-dismiss="modal">Done</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

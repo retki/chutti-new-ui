@@ -1,0 +1,112 @@
+<ngx-loading-bar [color]="'#6747D4'" [includeSpinner]='false'></ngx-loading-bar>
+
+<div class="leave__status--innerpage rounded dashboard__content">
+    <h3>Leave</h3>
+
+    <div class="nav nav-tabs leave__tab" id="nav-tab" role="tablist">
+        <a class=" active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home"
+            aria-selected="true">Apply Leave</a>
+        <a *ngIf="isreportingmanager=='true'" class="" id="nav-approve-tab" data-toggle="tab" href="#nav-approve"
+            role="tab" aria-controls="nav-approve" aria-selected="false">Approve Leave</a>
+        <a class="" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile"
+            aria-selected="false">Leave Policy</a>
+           
+          
+           
+    </div>
+    <div class="tab-content h-100" id="nav-tabContent">
+        <div class="tab-pane fade show active h-100" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+            <div class="row h-100 row-1 leave-row">
+                <div class="col-12 col-md-6 col-lg-4  h-6" id="apply">
+
+                    <div class="inner__section--styles">
+                        <app-quick-apply [dashBoardPaginationView]="true"></app-quick-apply>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-4  h-6 bank quick__apply-bg" id="bank">
+                    <div class="inner__section--styles">
+                        <app-leave-bank></app-leave-bank>
+                    </div>
+
+                </div>
+                <div class="col-12 col-md-12 col-lg-4  h-6 mr__0" id='upcoming'>
+                    <!-- <div  class="float-right viewMore__details expand" (click)="expandupcomingholiday();"><span class="icon_expand"></span></div>
+                        <div  class="float-right viewMore__details compress d-none" (click)="expandupcomingholiday();"><span class="icon_expand"></span></div> -->
+                    <div class="inner__section--styles">
+                        <app-upcomming-holidays></app-upcomming-holidays>
+                    </div>
+                </div>
+                <div class="col-12 h-4 mr__0 mt-3" id="leavestatus">
+                    <div class="inner__section--styles mb-0">
+                        <div class="float-right viewMore__details expand" (click)="expandleavestatus();"><span
+                                class="icon_expand"></span></div>
+                        <div class="float-right viewMore__details compress d-none" (click)="expandleavestatus();"><span
+                                class="icon_collapse"></span></div>
+                        <app-leave-status [showdashleavestatuspagination]="showdashleavestatuspagination"
+                            [dashBoardPaginationView]="false">
+                        </app-leave-status>
+                    </div>
+
+
+                </div>
+            </div>
+
+
+        </div>
+        <div class="tab-pane fade h-100" id="nav-approve" role="tabpanel" aria-labelledby="nav-approve-tab">
+            <div class="row h-100 row-1">
+                <div class="col-12">
+                    <app-leaveapprovals></app-leaveapprovals>
+                </div>
+            </div>
+        </div>
+       
+            
+        <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+            <div class="row h-100 row-2">
+                <div class="col-12 col-md-6 ">
+                    <div class="leave__policy--table inner__section table-responsive-xl">
+                       <h5 class="i__confirmed">In Probation</h5>
+                        <table class="table">
+                            <thead>
+                                <tr class="border__hide">
+                                    <th scope="col">Leave Type</th>
+                                    <th class="text-right" scope="col" class="text-right">Total Days</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let inPropagationArrayListobj of inPropagationArrayList;let i =index">
+                                    <td>{{inPropagationArrayListobj.leaveTypeDescription}}</td>
+                                    <td class="pr-5">{{inPropagationArrayListobj.totalDays}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 h-100">
+                    <div class="leave__policy--table inner__section">
+                        <h5 class="i__confirmed">Confirmed</h5>
+                        <table class="table">
+                            <thead>
+                                <tr class="border__hide">
+                                    <th scope="col">Leave Type</th>
+                                    <th class="text-right" scope="col">Total Days</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let ConfirmedArrayListobj of ConfirmedArrayList;let i =index">
+                                    <td>{{ConfirmedArrayListobj.leaveTypeDescription}}</td>
+                                    <td class="pr-5">{{ConfirmedArrayListobj.totalDays}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>

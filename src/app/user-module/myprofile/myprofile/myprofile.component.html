@@ -1,0 +1,223 @@
+<div class="loader" *ngIf="preloader">
+    <svg class="spinner" width="65px" height="65px" viewBox="0 0 66 66" >
+        <circle class="path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle>
+     </svg>
+</div>
+<div class="section__container dashboard__content">
+    <h3>My Profile</h3>
+    <div class="profile inner__container  dashboard__content">
+        <div class="row">
+            <div class="col-md-5">
+                <div class="profile__header">
+                    <!-- <div class="avatar-container" data-toggle="tooltip" data-placement="bottom"
+                        *ngIf="imageProfile == false">
+                        <img class="avatar" [src]="ProfileImage">
+                        <div class="edit__profile">
+                            <span class="icon_camera"></span>
+                        </div>
+                    </div> -->
+                    <div class="profile--img">
+                        
+                    </div>
+                    <div class="profile__pic">
+                            <circle-progress *ngIf="!isImage" [percent]="value" [backgroundPadding]="0" [radius]="50"
+                            [space]="-5" [outerStrokeWidth]="5" [backgroundStrokeWidth]="0" [outerStrokeLinecap]="round" [outerStrokeColor]="'#6C44E1'" [innerStrokeWidth]="5"
+                            [innerStrokeColor]="'#E9E9E9'" [titleFontSize]="26" [animation]="true" [animationDuration]="900"
+                            [showUnits]="false" [clockwise]="true" [animateTitle]="true" [showSubtitle]="false"
+                            [lazy]="false" [titleColor]="'#6C44E1'" [animationDuration]="800" 
+                            [showImage]="true" class="circle-progress"></circle-progress>
+                         
+                            <div class="ProfileImage" *ngIf="!isImage">
+                                    <img [src]="ProfileImage?ProfileImage:'assets/images/admin/profile_image.png'">
+                            </div>
+
+                             <label class="hoverable" for="fileInput" *ngIf="imageProfile == false && isImage">
+                        <div class="ProfileImage">
+                                <img [src]="ProfileImage?ProfileImage:'assets/images/admin/profile_image.png'">
+                        </div>
+                        <div class="hover-text">
+                            <div class="edit__profile">
+                                <span class="icon_camera"></span>
+                            </div>
+                        </div>
+                        <div class="background"></div>
+                    </label>
+                    <input id="fileInput" type="file" accept="image/PNG,image/png,image/jpeg,image/JPEG,image/jpg,image/JPG" (change)="onSelectFile($event)">
+                    <label class="hoverable" for="fileInput" *ngIf="imageProfile == true && isImage">
+                        <img [src]="ProfileImage?ProfileImage:'assets/images/admin/profile_image.png'">
+                        <div class="hover-text" style="display: block;">
+                            <div class="edit__profile">
+                                <span class="icon_camera"></span>
+                            </div>
+                        </div>
+                        <div class="background"></div>
+                    </label>
+                    </div>
+
+                   
+                    <input id="fileInput" type="file" accept="image/PNG,image/png,image/jpeg,image/JPEG,image/jpg,image/JPG" (change)="onSelectFile($event)">
+                    <div class="profile__details">
+                        <h5>{{employeename}}</h5>
+                        <h6>{{userdesignation}}</h6>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-7 profile__top--right text-right" *ngIf="showeditProfile"> <a
+                    routerLink="/user/myprofile/changepassword" class="change__pwd"><span
+                        class=" icon_lock"></span>Change Password</a>
+                <a class="change__pwd" (click)="editProfileClicked()"><span class="icon_edit_filled"></span>Edit
+                    Profile</a>
+
+            </div>
+        </div>
+        <div class="row profile__row">
+            <div class="col-md-6">
+                <div class="table-responsive">
+                    <table class="table profile__data">
+                        <tbody>
+                            <tr class="profile__data--header">
+                                <th scope="row">Full Name</th>
+                                <td><span>{{employeename}} {{employeeLastName}}</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Email</th>
+                                <td><span>{{officialMailId}}</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Department</th>
+                                <td><span>{{userdepartment}}</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Branch</th>
+                                <td>{{userdesignation}}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Reporting to</th>
+                                <td><span>{{reportingto}}</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Employee Status</th>
+                                <td><span class="yellow">{{employeestatus}}</span>
+                                </td>
+                            </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-6 pr-4">
+            <span *ngIf="showeditProfile; then profiledetail else editProfile"></span>
+            <ng-template #profiledetail>
+                    <div class="table-responsive">
+                        <table class="table profile__data">
+                            <tbody>
+                                <tr>
+                                    <th scope="row">Contact Number</th>
+                                    <td><p>{{contactNo}}</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Address</th>
+                                    <td><p>{{empaddress}}</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">City</th>
+                                    <td><p>{{empCity}}</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Postal Code</th>
+                                    <td>{{epmZipCode}}</td>
+                                </tr>
+                        </table>
+                    </div>
+                </ng-template>
+                <ng-template #editProfile>
+                        <div [formGroup]="editprofileForm" role="form">
+                                <div class="table-responsive">
+                                        <table class="table profile__data">
+                                            <tbody>
+                                                <tr>
+                                                    <th scope="row">Contact Number</th>
+                                                    <td>
+                                                        <span>
+                                                            <div class="form-group edit__input">
+                                                                <input  class="form-control" formControlName="phno"
+                                                                    maxlength="10"
+                                                                    minlength="10" (keypress)="onlyNumberKey($event)" required>
+                                                                <small
+                                                                    *ngIf="editprofileForm.controls['phno'].errors && !editprofileForm.controls['phno'].pristine"
+                                                                    class="form-text text-muted">Enter
+                                                                    Phonenumber</small>
+                                                            </div>
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Address</th>
+                                                    <td>
+                                                        <span>
+                                                            <div class="form-group edit__input">
+                                                                <input type="text" class="form-control" formControlName="address" required>
+                                                                <small
+                                                                    *ngIf="editprofileForm.controls['address'].errors && !editprofileForm.controls['address'].pristine"
+                                                                    class="form-text text-muted">Enter
+                                                                    Address</small>
+                                                            </div>
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">City</th>
+                                                    <td>
+                                                        <span>
+                                                            <div class="form-group edit__input">
+                                                                <input type="text" class="form-control" formControlName="city" required>
+                                                                <small
+                                                                    *ngIf="editprofileForm.controls['city'].errors && !editprofileForm.controls['city'].pristine"
+                                                                    class="form-text text-muted">Enter
+                                                                    City</small>
+                                                            </div>
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Postal Code</th>
+                                                    <td>
+                                                        <span>
+                                                            <div class="form-group edit__input">
+                                                                <input type="text" class="form-control" formControlName="postalcode"
+                                                                    (keypress)="onlyNumberKey($event)" maxlength="6"
+                                                                    minlength="6" required>
+                                                                <small
+                                                                    *ngIf="editprofileForm.controls['postalcode'].errors && !editprofileForm.controls['postalcode'].pristine"
+                                                                    class="form-text text-muted">Enter
+                                                                    Postalcode</small>
+                                                            </div>
+                                                        </span>
+            
+                                                    </td>
+                                                </tr>
+                                        </table>
+                                    </div>
+                            <div class="bottom__btn text-right mt-4 w-100 mb-2 mr-1">
+        
+                                <button type="submit" class="btn btn-primary cancel"
+                                    (click)="cancelProfileEdit()">Cancel</button>
+                                <button type="submit" class="btn btn-primary submit" [disabled]="editprofileForm.invalid"
+                                    (click)="saveProfileDetail()">Update</button>
+                            </div>
+                        </div>
+                    </ng-template>
+
+
+
+                </div>
+           
+        </div>
+    </div>
+</div>

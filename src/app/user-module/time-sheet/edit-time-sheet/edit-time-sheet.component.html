@@ -1,0 +1,100 @@
+<!-- <p>time-sheet works!</p>
+
+<a routerLink="/user/timesheet/addTimeSheet">Add Timesheet click</a>
+<br>
+<a routerLink="/user/timesheet/editTimeSheet">Edit Timesheet click</a> -->
+<div class="timeSheet">
+        <h3>Timesheet</h3>
+        <div class="choose projects">
+            <div class="form-group chutti__app">
+                <label for="exampleFormControlSelect1">projects</label>
+                <!-- <select class="form-control" id="exampleFormControlSelect1"  [(ngModel)]="selectedproject">
+                    <option  *ngFor="let project of projectList" [value]="project.gemsProjectMaster">Chutti Web App</option>
+                </select> -->
+                <div>
+                    chutti
+                </div>
+            </div>
+            
+        </div>
+        <div class="inner__section timesheet__section rounded">
+            <h5>Chutti Timesheet</h5>
+            <div class="search">
+                <div class="form-group">
+                    <!-- <input type="text" class="form-control" placeholder="search">
+                    <span class="icon_search"></span> -->
+                </div>
+                <a routerLink="/user/timesheet/" class="float-right add__timesheet--btn"><span
+                        class="open__modal icon_cancel"></span></a>
+            </div>
+            <div class="timesheet__table">
+                <div class="row">
+                    <div class="col-md-2 pl-0">
+                        <div class="form-group week__details">
+                            <label>week</label>
+                            <select class="form-control">
+                                <option>06 Jun 19 - 12 June 19</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-10">
+                        <div class="weekDays">
+                            <div class="form-group">
+                                <label>Sun</label>
+                                <input type="text" class="form-control" placeholder="00.00">
+                            </div>
+                            <div class="form-group">
+                                <label>Mon</label>
+                                <input type="text" class="form-control" placeholder="00.00">
+                            </div>
+                            <div class="form-group">
+                                <label>Tue</label>
+                                <input type="text" class="form-control" placeholder="00.00">
+                            </div>
+                            <div class="form-group">
+                                <label>wed</label>
+                                <input type="text" class="form-control" placeholder="00.00">
+                            </div>
+                            <div class="form-group">
+                                <label>Thu</label>
+                                <input type="text" class="form-control" placeholder="00.00">
+                            </div>
+                            <div class="form-group">
+                                <label>Fir</label>
+                                <input type="text" class="form-control" placeholder="00.00">
+                            </div>
+                            <div class="form-group">
+                                <label>Sat</label>
+                                <input type="text" class="form-control" placeholder="00.00">
+                            </div>
+                       
+                            <div class="row total__section">
+                                    <div class="col-md-6">
+                                            <div class="form-check form-check-inline repeat_all--days">
+                                                    <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+                                                    <label class="form-check-label" for="inlineCheckbox1">Repeat for All Days</label>
+                                                  </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="total">
+                                            <span>Total Working Hours:</span>
+                                            <span class="total__value">00:00</span>
+                                        </div>
+                                        <div class="bottom__btn">
+                                                <button type="submit" class="btn btn-primary cancel">Cancel</button>
+                                                <button type="submit" class="btn btn-primary submit">Submit</button>
+                                            </div>
+                                    </div>
+                                </div> 
+                        
+                        </div>
+                      
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

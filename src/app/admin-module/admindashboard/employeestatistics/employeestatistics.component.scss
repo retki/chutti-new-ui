@@ -1,0 +1,41 @@
+@import '../../../../assets/scss/mixin';
+@import '../../../../assets/scss/variables.scss';
+#statistics {
+    justify-content: space-between;
+}
+.date__select
+{
+p 
+{
+    font-size: .9em;
+}
+}
+.nav-arrow 
+{
+color: $darkBlue;
+cursor: pointer;
+}
+.cart__info 
+{
+    position: relative;
+    margin-top: 1.5rem;
+    padding-left: 18px;
+    color: #6E6E6E;
+    &::before {
+        content: "";
+        width: 12px;
+        height: 12px;
+        background-color: $darkBlue;
+        position: absolute;
+        left: 0px;
+        top: 5px;
+        border-radius: 3px;
+    }
+   
+}
+
+.no-data{
+    position: absolute;
+    top: 250px;
+    left: 300px;
+}

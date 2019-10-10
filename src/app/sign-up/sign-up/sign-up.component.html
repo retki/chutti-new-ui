@@ -1,0 +1,146 @@
+<section id="login__page" class=" h-100">
+    <div class="container h-100">
+        <div class="row justify-content-center h-100">
+            <div class="col-10">
+
+                <div class="row  h-100">
+                    <div class="col-12 col-md-8 col-lg-4 align-self-center pr-sm-5">
+                        <div class="signIn">
+                            <h2>Sign Up</h2>
+                            <div class="signIn__form">
+                                <!-- (ngSubmit)="clicksignup()" -->
+                                <form class="signIn__form--input" [formGroup]="signupForm" novalidate>
+                                    <div class="form-group error__group">
+                                        <!-- <span class="error__icon icon_warning"></span> -->
+                                        <input type="text" class="form-control" formControlName="userName"
+                                            placeholder="Full Name*"  (keypress)="omit_special_char($event)" required>
+                                            <div *ngIf="signupForm.controls['userName'].errors && !signupForm.controls['userName'].pristine "
+                                            class="error error-msg">
+                                            <div [hidden]="!signupForm.controls['userName'].errors.required">
+                                                <small>Name is required.</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group error__group">
+                                        <!-- <span class="error__icon icon_warning"></span> -->
+                                        <input type="text" class="form-control " formControlName="companyname"
+                                            placeholder="Company Name*"  (keypress)="omit_special_char($event)" required />
+
+                                            <div *ngIf="signupForm.controls['companyname'].errors && !signupForm.controls['companyname'].pristine "
+                                            class="error error-msg">
+                                            <div [hidden]="!signupForm.controls['companyname'].errors.required">
+                                                <small>Company Name is required.</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group error__group">
+                                        <input type="email" class="form-control" formControlName="email"
+                                            placeholder="Email Address*"
+                                            pattern="^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z0-9]{2,20}$" required />
+                                        <div *ngIf="signupForm.controls['email'].errors && !signupForm.controls['email'].pristine"
+                                            class="error error-msg">
+                                            <div [hidden]="!signupForm.controls['email'].errors.required">
+                                                <small>Email ID is required.</small>
+                                            </div>
+                                            <div [hidden]="!signupForm.controls['email'].errors.pattern">
+                                                <small>Enter Valid Email Id.</small>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group error__group">
+                                        <!-- <span class="error__icon icon_warning"></span> -->
+                                        <input  class="form-control " formControlName="employeecounts"
+                                            placeholder="Employee Count*"  (keypress)="numberOnly($event)" maxlength="6" required />
+
+                                            <div *ngIf="signupForm.controls['employeecounts'].errors && !signupForm.controls['employeecounts'].pristine "
+                                            class="error error-msg">
+                                            <div [hidden]="!signupForm.controls['employeecounts'].errors.required">
+                                                <small>Employee count is required.</small>
+                                            </div>
+                                         
+                                        </div>
+                                    </div>
+                                    <div class="form-group error__group">
+                                        <!-- <span class="error__icon icon_warning"></span> -->
+                                        <input type="text" class="form-control" formControlName="mobilenumber"
+                                            placeholder="Phone Number*" (keypress)="numberOnly($event)" maxlength="10" minlength="10"/>
+                                        <div *ngIf="signupForm.controls['mobilenumber'].errors && !signupForm.controls['mobilenumber'].pristine "
+                                            class="error error-msg">
+                                            <div [hidden]="!signupForm.controls['mobilenumber'].errors.required">
+                                                <small>Mobile Number is required.</small>
+                                            </div>
+                                            <div [hidden]="!signupForm.controls['mobilenumber'].errors.pattern">
+                                                <small>Enter Valid Mobile NUmber.</small>
+                                            </div>
+                                        </div>
+                                        <!-- <small
+                                            *ngIf="loginForm.controls['userName'].errors && !loginForm.controls['userName'].pristine"
+                                            class="form-text text-muted"> Enter a valid email id</small> -->
+                                        <!-- [ngClass]="{'red-border-class': name.errors}" -->
+                                    </div>
+                                  
+                                    <span id="signup"   (click)="clicksignup()">
+                                        <!-- [disabled]="signupForm.invalid" -->
+                                    <button type="submit" class="w-100 btn__submit theme__btn btn-hover color-3" [disabled]="!signupForm.valid"    >Sign
+                                        Up</button>     </span>
+                                    <!-- <small *ngIf="failSignIn" class="form-text  failsigin">{{failSignIn}}</small> -->
+                                    <!-- <div class="form-check login__check new__login pl-0  mt-4">
+                                        <a routerLink="">New to Chutti ? </a>
+                                        <a routerLink="/admin/signup" class="signup">Sign Up Now</a>
+                                    </div> -->
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-4 col-lg-6 offset-lg-2">
+                        <div class="login__header">
+                            <a><img src="../../../assets/images/Logo.svg"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<div class="modal fade show" id="trigger-signup" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true"
+    style="display: block" [style.display]="showModal ? 'block' : 'none'" >
+    <div class="modal-dialog modal-dialog-top modal-dialog--support" role="document"  [style.display]="showModal ? 'block' : 'none'">
+        <div class="modal-content">
+            <div class="modal-body  support__request-modal">
+                <h5 class="mb-4">Thank you for registering</h5>
+                <h6>A confirmation email has been sent to your registered email address with verification link to set
+                    password.</h6>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <h5 class="mb-4">Thank you for registering</h5>
+            <h6>A confirmation email has been sent to your registered email address with verification link to set
+                password.</h6>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div> -->

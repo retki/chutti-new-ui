@@ -1,0 +1,246 @@
+@import '../../../../assets/scss/variables.scss';
+@import '../../../../assets/scss/mixin.scss';
+@import '../../../../assets/scss/datepicker.scss';
+
+.ngb-tp-meridian {
+    display: none !important;
+}
+button.btn.btn-outline-primary {
+    display: none !important;
+}
+.quick__apply
+{
+    h5 
+    {
+        &::before
+        {
+            content: "\e106";
+        }
+        margin-bottom: 1rem;
+    }
+}
+
+
+.date__icon 
+{
+    position: absolute;
+    top: 4px !important;
+    top: 0;
+    right: 0;
+    i 
+    {
+        font-size: 11px;
+    }
+}
+
+.daterangepicker 
+{
+    top:50% !important;
+    left:50% !important;
+    transform: rotate(-50%, -50%) !important;
+}
+.quickApplyModal {
+    .modal-dialog {
+        max-width: 560px;
+        .modal-content {
+            border-radius: 0.5rem;
+            border: 1px solid #ffffff;
+        }
+        .lop_warning_text{
+            background-color: #FFF3E8;
+            padding: 5px 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            .icon_warning {
+                font-size: 1.5rem;
+                color: #EAAF75;
+            }
+        }
+    .item_list {
+        font-size: 11px;
+        padding: 1.1rem;
+        label{
+            font-weight: 600;
+        }
+        
+    }
+}
+}
+
+.reset-permission {
+    color: #007bff;
+    cursor: pointer;
+    background-color: transparent;
+}
+.cancel-button {
+    text-decoration-color: #ffffff;
+    background-color: #e8e8e8;
+    /* border-color: #cccccc; */
+    border: 1px solid #cccccc;
+
+}
+
+
+.datePicker__header--right 
+{
+    .reset-permission 
+    {
+        color: #6C44E1;
+        font-size: 1em;
+        width: 60px;
+        display: inline-block;
+    }
+    .permissionDate 
+    {
+        font-size: 1em;
+     
+    }
+    .permissionStartTimepicker
+    {
+        font-size: 1em;
+    }
+}
+.permissionAmorPM, .permissionEndAmorPM {
+    &.active {
+        border: 2px solid #6C44E1;
+    }
+}
+.time__submit 
+{
+    margin-top: 1rem;
+}
+.time__section 
+{
+    label 
+    {
+        font-size: 1.2em;
+        @include breakpoint(mobile)
+        {
+            font-size: 1em;
+            position: relative;
+            top: 6px;
+        }
+    }
+    @include breakpoint(tablet) 
+    {
+        padding-top: 3.1rem;
+    }
+    @include breakpoint(mobile) 
+    {
+        padding-top: 0;
+        .row 
+        {
+            margin-bottom: 1rem !important;
+        }
+    }
+
+}
+.modal-dialog
+{
+    max-width: 910px;
+}
+.time__submit
+{
+    button 
+    {
+        display: inline-block;
+    }
+}
+
+.time__margin 
+{
+    margin-top: 48px;
+    @include breakpoint(desktop)
+    {
+        margin-top: 38px;
+    }
+    @include breakpoint(mobile)
+    {
+        margin-top: 28px;
+    }
+}
+
+.time__title 
+{
+    h4 
+{
+    font-size: 22px;
+}
+}
+.modal-content 
+{
+    border-radius: 10px !important;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+//daterangepicker custom-day-onduty
+.custom-day {
+    text-align: center;
+    padding: 0.185rem 0.25rem;
+    display: inline-block;
+    height: 2rem;
+    width: 2rem;
+  }
+  .custom-day.focused {
+    background-color: #e6e6e6 !important;
+  }
+  .custom-day.range, .custom-day:hover {
+    background-color: #6C44E1 !important;
+    color: white ;
+  }
+
+  .custom-day.faded {
+    background-color: rgba(2, 117, 216, 0.5) !important;
+  }
+  //on-duty daterangepicker
+
+  .custom-day-onduty {
+    text-align: center;
+    padding: 0.185rem 0.25rem;
+    display: inline-block;
+    height: 2rem;
+    width: 2rem;
+  }
+  .custom-day-onduty.focused {
+    background-color: #e6e6e6 !important;
+  }
+  .custom-day-onduty.range, .custom-day-onduty:hover {
+    background-color: #6C44E1 !important;
+    color: white;
+  }
+  .custom-day-onduty.faded {
+    background-color: rgba(2, 117, 216, 0.5) !important;
+  }
+  .permissionModel 
+  {
+      @include breakpoint(desktop) 
+      {
+          max-width: 768px;
+      }
+      @include breakpoint(tablet) 
+      {
+          max-width: 700px;
+      }
+      @include breakpoint(mobile) 
+      {
+          max-width: 350px;
+          width: 100%;
+          margin: 0 auto;
+      }
+  }
+.date__table
+{
+    @include breakpoint(tablet) 
+    {
+        margin-top: 60px
+    }
+}
+  //time-format error
+.time_error {
+    border-bottom: 1px solid red;
+}
+.leaveSelection 
+{
+
+}

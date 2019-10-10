@@ -1,0 +1,187 @@
+@import '../../../../../assets/scss/variables.scss';
+@import '../../../../../assets/scss/mixin.scss';
+
+.projectAssignment{
+    position: relative;
+    h5 {
+        .title 
+        {
+            display: none;
+            &.active 
+            {
+                display: block;
+            } 
+        }
+        display: inline-block;
+
+        &::before {
+            content: "\e103";
+        }
+
+        width: 60%;
+    }
+}
+.project__assignment
+{
+    .project__section
+    {
+      display: none;
+        opacity: 0;
+        transition:0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        &.active 
+        {
+          display: block;
+            opacity: 1;
+            transition:0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        } 
+    }
+}
+
+.form-group 
+{
+    margin: 2rem 0;
+}
+  .form-label {
+    position: absolute;
+    left: 0;
+    top: 4px;
+    color: #999;
+    background-color: #fff;
+    z-index: 10;
+    transition: transform 150ms ease-out, font-size 150ms ease-out;
+  }
+  
+  .focused .form-label {
+    transform: translateY(-125%);
+    font-size: .75em;
+  }
+  
+  .form-control {
+    position: relative;
+    padding-left: 0;
+    &:focus {
+      box-shadow: 0 2px 0 0 blue;
+    }
+  }
+  
+  .form-input.filled {
+    box-shadow: 0 2px 0 0 lightgreen;
+  }
+  .border-bottom 
+  {
+    opacity: 0.2;
+  }
+  .multiple-employee 
+  {
+      color: $darkBlue;
+      font-weight: 500;
+      margin-bottom: 0;
+      margin-top: 16px;
+      cursor: pointer;
+  }
+
+ 
+ .multiSelect 
+ {
+   h6 
+   {
+    font-size: 1.2em;font-weight: 600;
+   }
+   .form-group 
+   {
+     margin-bottom: 1.3rem !important;
+    .employee-label 
+    {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      &::before, &::after
+      {
+        top: 7px;
+      }
+      .user__img 
+      {
+        width: 28px;
+        height: 28px;
+        margin-left: 8px;
+      }
+      .employee__name 
+      {
+        margin-left: 6px;
+        font-size: .9em;
+        opacity: .9;
+      }
+    }
+   }
+   .listScroll 
+   {
+    height: 320px;
+    overflow: auto;
+    &::-webkit-scrollbar 
+    {
+      width: 5px;
+      position: absolute;
+    }
+    &::-webkit-scrollbar-thumb 
+    {
+      background: #A9A8A8;
+      border-radius: 20px;
+    }
+    &::-webkit-scrollbar-track 
+    {
+      background: #ddd;
+      border-radius: 20px;
+    }
+   }
+  
+ }
+ .employee__modal-content 
+ {
+ border-radius: 8px;
+ border:none;
+ .modal-body 
+ {
+  padding: 1.5rem;
+ }
+ }
+ .employeeList 
+ {
+   padding-left: 0;
+   li 
+   {
+     color: #000000;
+    &.active 
+    {
+      background-color: #8564e6;
+      color: $white;
+    }
+    display: flex;
+    align-items: center;
+    float: left;
+    margin-right:20px;
+    border-radius: 20px;
+    background-color: #e6e6e6;
+    padding: 5px 15px 5px 5px;
+    font-size: .9em;
+
+    cursor: pointer;
+    .user__img 
+    {
+      margin-right: .8rem;
+      width: 26px;
+      height: 26px;
+      line-height: 28px;
+      font-size: .7em;
+      align-items: center;
+    }
+   }
+ }
+ .selectedEmployee 
+ {
+   border-top: 1px solid $border-color;
+   border-bottom: 1px solid $border-color;
+   display: block;float: left;
+   width: 100%;
+   padding: 1.5rem 0;
+   margin: 1rem 0;
+ }

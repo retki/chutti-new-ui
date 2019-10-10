@@ -1,0 +1,135 @@
+
+@import '../../../../../assets/scss/mixin';
+@import '../../../../../assets/scss/variables.scss';
+.organization {
+    h5 
+    {
+        &::before
+        {
+            content: "\e107";
+        }
+    }
+  
+}
+
+.form-group 
+{
+    margin: 1.8rem 0;
+    @include breakpoint(big-desktop)
+    {
+        margin: 1rem 0;
+    }
+}
+.pagination 
+{
+    padding-left: 0;
+    .page-item 
+    {
+        .page-link 
+        {
+            padding: 0.75rem 0.95rem;
+            color: $black;
+        }
+    }
+}
+
+
+
+
+
+img {
+    height: 100%;
+    width: 100%;
+    border-radius: 50%;
+  }
+  .hoverable{
+    position: relative;
+    display: block;
+    cursor: pointer;
+    height: 200px;
+    width: 200px;
+    border: 5px solid #F1F7FB;
+    border-radius: 50%;
+  }
+  .hoverable .hover-text{
+    position: absolute;
+    display: none;
+    top: 50%;
+    left:  50%;
+    transform: translate(-50%,-50%);   
+    z-index: 2;
+  }
+  .hoverable .background{
+    position: absolute;
+    display: none;
+    top: 0;
+    left:  0;
+    bottom: 0;
+    right: 0;
+    background-color:rgba(255, 255, 255, 0.5);
+    pointer-events: none;
+    border-radius: 50%;
+    z-index: 1;
+  }
+  .hoverable:hover .hover-text{
+    display: block;
+  }
+  .hoverable:hover .background{
+    display: block;
+  }
+  
+  #fileInput{
+    display: none;
+  }
+.edit__input
+{
+    .form-control 
+    {
+        padding-left: 0;
+    } 
+}
+
+
+
+$pill-bg:             #FFF !default;
+$pill-border:         rgb(187, 187, 187) !default;
+$pill-font:           rgb(20, 164, 190) !default;
+
+$pill-hover-bg:       rgb(21, 139, 159) !default;
+$pill-hover-border:   rgb(21, 139, 159) !default;
+$pill-hover-font:     #FFF !default;
+
+$pill-active-bg:      rgb(20, 164, 190) !default;
+$pill-active-border:  rgb(20, 164, 190) !default;
+$pill-active-font:    #FFF !default;
+
+input[type="radio"], input[type="checkbox"] {
+    box-sizing: border-box;
+    padding: 0;
+    opacity: 0;
+}
+
+.button-group-pills {
+  .btn {
+    line-height: 1.2;
+    
+    border-color: $pill-border;
+    background-color: $pill-bg;
+    color: $pill-font;
+    
+    &.active {
+      border-color:     $pill-active-border;
+      background-color: $pill-active-bg;
+      color:            $pill-active-font;
+      
+      box-shadow: none;
+    }
+
+    &:hover {
+      border-color:     $pill-hover-border;
+      background-color: $pill-hover-bg;
+      color:            $pill-hover-font;
+    }
+    
+  }
+}

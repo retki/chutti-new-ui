@@ -1,0 +1,142 @@
+<div class="inner__section leaveBalance">
+    <form [formGroup]="leavedetailsForm">
+
+        <h5>Manage Leave Details</h5>
+
+        <div class="form-group mb-0 quick__apply--type mt-4">
+            <div class="radio radio-1">
+                <label class="radio-label">
+                    Maximum Permission(Hrs) Per Month:
+                </label>
+            </div>
+            <div class="radio radio-1">
+                <input id="radio-1" name="gemsMaxPerHour" type="radio" [value]="1" formControlName="gemsMaxPerHour" (change)="onhrSelectionChange(1)">
+                <label for="radio-1" class="radio-label">
+                    <div class="checker"></div> 1 Hour
+                </label>
+            </div>
+
+            <div class="radio radio-2">
+                <input id="radio-2" name="gemsMaxPerHour" type="radio" [value]="2" formControlName="gemsMaxPerHour" (change)="onhrSelectionChange(2)">
+                <label for="radio-2" class="radio-label">
+                    <div class="checker"></div> 2 Hour
+                </label>
+            </div>
+
+            <div class="radio radio-3">
+                <input id="radio-3" name="gemsMaxPerHour" type="radio" [value]="3" formControlName="gemsMaxPerHour" (change)="onhrSelectionChange(3)">
+                <label for="radio-3" class="radio-label">
+                    <div class="checker"></div> 3 Hour
+                </label>
+            </div>
+
+            <div class="radio radio-4">
+                <input id="radio-4" name="gemsMaxPerHour"  type="radio" [value]="4" formControlName="gemsMaxPerHour" (change)="onhrSelectionChange(4)">
+                <label for="radio-4" class="radio-label">
+                    <div class="checker"></div> 4 Hour
+                </label>
+            </div>
+
+            <div class="radio radio-5">
+                <input id="radio-5" name="gemsMaxPerHour" type="radio" [value]="0" formControlName="gemsMaxPerHour" (change)="onhrSelectionChange(null)"> 
+                <label for="radio-5" class="radio-label">
+                    <div class="checker"></div> None
+                </label>
+            </div>
+        </div>
+        <div class="form-group mb-0 quick__apply--type mt-4">
+            <div class="radio radio-6">
+                <label class="radio-label">
+                    No.Of Permission Allowed Per Month:
+                </label>
+            </div>
+            <div class="radio radio-6">
+                <input id="radio-6" name="noOfTimesPermAllowed" type="radio" [value]="1" formControlName="noOfTimesPermAllowed" (change)="onSelectionChange(1)">
+                <label for="radio-6" class="radio-label">
+                    <div class="checker"></div> 1
+                </label>
+            </div>
+
+            <div class="radio radio-7">
+                <input id="radio-7" name="noOfTimesPermAllowed" type="radio" [value]="2" formControlName="noOfTimesPermAllowed" (change)="onSelectionChange(2)">
+                <label for="radio-7" class="radio-label">
+                    <div class="checker"></div> 2
+                </label>
+            </div>
+
+            <div class="radio radio-8">
+                <input id="radio-8" name="noOfTimesPermAllowed" type="radio" [value]="3" formControlName="noOfTimesPermAllowed" (change)="onSelectionChange(3)">
+                <label for="radio-8" class="radio-label">
+                    <div class="checker"></div> 3
+                </label>
+            </div>
+
+            <div class="radio radio-9">
+                <input id="radio-9" name="noOfTimesPermAllowed"  type="radio" [value]="4" formControlName="noOfTimesPermAllowed" (change)="onSelectionChange(4)">
+                <label for="radio-9" class="radio-label">
+                    <div class="checker"></div> 4
+                </label>
+            </div>
+
+            <div class="radio radio-10">
+                <input id="radio-10" name="noOfTimesPermAllowed" type="radio" [value]="0" formControlName="noOfTimesPermAllowed" (change)="onSelectionChange(null)"> 
+                <label for="radio-10" class="radio-label">
+                    <div class="checker"></div> No Limit
+                </label>
+            </div>
+        </div>
+        <div class="col-md-6 d-flex">
+            Maximum Permission(Hrs) Per Day:
+            <ngb-timepicker (keypress)="onKeyPress($event)" (ngModelChange)="validateTime()" formControlName="timepicker" [(ngModel)]="timepicker"
+            [spinners]="spinners" [meridian]="meridian"></ngb-timepicker>
+            <div *ngIf ="isValidTime" class="error error-msg">
+                    <small>Please enter valid time.</small> 
+            </div> 
+            <!-- <div class="col-md-2">
+            <input class="form-control" type="text" placeholder="Hr" id="maxPermDayHr" (change)="validateTime()"  (keypress)="onKeyPress($event);" formControlName="maxPermDayHr" name="maxPermDayHr" maxlength="2">   
+        </div>
+            : -->
+            <!-- <div class="col-md-2">
+            <input class="form-control" type="text" placeholder="Min" id="maxPermDayMin" (change)="validateTime()"  (keypress)="onKeyPress($event);validateTime();" formControlName="maxPermDayMin" name="maxPermDayMin"  maxlength="2"></div>
+            <div *ngIf ="isValidTime" class="error error-msg">
+                <small>Please enter valid time.</small> 
+            </div> -->
+            
+        </div>
+        
+        <div class="col-4">
+            Exclude leave for:
+        </div>
+        <div class="col-4">
+            <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="nonworking" name="nonworking" formControlName="isNonWorkingDay"/>
+                <!-- [checked]="isNonWorkingDay" (change)="workingdays($event)" -->
+                <label class="custom-control-label rememberme float-left" for="nonworking">Non Working days</label>
+
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="holiday" name="holiday"  formControlName="isHoliday"/>
+                <!-- (change)="holidays($event)" [checked]="isHoliday" -->
+                <label class="custom-control-label rememberme float-left" for="holiday">Holidays</label>
+
+            </div>
+        </div>
+        <div>
+            Earned Leave available after:
+            <div class="form-group page__section">
+                <select class="form-control" (ngModelChange)="changemonth($event)" formControlName="effectiveAfter"> 
+                    <option *ngFor="let monthVal of months" [value]="monthVal.value ">
+                        {{monthVal.label}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="bottom__btn mt-0">
+                <button class="btn btn-primary cancel" data-dismiss="modal" type="submit">Cancel</button>
+                <button class="btn btn-primary submit" type="submit" [disabled]="isValidTime || leavedetailsForm.invalid" (click)="saveparam()">Update</button>
+            </div>
+        </div>
+    </form>
+</div>

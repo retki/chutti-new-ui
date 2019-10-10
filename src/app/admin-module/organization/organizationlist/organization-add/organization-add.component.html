@@ -1,0 +1,231 @@
+<ngx-loading-bar [color]="'#6747D4'" [includeSpinner]='false'></ngx-loading-bar>
+<h3> Organization</h3>
+<div class="dashboard__content">
+    <div class=" inner__section organization">
+        <h5 routerLink="/admin/organization/organizationAdd">Create Organization</h5>
+        <div class="new__organization">
+            <form [formGroup]="addOrganizationForm" (ngSubmit)="saveorganization()" novalidate>
+                <div class="row mt-lg-5 mx-0">
+                    <div class="col-lg-10 pr-lg-5">
+                        <div class="row">
+                            <div class="col-lg-3  pr-lg-5">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Organization Code</label>
+                                    <input type="text" class="form-control" formControlName="organizationCode">
+                                </div>
+                                <div *ngIf="organizationCode.invalid ">
+                                    <small *ngIf="organizationCode.hasError('requird')" class="form-text text-muted">
+                                        Enter OrganizationCode</small>
+                                </div>
+                            </div>
+                            <div class="col-lg-3  pr-lg-5">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Organization Name</label>
+                                    <input type="text" class="form-control" formControlName="organizationName">
+                                    <!-- <small
+                                        *ngIf="addOrganizationForm.controls['organizationName'].errors && !addOrganizationForm.controls['organizationName'].pristine"
+                                        class="form-text text-muted">Enter
+                                        OrganizationName</small> -->
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Organization Email ID</label>
+                                    <input type="text" class="form-control" formControlName="organizationEmailId">
+                                    <!-- <small
+                                        *ngIf="addOrganizationForm.controls['organizationEmailId'].errors && !addOrganizationForm.controls['organizationEmailId'].pristine"
+                                        class="form-text text-muted">Enter
+                                        Organization Email ID</small> -->
+                                </div>
+                            </div>
+                            <div class="col-lg-6  pr-lg-5">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Organization Phone Number</label>
+                                    <input type="text" class="form-control" formControlName="organizationPhonenumber">
+                                    <!-- <small
+                                        *ngIf="addOrganizationForm.controls['organizationPhonenumber'].errors && !addOrganizationForm.controls['organizationPhonenumber'].pristine"
+                                        class="form-text text-muted">Enter
+                                        Organization Phone Number</small> -->
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Alternate Number</label>
+                                    <input type="text" class="form-control" formControlName="alternateNumber">
+                                    <!-- <small
+                                        *ngIf="addOrganizationForm.controls['alternateNumber'].errors && !addOrganizationForm.controls['alternateNumber'].pristine"
+                                        class="form-text text-muted">Enter
+                                        Alternate Number</small> -->
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <h6 class="text-uppercase">ORGNIZATION ADDRESS</h6>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Street</label>
+                                    <input type="text" class="form-control" formControlName="OrganizationAddress">
+                                    <!-- <small
+                                        *ngIf="addOrganizationForm.controls['OrganizationAddress'].errors && !addOrganizationForm.controls['OrganizationAddress'].pristine"
+                                        class="form-text text-muted">Enter
+                                        OrganizationAddress</small> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-2">
+                        <div class="company__logo d-flex justify-content-center">
+                            <!-- <div class="upload__logo text-center  align-self-center"
+                                routerLink="/admin/organization/organizationUpate">
+                                <img src="../../../../../assets/images/admin/upload-to-cloud.svg">
+                                <p>Upload Logo</p>
+                            </div> -->
+                            <label class="hoverable" for="fileInput">
+                                <img
+                                    src="{{ ProfileImage ?''+ProfileImage:'assets/images/admin/profile_image.png'}}">
+                                <div class="hover-text">
+                                    <div class="edit__profile">
+                                        <span class="icon_camera"></span>
+                                    </div>
+                                </div>
+                                <div class="background"></div>
+                            </label>
+                            <br />
+                            <input id="fileInput" type='file' accept="image/png,image/jpg"
+                                (change)="onSelectFile($event)">
+                        </div>
+                        <p class="company__logo--info d-flex mt-2">Image size should be below1 MB Supported Formats
+                            (.png,
+                            .jpeg)
+                        </p>
+                    </div>
+                    <div class="col-lg-12">
+
+                        <div class="row">
+
+                            <div class="col-lg-5 pr-lg-5">
+                                <div class="form-group">
+                                    <label for="" class="form-label">City</label>
+                                    <input type="text" class="form-control" formControlName="city">
+                                    <!-- <small
+                                        *ngIf="addOrganizationForm.controls['city'].errors && !addOrganizationForm.controls['city'].pristine"
+                                        class="form-text text-muted">Enter
+                                        city</small> -->
+                                </div>
+                            </div>
+                            <div class="col-lg-5 pr-lg-5">
+                                <div class="form-group">
+                                    <label for="" class="form-label">State</label>
+                                    <input type="text" class="form-control" formControlName="State">
+                                    <!-- <small
+                                        *ngIf="addOrganizationForm.controls['State'].errors && !addOrganizationForm.controls['State'].pristine"
+                                        class="form-text text-muted">Enter
+                                        State</small> -->
+                                </div>
+                            </div>
+                            <div class="col-lg-2">
+                                <div class="form-group"> 
+                                    <label for="" class="form-label">Country</label>
+                                    <!-- <input type="text" class="form-control" formControlName="Country"> -->
+                                    <select class="form-control" (ngModelChange)="onChange($event)"
+                                        formControlName="gemsCountryMaster" >
+                                        <option *ngFor="let getcountryobj of getcountrielist" [ngValue]="getcountryobj">
+                                            {{getcountryobj.gemsCountryDescription}}</option>
+                                    </select>
+                                    <!-- <small
+                                        *ngIf="addOrganizationForm.controls['Country'].errors && !addOrganizationForm.controls['Country'].pristine"
+                                        class="form-text text-muted">Enter
+                                        Country</small> -->
+                                </div>
+                            </div>
+                            <div class="col-lg-5 pr-lg-5">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Zip Code</label>
+                                    <input type="text" class="form-control" formControlName="zipcode">
+                                    <!-- <small
+                                        *ngIf="addOrganizationForm.controls['zipcode'].errors && !addOrganizationForm.controls['zipcode'].pristine"
+                                        class="form-text text-muted">Enter
+                                        zipcode</small> -->
+                                </div>
+                            </div>
+                            <!-- <div class="col-lg-5 pr-lg-5">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Time Zone</label>
+                                    <input type="text" class="form-control" formControlName="timezone">
+                                    <small
+                                        *ngIf="addOrganizationForm.controls['timezone'].errors && !addOrganizationForm.controls['timezone'].pristine"
+                                        class="form-text text-muted">Enter
+                                        timezone</small>
+                                </div>
+                            </div> -->
+                        </div>
+                        <h6 class="text-uppercase">WORKING DAYS</h6>
+                        <div class="col-lg-12 px-0 mt-3">
+                            <!-- <ul class="pagination">
+                                <li class="page-item">
+                                <div class="form-group">
+                                    <input type="checkbox" class="form-conrol">
+                                </div>
+                                    <a class="page-link" href="#" tabindex="-1">Mon</a>
+                                </li>
+                                <li class="page-item"><a class="page-link" href="#">Tue</a></li>
+                                <li class="page-item"><a class="page-link" href="#">Wed</a></li>
+                                <li class="page-item"><a class="page-link" href="#">Thu</a></li>
+                                <li class="page-item"><a class="page-link" href="#">Fri</a></li>
+                                <li class="page-item"><a class="page-link" href="#">Sat</a></li>
+                                <li class="page-item"><a class="page-link" href="#">Sun</a></li>
+                            </ul> -->
+
+                            <div class="button-group-pills text-center" data-toggle="buttons">
+                                <label class="btn btn-default ">
+                                    <input type="checkbox" name="Mon" (change)="monCheck($event)">
+                                    <div>Mon</div>
+                                </label>
+                                <label class="btn btn-default">
+                                    <input type="checkbox" name="Tue" (change)="tueCheck($event)">
+                                    <div>Tue</div>
+                                </label>
+                                <label class="btn btn-default">
+                                    <input type="checkbox" name="Wed" (change)="wedCheck($event)">
+                                    <div>Wed</div>
+                                </label>
+                                <label class="btn btn-default">
+                                    <input type="checkbox" name="Thu" (change)="thursCheck($event)">
+                                    <div>Thu</div>
+                                </label>
+                                <label class="btn btn-default">
+                                    <input type="checkbox" name="Fri" (change)="friCheck($event)">
+                                    <div>Fri</div>
+                                </label>
+                                <label class="btn btn-default">
+                                    <input type="checkbox" name="Sat" (change)="satCheck($event)">
+                                    <div>Sat</div>
+                                </label>
+                                <label class="btn btn-default">
+                                    <input type="checkbox" name="Sun" (change)="sunCheck($event)">
+                                    <div>Sun</div>
+                                </label>
+
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="bottom__btn mt-0">
+                                <button class="btn btn-primary cancel" data-dismiss="modal"
+                                    type="button">Cancel</button>
+                                <button class="btn btn-primary submit" type="submit" #submitBtn (click)="submitBtn.value=1">Update</button>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- <p>organization-add works!</p> -->
+<!-- <span routerLink="/admin/organization/organizationUpate">update org</span> -->

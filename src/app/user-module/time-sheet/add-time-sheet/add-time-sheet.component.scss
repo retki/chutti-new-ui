@@ -1,0 +1,96 @@
+@import '../../../../assets/scss/variables.scss';
+.timesheet__section{
+    h5 {
+        display: inline-block;
+        &::before {
+            content: "\e103";       
+        }
+        width: 60%;
+    }
+}
+.add__timesheet--btn
+{
+    width: 40px;
+    display: inline-block; float: right;
+}
+.search
+{
+    width: 25%; display: inline-block;
+    float: right;
+    .form-group
+    {
+        width: 80%;
+        display: inline-block;
+    }
+
+}
+.week__details, .weekDays
+{
+    .form-control
+    {
+        @include border-bottom();
+        padding-left:0px;
+        color: #6E6E6E;
+    }
+label 
+{
+    color:$black;
+}
+}
+.weekDays
+{
+.form-group{
+    width: calc(100% / 7);
+    float: left;
+    padding: 0 15px;
+    text-align: center; 
+    input[type="text"]{  
+        text-align: center; 
+    }
+    .form-control 
+    {
+        margin-bottom: 5px;
+    }
+    .leave__type 
+    {
+        color: $primaryColor;
+    } 
+  
+}
+}
+
+.repeat_all--days
+{
+    label
+    {
+        color: $arrowGray;
+    }
+}
+.total
+{
+    text-align: right;
+        color: $arrowGray;
+
+    .total__value
+    {
+        color:$black;
+        font-weight: 500;
+        float: right;
+        padding-left: 2rem;
+    }
+}
+.total__section
+{
+    margin-top: 2rem !important;
+}
+.submit
+{
+    margin-right:0;
+}
+.bottom__btn
+{
+    margin-top: 3rem;
+}
+.timesheet__table {
+    margin: 3.2rem 0 0 !important;
+}

@@ -1,0 +1,601 @@
+<div class="loader" *ngIf="preloader">
+    <svg class="spinner" width="65px" height="65px" viewBox="0 0 66 66" >
+        <circle class="path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle>
+     </svg>
+</div>
+<div class="white__border  rounded quick__apply">
+    <h5 *ngIf="!dashBoardPaginationView">Quick Apply </h5>
+    <h5 *ngIf="dashBoardPaginationView">Apply </h5>
+
+
+
+    <div class="form-group mb-0 quick__apply--type">
+        <div class="radio radio-1">
+            <input id="radio-1" name="radio1" value="LEA" type="radio" checked (change)="radioChange($event)">
+            <label for="radio-1" class="radio-label">
+                <div class="checker"></div> Leave
+            </label>
+        </div>
+
+        <div class="radio radio-2">
+            <input id="radio-2" name="radio1" value="PER" type="radio" (change)="radioChange($event)">
+            <label for="radio-2" class="radio-label">
+                <div class="checker"></div> Permission
+            </label>
+        </div>
+
+        <div class="radio radio-3">
+            <input id="radio-3" name="radio1" value="OD" type="radio"
+                (change)="radioChange($event);quicOnDutyForm.reset()">
+            <label for="radio-3" class="radio-label">
+                <div class="checker"></div> On Duty
+            </label>
+        </div>
+    </div>
+    <div *ngIf="type=='LEA'">
+        <form [formGroup]="quickLeaveForm" class="quick__apply--form">
+
+            <div class="form-group">
+                <span data-toggle="modal" data-target=".leave-approval-modal-lg">
+                    <input class="form-control" name="daterange" type="text" formControlName="daterange"
+                        placeholder="Select Date *" (selected)="onSelectedDate($event)">
+                    <span class="calender_icon icon_date_picker"></span>
+                    <small
+                        *ngIf="quickLeaveForm.controls['daterange'].errors && !quickLeaveForm.controls['daterange'].pristine"
+                        class="form-text text-muted">
+                        Please select date</small>
+                </span>
+                <!-- <input class="form-control select__date" daterangepicker [options]="options1"
+                    formControlName="daterange" value="data1" (selected)="ForHalfdayFun($event)" required
+                    placeholder=" Select date *">
+                <span class="date__icon"><i class="fa fa-calendar" aria-hidden="true"></i>
+                </span>
+                <small
+                    *ngIf="quickLeaveForm.controls['daterange'].errors && !quickLeaveForm.controls['daterange'].pristine"
+                    class="form-text text-muted">
+                    Please select date</small> -->
+
+            </div>
+
+<!-- 
+            <div *ngIf="halfdayflog===true">
+                <div class="col-sm-12" style="text-align: left;">
+                    <small>Half a Day Leave ? &nbsp; &nbsp;
+                        <input id="halfdaychk" type="checkbox" ng-model="halfdaychk" (click)="halfdaychkfun($event);"
+                            ng-true-value="'YES'" ng-false-value="'NO'">
+                    </small>
+                </div>
+            </div>
+            <div class="col-sm-12 forenoon" *ngIf="noonFlag">
+
+                <div class="form-group">
+                    <div class="radio">
+                        <input id="FORE" name="radio1" type="radio" value="FORE" checked
+                            (change)="halfdayRadioChange($event)">
+                        <label for="FORE" class="radio-label">Forenoon</label>
+                    </div>
+
+                    <div class="radio">
+                        <input id="POST" name="radio1" type="radio" value="POST" (change)="halfdayRadioChange($event)">
+                        <label for="POST" class="radio-label">Afternoon</label>
+                    </div>
+
+
+                </div>
+               
+            </div> -->
+            <div class="form-group">
+                <select class="form-control" id="exampleFormControlSelect1" (change)="checkLeaveType(leaveSummary)"
+                    [(ngModel)]="leaveType" formControlName="leaveType">
+                    <option [ngValue]="null" class="form-text text-muted" disabled>Leave Type*</option>
+                    <option *ngFor="let leaveSummary of leaveSummaryList" [ngValue]="leaveSummary">
+                        {{ leaveSummary.leaveTypeDescription}} ({{leaveSummary.leaveEntitled}})
+                    </option>
+
+                </select>
+
+                <div
+                    *ngIf="quickLeaveForm.controls['leaveType'].errors && !quickLeaveForm.controls['leaveType'].pristine">
+                    <small>Leave Type is Required</small>
+                </div>
+
+            </div>
+            <div class="form-group">
+                <textarea class="form-control" id="exampleFormControlTextarea1" [(ngModel)]="leaveReason"
+                    formControlName="reason" placeholder="Reason"></textarea>
+                <div *ngIf="quickLeaveForm.controls['reason'].errors && !quickLeaveForm.controls['reason'].pristine"
+                    class="error error-msg">
+                    <div [hidden]="!quickLeaveForm.controls['reason'].errors.required">
+                        <small>Reason is required.</small>
+                    </div>
+                    <div *ngIf="!quickLeaveForm.controls['reason'].errors.required">
+                        <small>Please fill some characters!</small>
+                    </div>
+                </div>
+            </div>
+            <div class="submit__button text-center">
+                <button [disabled]="quickLeaveForm.invalid && leaveDisable" type="button" class="btn theme__btn btn-hover color-3"
+                    (click)='submitLeaveForm(quickLeaveForm)'>Apply Leave</button>
+                <button hidden data-toggle="modal" data-target="#trigger" id="lopBtn" type="button"
+                    class="btn theme__btn btn-hover color-3"></button>
+            </div>
+        </form>
+    </div>
+    <div *ngIf="type=='PER'">
+
+        <form [formGroup]="quickPermisstionForm" class="quick__apply--form" #f="ngForm">
+            <div class="form-group">
+                <span data-toggle="modal" data-target=".bd-example-modal-lg">
+                    <input class="form-control" name="daterange" type="text" formControlName="onPerDate"
+                        placeholder="Select Date *" (selected)="onPermissionDate($event)">
+                        <span class="calender_icon icon_date_picker"></span>
+                    <small
+                        *ngIf="quickPermisstionForm.controls['onPerDate'].errors && !quickPermisstionForm.controls['onPerDate'].pristine"
+                        class="form-text text-muted">
+                        Please select date</small>
+                </span>
+            </div>
+            <div class="form-group">
+                <textarea class="form-control" id="exampleFormControlTextarea1" formControlName="reason"
+                    placeholder="Reason"></textarea>
+                <div *ngIf="quickPermisstionForm.controls['reason'].errors && !quickPermisstionForm.controls['reason'].pristine"
+                    class="error error-msg">
+                    <div [hidden]="!quickPermisstionForm.controls['reason'].errors.required">
+                        <small>Reason is required.</small>
+                    </div>
+                    <div *ngIf="!quickPermisstionForm.controls['reason'].errors.required">
+                        <small>Please fill some characters!</small>
+                    </div>
+                </div>
+
+            </div>
+            <!-- [disabled]="quickPermisstionForm.invalid" -->
+            <div class="submit__button text-center">
+                <button [disabled]="quickPermisstionForm.invalid" type="button" class="btn theme__btn btn-hover color-3"
+                    (click)='applyPermission(quickPermisstionForm)'>Apply Permission</button>
+            </div>
+        </form>
+        <!-- Permission Date Model -->
+        <div class="modal fade bd-example-modal-lg" tabindex="-1" id="permissionmodel" role="dialog"
+            aria-labelledby="myLargeModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+            <div class="modal-dialog modal-lg modal-dialog-centered permissionModel">
+                <div class="modal-content">
+                    <div class="modal-header row mx-0 px-0 mt-3 date__picker--header">
+                        <div class="col-md-4 align-self-center time__title">
+
+                        </div>
+
+                        <div class="col-md-8 float-right text-right datePicker__header--right align-self-center">
+                            <a class="reset-permission  align-self-center" href="javascript:void(0);"
+                                (click)='resetPermissionForm()'>Reset</a>
+                            <span class="pl-2 ml-2 permissionDate  align-self-center"><span
+                                    class="icon_date_picker"></span> {{permissionDate}}</span>
+                            <span class="pl-2 ml-2 permissionStartTimepicker  text-right  align-self-center"><span
+                                    class="icon_time  align-self-center"></span>
+                                {{permissionStartTimepicker.hour >=13?permissionStartTimepicker.hour-12:permissionStartTimepicker.hour === 0 ? '12':permissionStartTimepicker.hour >=10?permissionStartTimepicker.hour:'0'+permissionStartTimepicker.hour}}
+                                :
+                                {{permissionStartTimepicker.minute >= 10? permissionStartTimepicker.minute:'0'+permissionStartTimepicker.minute}}
+                                {{startTimepickerAM === true? 'AM':'PM'}} -
+                                {{permissionEndTimepicker.hour >=13?permissionEndTimepicker.hour-12:permissionEndTimepicker.hour === 0 ? '12':permissionEndTimepicker.hour >=10? permissionEndTimepicker.hour:'0'+permissionEndTimepicker.hour}}
+                                :
+                                {{permissionEndTimepicker.minute >= 10? permissionEndTimepicker.minute:'0'+permissionEndTimepicker.minute}}
+                                {{endTimepickerAM === true? 'AM':'PM'}}
+                            </span>
+
+                        </div>
+                    </div>
+                    <div class="row justify-content-center px-0 mx-0">
+                        <div class="col-lg-7 col-md-6 text-center">
+                            <ngb-datepicker #d (select)="onPermissionDate($event)" class="date__table"></ngb-datepicker>
+                        </div>
+
+                        <div class="col-lg-5 col-md-6 time__section">
+
+                            <div class="mb-5 pl-4 row">
+                                <div class="col-6">
+                                    <label for="startTimepicker">Start Time</label>
+                                    <ngb-timepicker [(ngModel)]="permissionStartTimepicker" id="startTimepicker"
+                                        [spinners]="spinners" [meridian]="meridian"></ngb-timepicker>
+                                </div>
+                                <div class="col-6 text-right time__margin"> <button type="button" id="am"
+                                        class="btn permissionAmorPM active" (click)='startTimepickerAMOrPM("AM")'>AM</button>
+                                    <button type="button" id="pm" class="btn permissionAmorPM"
+                                        (click)='startTimepickerAMOrPM("PM")'>PM</button></div>
+                            </div>
+
+                            <div class="mb-5 pl-4 row">
+
+                                <div class="col-6">
+                                    <label for="endTimepicker">End Time</label>
+                                    <ngb-timepicker [(ngModel)]="permissionEndTimepicker" id="endTimepicker"
+                                        [spinners]="spinners" [meridian]="meridian"></ngb-timepicker>
+                                </div>
+                                <div class="col-6 text-right time__margin">
+                                    <button type="button" id="amEnd"  (click)='endTimepickerAMorPM("AM")'
+                                        class="btn permissionAmorPM">AM</button>
+                                    <button type="button"id="pmEnd" (click)='endTimepickerAMorPM("PM")'
+                                        class="btn permissionAmorPM active">PM</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-end mx-0 px-0 mb-5">
+                        <div class="col-6  text-right time__submit">
+                            <button type="button" class="btn cancel-button" data-dismiss="modal"
+                                (click)='resetPermissionForm()'>Cancel</button>
+                            <button type="button" class="btn theme__btn btn-hover color-3" data-dismiss="modal"
+                                (click)='setPermissionValues()'>Done</button>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="type=='OD'">
+        <form [formGroup]="quicOnDutyForm" class="quick__apply--form">
+
+
+            <div class="form-group">
+                <span data-toggle="modal" data-target=".onduty-approval-modal-lg">
+                    <input class="form-control" name="onDutyDate" type="text" formControlName="onDutyDate"
+                        placeholder="Select Date *" (selected)="onDutySelectedDate($event)">
+                        <span class="calender_icon icon_date_picker"></span>
+                    <small
+                        *ngIf="quicOnDutyForm.controls['onDutyDate'].errors && !quicOnDutyForm.controls['onDutyDate'].pristine"
+                        class="form-text text-muted">
+                        Please select date</small>
+                </span>
+                <!-- <input class="form-control select__date " daterangepicker [options]="options3"
+                    formControlName="onDutyDate" (selected)="onDutyHalfdaychkfun($event)" placeholder=" Select date *">
+                <small
+                    *ngIf="quicOnDutyForm.controls['onDutyDate'].errors && !quicOnDutyForm.controls['onDutyDate'].pristine"
+                    class="form-text text-muted">
+                    Please select date</small> -->
+
+            </div>
+            <!-- <div class="form-group" *ngIf="hoursflog">
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="hourschk" (click)="onDutyHoursfun($event);"
+                        ng-model="halfdaychk" (click)="halfdaychkfun($event);" ng-true-value="'YES'"
+                        ng-false-value="'NO'" for="selectTime" data-toggle="modal" data-target="#selectTime__model">
+                    <label class="custom-control-label rememberme float-left" for="hourschk">Select Time ?
+                        me</label>
+                </div>
+
+            </div> -->
+            <!-- <div *ngIf="hoursflog">
+                <div class="col-sm-12" style="text-align: left;">
+                    
+                    <small>Select Time ?  &nbsp; &nbsp;
+                        <input type="checkbox" id="hourschk" (click)="onDutyHoursfun($event);" ng-model="halfdaychk"
+                            (click)="halfdaychkfun($event);" ng-true-value="'YES'" ng-false-value="'NO'">
+                    </small>
+                   
+                </div>
+            </div> -->
+            <!-- <div class="modal fade" id="selectTime__model" tabindex="-1" role="selectTime__model"
+                aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="row px-3" *ngIf="timeFlag">
+                                    <div>
+                                        <h6 class="dashboard-onDuty-label">Start Time : </h6>
+                                        <ngb-timepicker [(ngModel)]="inTime" [seconds]="seconds" [spinners]="false"
+                                            [formControl]="inTimeControl" formControlName="inTimeControl" [hourStep]="1"
+                                            [minuteStep]="30">
+                                        </ngb-timepicker>
+
+                                        <div *ngIf="quicOnDutyForm.controls['inTimeControl'].errors && !quicOnDutyForm.controls['inTimeControl'].pristine"
+                                            class="error error-msg">
+                                            <div [hidden]="!quicOnDutyForm.controls['inTimeControl'].errors.required">
+                                                <small>Required!</small>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="pl-3">
+                                        <h6>End Time : </h6>
+                                        <ngb-timepicker [(ngModel)]="outTime" [seconds]="seconds" [spinners]="false"
+                                            [formControl]="outTimeControl" formControlName="outTimeControl"
+                                            [hourStep]="1" [minuteStep]="30"></ngb-timepicker>
+                                        <div *ngIf="quicOnDutyForm.controls['outTimeControl'].errors && !quicOnDutyForm.controls['outTimeControl'].pristine"
+                                            class="error error-msg">
+                                            <div [hidden]="!quicOnDutyForm.controls['outTimeControl'].errors.required">
+                                                <small>Required!</small>
+                                            </div>
+                                            <div [hidden]="!quicOnDutyForm.controls['outTimeControl'].errors.incorrect">
+                                                <small>InValid!</small>
+                                            </div>
+                                            <div [hidden]="!quicOnDutyForm.controls['outTimeControl'].errors.pattern">
+                                                <small>InValid!</small>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div> -->
+
+
+            <div class="form-group">
+                <textarea class="form-control" id="exampleFormControlTextarea1" formControlName="reason"
+                    placeholder="Reason"></textarea>
+                <div *ngIf="quicOnDutyForm.controls['reason'].errors && !quicOnDutyForm.controls['reason'].pristine"
+                    class="error error-msg">
+                    <div [hidden]="!quicOnDutyForm.controls['reason'].errors.required">
+                        <small>Reason is required.</small>
+                    </div>
+                    <div *ngIf="!quicOnDutyForm.controls['reason'].errors.required">
+                        <small>Please fill some characters!</small>
+                    </div>
+                </div>
+
+            </div>
+            <div class="submit__button text-center">
+                <button [disabled]="quicOnDutyForm.invalid" type="button" class="btn theme__btn btn-hover color-3"
+                    (click)='applyOnDuty(quicOnDutyForm)'>Apply On Duty</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal -->
+
+<div class="modal fade quickApplyModal" id="trigger" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-top modal-dialog--support" role="document">
+        <div class="modal-content">
+            <div class="modal-body support__request-modal">
+                <h5>Loss of Pay</h5>
+                <div class="row justify-content-center my-3">
+                    <small class="lop_warning_text"><span class="icon_warning px-2"></span>You don't have sufficient
+                        leave balance for the selected leave type. This will lead to Loss of Pay.</small>
+                </div>
+                <div class="row d-flex flex-row justify-content-between item_list">
+                    <div class="item1 d-flex flex-column">
+                        <label>Leave Type</label>
+                        <span>{{lopLeaveType}}</span>
+                    </div>
+                    <div class="item2 d-flex flex-column">
+                        <label>Available Leave</label>
+                        <span class="align-self-center">{{lopBalanceLeave}}</span>
+                    </div>
+                    <div class="item3 d-flex flex-column">
+                        <label>From Date</label>
+                        <span>{{lopFromDate | date:'dd MMM yyyy'}}</span>
+                    </div>
+                    <div class="item4 d-flex  flex-column">
+                        <label>To Date</label>
+                        <span>{{lopToDate | date:'dd MMM yyyy'}}</span>
+                    </div>
+                    <div class="item5 d-flex flex-column">
+                        <label>Loss of Pay</label>
+                        <span class="align-self-center">{{lopDays}}</span>
+                    </div>
+                </div>
+                <div class="bottom__btn">
+
+                    <button type="submit" class="btn btn-primary cancel" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary submit" data-dismiss="modal"
+                        (click)="confirmLeaveRequest()">Proceed</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Date range picker for leave approval  -->
+<div class="modal fade leave-approval-modal-lg" tabindex="-1" id="leavemodel" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg modal-dialog-centered double__dateModel">
+        <div class="modal-content">
+            <div class="modal-header date__picker--header row mx-0 px-0 mt-3">
+                <div class="col-md-4 align-self-center time__title">
+
+                </div>
+
+                <div class="col-md-8 float-right text-right datePicker__header--right align-self-center">
+                    <a class="reset-permission  align-self-center" href="javascript:void(0);"
+                        (click)='resetFormInDatePicker()'>Reset</a>
+                    <span class="pl-2 ml-2 permissionDate  align-self-center"><span class="icon_date_picker"></span>
+                        {{startLeaveDate}}- {{EndLeaveDate}}</span>
+                </div>
+            </div>
+            <div class="row px-0 mx-0">
+                <div class="col-12 text-center px-0">
+                    <!-- <ngb-datepicker #d (select)="onPermissionDate($event)" class="date__table"></ngb-datepicker> -->
+                    <ngb-datepicker #dp (select)="onDateSelection($event)" class="date__table" [displayMonths]="2"
+                        [dayTemplate]="t" outsideDays="hidden">
+                    </ngb-datepicker>
+
+                    <ng-template #t let-date let-focused="focused">
+                        <span class="custom-day" [class.focused]="focused" [class.range]="isRange(date)"
+                            [class.faded]="isHovered(date) || isInside(date)" (mouseenter)="hoveredDate = date"
+                            (mouseleave)="hoveredDate = null">
+                            {{ date.day }}
+                        </span>
+                    </ng-template>
+                </div>
+
+                <!-- <div class="col-5 time__section">
+                   
+                <div class="mb-5 pl-4 row">
+                    <div class="col-6">
+                            <label for="startTimepicker">Start Time</label>
+                        <ngb-timepicker [(ngModel)]="permissionStartTimepicker" id="startTimepicker"
+                        [spinners]="spinners" [meridian]="meridian"></ngb-timepicker></div>
+                    <div class="col-6 text-right time__margin"> <button type="button" id="am" class="btn permissionAmorPM"
+                        (click)='startTimepickerAMOrPM("AM")'>AM</button>
+                    <button type="button" class="btn permissionAmorPM"
+                        (click)='startTimepickerAMOrPM("PM")'>PM</button></div>
+                </div>
+               
+                <div class="mb-5 pl-4 row">
+                        
+                    <div class="col-6">
+                            <label  for="endTimepicker">End Time</label>
+                        <ngb-timepicker [(ngModel)]="permissionEndTimepicker" id="endTimepicker"
+                        [spinners]="spinners" [meridian]="meridian"></ngb-timepicker></div>
+                    <div class="col-6 text-right time__margin">
+                            <button type="button" (click)='endTimepickerAMorPM("AM")'
+                            class="btn permissionEndAmorPM">AM</button>
+                        <button type="button" (click)='endTimepickerAMorPM("PM")'
+                            class="btn permissionEndAmorPM">PM</button>
+                    </div>    
+                </div>
+            </div> -->
+            </div>
+
+            <div class="row justify-content-end mx-0 px-0 mb-5">
+                <div *ngIf="halfdayflog" class="col-12 col-md-8 align-self-center date__model--footer active">
+                    <div class="form-group">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" [checked]="leaveTypeChecked" (click)="halfdaychkfun($event);" class="custom-control-input" id="leaveType">
+                            <label class="custom-control-label rememberme float-left" for="leaveType">Half Day
+                                Leave?
+                            </label>
+                        </div>
+                    </div>
+                    <div *ngIf="noonFlag" class="form-group leaveSelection">
+                        <div class="radio">
+                            <input id="radio-4" name="radio2" value="FORE" type="radio" checked (change)="halfdayRadioChange($event)">
+                            <label for="radio-4" class="radio-label">
+                                <div class="checker"></div> Forenoon
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <input id="radio-5" type="radio" name="radio2" value="POST" (change)="halfdayRadioChange($event)">
+                            <label for="radio-5" class="radio-label">
+                                <div class="checker"></div> Afternoon
+                            </label>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-12 col-md-4  text-left text-md-right time__submit align-self-center">
+                    <button type="button" class="btn cancel-button" data-dismiss="modal"
+                        (click)='resetFormInDatePicker()'>Cancel</button>
+                    <button type="button" class="btn theme__btn btn-hover color-3" data-dismiss="modal"
+                        (click)='setValues()'>Done</button>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- Daterangepicker ONDUTY starts -->
+<div class="modal fade onduty-approval-modal-lg" tabindex="-1" id="onDutymodel" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg modal-dialog-centered double__dateModel">
+        <div class="modal-content">
+            <div class="modal-header row mx-0 px-0 mt-3 date__picker--header">
+                <div class="col-md-4 align-self-center time__title">
+
+                </div>
+
+                <div class="col-md-8 float-right text-right datePicker__header--right align-self-center">
+                    <a class="reset-permission  align-self-center" href="javascript:void(0);"
+                        (click)='resetOnDutyDatePicker()'>Reset</a>
+                    <span class="pl-2 ml-2 permissionDate  align-self-center"><span class="icon_date_picker"></span>
+                        {{startLeaveDateOnDuty}}- {{EndLeaveDateOnDuty}}</span>
+                </div>
+            </div>
+            <div class="row px-0 mx-0">
+                <div class="col-12 text-center px-0">
+                    <!-- <ngb-datepicker #d (select)="onPermissionDate($event)" class="date__table"></ngb-datepicker> -->
+                    <ngb-datepicker #dp (select)="onDutyDateSelection($event)" class="date__table" [displayMonths]="2"
+                        [dayTemplate]="t1" outsideDays="hidden">
+                    </ngb-datepicker>
+
+                    <ng-template #t1 let-date let-focused="focused">
+                        <span class="custom-day-onduty" [class.focused]="focused" [class.range]="isOnDutyRange(date)"
+                            [class.faded]="isOnDutyHovered(date) || isOnDutyInside(date)"
+                            (mouseenter)="hoveredDateOnDuty = date" (mouseleave)="hoveredDateOnDuty = null">
+                            {{ date.day }}
+                        </span>
+                    </ng-template>
+                </div>
+
+
+            </div>
+
+            <div class="row justify-content-end mx-0 px-0 mb-5">
+                <div   *ngIf="hoursflog" class="col-12 col-lg-8 align-self-center date__model--footer active">
+                    <div class="form-group">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input"  [checked]="onDutyChecked" id="onDutyType"  (click)="onDutyHoursfun($event);">
+                            <label class="custom-control-label rememberme float-left" for="onDutyType">Select
+                                Time</label>
+                        </div>
+                    </div>
+                    <div *ngIf="timeFlag" class="form-group timeSelection">
+                        <div class="row ml-2">
+                            <div class="col-12 col-lg-6">
+                                <div class="row">
+                                    <div class="col-2 align-self-center mb-0">
+                                        <h6 class="fromTo">From:</h6>
+                                    </div>
+                                    <div class="col-5 form-group align-self-center px-1 text-center">
+                                            <ngb-timepicker (keypress)="onKeyPress($event)" [(ngModel)]="inTime" id="startTimepicker"
+                                            [spinners]="spinners" [meridian]="meridian"></ngb-timepicker>
+                                        <!-- <div class="d-flex"> -->
+                                        <!-- <input type="text" (keypress)="onKeyPress($event)"  [(ngModel)]="inTimeHour" (ngModelChange)="onTimeChange($event,'.startHour')"  maxlength = "2" class="form-control startHour" placeholder="HH"> -->
+                                        <!-- <span *ngIf="inTimeHour > '12'" class="error">Please enter 12hr format.</span> -->
+                                    <!-- </div> -->
+                                        <!-- <span> :</span> -->
+                                        <!-- <input type="text"  [(ngModel)]="inTimeMinute" (ngModelChange)="onTimeChange($event,'.startMinute')" maxlength = "2" class="form-control startMinute" placeholder="MM"> -->
+                                    </div>
+
+                                    <div class="col-5 align-self-center mb-0">
+                                        <span (click)='onDutyStartAMOrPM("AM")' id="amODStart"
+                                         class="activeTime onDutyAmorPM active">AM</span><span (click)='onDutyStartAMOrPM("PM")'
+                                         class="activeTime onDutyAmorPM" id="pmODStart">PM</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6">
+                                <div class="row">
+                                    <div class="col-2  align-self-center mb-0">
+                                        <h6 class="fromTo">To:</h6>
+                                    </div>
+                                    <div class="col-5 form-group align-self-center px-1 text-center">
+                                            <ngb-timepicker (keypress)="onKeyPress($event)"  [(ngModel)]="outTime" id="startTimepicker"
+                                            [spinners]="spinners" [meridian]="meridian"></ngb-timepicker>
+                                        <!-- <input type="text"  [(ngModel)]="outTimeHour" (ngModelChange)="onTimeChange($event,'.endHour')"  maxlength = "2" class="form-control endHour" placeholder="HH">
+                                        <span> :</span>
+                                        <input type="text" [(ngModel)]="outTimeMinute" (ngModelChange)="onTimeChange($event,'.endMinute')"  maxlength = "2" class="form-control endMinute" placeholder="MM"> -->
+                                    </div>
+
+                                    <div class="col-5 align-self-center mb-0">
+                                        <span (click)='onDutyEndAMOrPM("AM")' id="amODEnd" class="activeTime active onDutyEndAmorPM">AM</span><span (click)='onDutyEndAMOrPM("PM")' id="pmODEnd" class="activeTime onDutyEndAmorPM">PM</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="col-12 col-lg-4 text-md-right text-left time__submit align-self-center">
+                    <button type="button" class="btn cancel-button" data-dismiss="modal"
+                        (click)='resetOnDutyDatePicker()'>Cancel</button>
+                    <button type="button" class="btn theme__btn btn-hover color-3" data-dismiss="modal"
+                        (click)='setOnDutyValues()'>Done</button>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>

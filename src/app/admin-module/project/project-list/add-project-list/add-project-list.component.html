@@ -1,0 +1,129 @@
+<div class="attendance dashboard__content">
+    <h3>Projects</h3>
+<div class="inner__section projectList rounded">
+    <h5>
+        <span class="title active">Create Projects</span>
+    </h5>
+    <form [formGroup]="addprojectform">
+        <div class="project__list">
+            <div class="project__section ">
+                <div class="new__project row w-100">
+
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <div class="form-group">
+                            <label class="form-label" for="Customer">Select Customer</label>
+
+                            <select class="form-control" id="gemsCustomerMaster" formControlName='gemsCustomerMaster' required>
+                                <option *ngFor="let customer of  customerList" [ngValue]="customer">
+                                    {{customer.gemsCustomerName}}
+                                </option>
+
+                            </select>
+                            <small *ngIf="addprojectform.controls['gemsCustomerMaster'].errors && !addprojectform.controls['gemsCustomerMaster'].pristine" class="form-text text-muted">
+                            select a customer</small>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <div class="form-group">
+                            <label class="form-label" for="projectTypeMaster">Project Type</label>
+                            <select class="form-control" id="projectTypeMaster" formControlName='projectTypeMaster' required>
+                                <option *ngFor='let project of projectTypeList'  [ngValue]="project">{{project.projectTypeCode}}</option>
+
+                            </select>
+                            <small *ngIf="addprojectform.controls['projectTypeMaster'].errors && !addprojectform.controls['projectTypeMaster'].pristine" class="form-text text-muted">
+                                select a project Type</small>
+
+                        </div>
+                    </div>
+
+                    <div class="col-12 mb-4">
+                        <h6>PROJECT DETAILS</h6>
+                    </div>
+
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <div class="form-group">
+                            <label class="form-label" for="">Project Name</label>
+                            <input type="text" class="form-control" formControlName='projectName' (keypress)="omit_special_char_WithoutSpace($event)"
+                                name="projectName" #projectName minlength="3" maxlength="30" (focus)="clearProjectName()" required
+                                (ngModelChange)="projectCodeDynamic($event)">
+                                <small *ngIf="addprojectform.controls['projectName'].errors && !addprojectform.controls['projectName'].pristine" class="form-text text-muted">
+                                    enter a project name</small>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <div class="form-group">
+                            <label for="" class="form-label">Project Description</label>
+                            <input type="text" class="form-control" placeholder="" maxlength="100" formControlName='projectDescription' 
+                            (keypress)="omit_special_char_WithoutSpace($event)" required>
+                            <small *ngIf="addprojectform.controls['projectDescription'].errors && !addprojectform.controls['projectDescription'].pristine" class="form-text text-muted">
+                                enter a project description</small>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <div class="form-group">
+                            <label for="" class="form-label">Project Code (Auto Populated)</label>
+                            <input type="text" name="projectCode" class="form-control" formControlName="projectCode" #projectCode [(ngModel)]="autoProjectCode"
+                                readonly required>
+                                <small *ngIf="addprojectform.controls['projectCode'].errors && !addprojectform.controls['projectCode'].pristine" class="form-text text-muted">
+                                    enter a project code</small>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <div class="form-group">
+                            <label for="exampleFormControlSelect1" class="form-label">Project Status</label>
+
+                            <input type="text" class="form-control" placeholder="" maxlength="15" formControlName='projectStatus' 
+                            (keypress)="omit_special_char_WithoutSpace($event)" required>
+                            <small *ngIf="addprojectform.controls['projectStatus'].errors && !addprojectform.controls['projectStatus'].pristine" class="form-text text-muted">
+                                enter a project status</small>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <div class="form-group">
+                            <label for="" class="form-label">Total Project Cost</label>
+                            <input type="number" class="form-control" placeholder="" formControlName='projectCost' required>
+                            <small *ngIf="addprojectform.controls['projectCost'].errors && !addprojectform.controls['projectCost'].pristine" class="form-text text-muted">
+                                enter a project cost</small>
+                      
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <div class="form-group">
+                            <label for="" class="form-label">Billing Type</label>
+                            <input type="text"   maxlength="15" class="form-control" placeholder="" formControlName='billingType' required>
+                      
+                            <small *ngIf="addprojectform.controls['billingType'].errors && !addprojectform.controls['billingType'].pristine" class="form-text text-muted">
+                                enter a billing Type</small>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <div class="form-group">
+                            <label for="" class="form-label">Project Start Date</label>
+                            <input   [max]="disableBasedDate()" type="date" class="form-control" placeholder="" formControlName='projectStartDate' required (change)="onchangeDate($event)">
+                            <small *ngIf="addprojectform.controls['projectStartDate'].errors && !addprojectform.controls['projectStartDate'].pristine" class="form-text text-muted">
+                                select a project Start Date</small>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <div class="form-group">
+                           
+                            <label for="" class="form-label">Project End Date</label>
+                            <input  [min]="disableBasedDate()"type="date" class="form-control" placeholder="" formControlName='projectEndDate' required (change)="onchangeDate($event)">
+                            <small *ngIf="addprojectform.controls['projectEndDate'].errors && !addprojectform.controls['projectEndDate'].pristine" class="form-text text-muted">
+                                select a project End Date</small>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="bottom__btn mt-0">
+                            <button class="btn btn-primary cancel" data-dismiss="modal" type="submit" (click)='cancel()'>Cancel</button>
+                            <button class="btn btn-primary submit" data-dismiss="modal" type="submit" disabled=""  (click)='addProjectSubmit()'
+                            [disabled]="addprojectform.invalid">Submit</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </form>
+    </div>

@@ -1,0 +1,22 @@
+
+    <div class="white__border attendance rounded">
+        <h5>Attendance</h5>
+        <h6 class="float-right">Month : <span class="api__month">{{ todayDate | date:'MMM' | uppercase }}</span></h6>
+        <div class="clearfix"></div>
+        <div class="row">
+            <div class="col-12 col-lg-6 text-center">
+                <div class="attendance__data line">
+                    <h1 class="attendance__date--number color">{{totalAttendanceDaysStr}}</h1>
+                    <p>days</p>
+                    <p class="date__text">Total no. of<br /> Attendance</p>
+                </div>
+            </div>
+            <div class="col-12 col-lg-6 text-center">
+                <div class="attendance__data">
+                    <h1 class="attendance__date--number">{{totalLateInStatusDaysStr}}</h1>
+                    <p>days</p>
+                    <p class="date__text">Total no. of <br> Late coming</p>
+                </div>
+            </div>
+        </div>
+    </div>

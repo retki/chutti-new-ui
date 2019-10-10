@@ -1,0 +1,82 @@
+
+@import '../../../../assets/scss/variables.scss';
+@import '../../../../assets/scss/mixin.scss';
+
+.leave-Aprovals
+{
+    h5 
+    {
+        &::before
+        {
+            content: "\e101";
+        }
+    }
+
+    .empimage
+    {
+        height: 26px;
+        width: 26px;
+        margin-right: 7px;
+    }
+    .onhold
+    {
+        color: 	#FFA500;
+        font-size: 15px;
+    }
+    .rejected
+    {
+        color: 	red;
+        font-size: 15px;
+    }
+    .approved{
+        color:#6747D4;
+        font-size: 15px;
+    }
+    .td-onhold
+    {
+        color: 	#FFA500;
+
+    }
+    .td-rejected
+    {
+        // color: 	red;
+    }
+}
+.leave__reject 
+{
+    max-width: 430px;
+}
+.leave__reject--msg 
+{
+    .form-control 
+    {
+        font-size: 1em;
+        border-top: none;
+        border-right: none;
+        border-left: none;
+        border-bottom:2px solid #b8b5b5;
+        padding-left: 0;
+        border-radius: 0;
+        color: #000000 !important   ;
+    }
+}
+.modal-content 
+{
+    border-radius: 10px !important;
+}
+.modal-body 
+{
+    padding: 1.5rem;
+}
+.bottom__btn {
+    .btn 
+    {
+        border-radius: 0;
+        cursor: pointer;
+    }
+}
+.leave__status 
+{
+    height: inherit;
+}
+

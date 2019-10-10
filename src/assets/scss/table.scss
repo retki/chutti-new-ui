@@ -1,0 +1,319 @@
+@import 'variables.scss';
+@import 'mixin.scss';
+
+.table-fixed {
+    .scroll {
+        height: 60vh;
+
+        @include breakpoint(big-desktop) {
+            height: 53vh;
+        }
+
+        @include breakpoint(desktop) {
+            height: 380px;
+        }
+
+        @include breakpoint(tablet) {
+            height: 69vh;
+        }
+
+        overflow-y: auto;
+        width: 100%;
+
+        td {
+            padding-left: 0 !important;
+        }
+    }
+
+    .scroll-1 {
+        height: 55vh;
+
+        @include breakpoint(big-desktop) {
+            height: 385px;
+        }
+
+        @include breakpoint(desktop) {
+            height: 380px;
+        }
+
+        @include breakpoint(tablet) {
+            height: 69vh;
+        }
+
+        overflow-y: auto;
+        width: 100%;
+
+        td {
+            padding-left: 0 !important;
+        }
+    }
+
+    thead,
+    tbody,
+    tr,
+    td,
+    th {
+        display: block;
+        padding-left: 0 !important;
+    }
+
+
+    thead {
+        width: 100%;
+        margin-bottom: 3px;
+        float: left;
+
+        th {
+            border-bottom: 2px solid #ededed;
+            font-size: 0.85em;
+            border-top: none !important;
+            font-weight: 500;
+            float: left;
+            border-bottom-width: 0;
+
+            .sorting {
+                display: inline-flex;
+                flex-direction: column;
+                line-height: 1;
+
+                .sorting-up,
+                .sorting-down {
+                    position: relative;
+                    display: inline-block;
+
+                    &:after {
+                        content: "";
+                        width: 0;
+                        height: 0;
+                        border-left: 5px solid transparent;
+                        border-right: 5px solid transparent;
+                        border-bottom: 6px solid $darkBlue;
+                    }
+                }
+
+                .sorting-up {
+                    top: -10px;
+
+                    &::after {
+                        position: absolute;
+                    }
+                }
+
+                .sorting-down {
+                    top: -2px;
+
+                    &::after {
+                        position: absolute;
+                        transform: rotate(180deg);
+                    }
+                }
+            }
+            &.action-head {
+                text-align: center;
+            }
+
+
+        }
+    }
+
+    tbody {
+        tr {
+            @extend %hover-animation;
+
+            &:first-child {
+                td {
+                    border-top: none !important;
+                }
+            }
+        }
+
+        td {
+            color: #585858;
+            float: left;
+            border-bottom-width: 0;
+            word-break: break-all;
+            display: flex;
+            align-items: center;
+            min-height: 54px;
+
+            &.action-btn {
+                justify-content: center;
+
+                i {
+                    cursor: pointer;
+                    margin: 0 2px;
+                    padding: 2px;
+                }
+            }
+        }
+
+    }
+
+    tr {
+        float: left;
+        width: calc(100% - 8px);
+
+    }
+
+    td {
+        font-size: .85em;
+        color: $table-text-color;
+
+
+        @include breakpoint(big-desktop) {
+            padding: .82rem 0 !important;
+        }
+
+        @include breakpoint(desktop) {
+            padding: .52rem 0;
+        }
+    }
+}
+
+// tr hover animation
+%hover-animation {
+    cursor: pointer;
+    transition: 0.3s background-color cubic-bezier(0.86, 0, 0.07, 1);
+
+    &:hover {
+        background: rgba(232, 232, 232, 0.28);
+    }
+}
+
+
+
+// scroll 2
+.scroll-2 {
+    height: 47vh;
+
+    &::-webkit-scrollbar {
+        width: 5px;
+        position: absolute;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: #A9A8A8;
+        border-radius: 20px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: #ddd;
+        border-radius: 20px;
+    }
+
+    @include breakpoint(big-desktop) {
+        height: 290px;
+    }
+
+    @include breakpoint(desktop) {
+        height: 290px;
+    }
+
+    @include breakpoint(tablet) {
+        height: 69vh;
+    }
+
+    overflow-y: auto;
+    width: 100%;
+
+    td {
+        padding-left: 0 !important;
+    }
+}
+
+
+
+// Pagination
+.pagination {
+    padding: 2rem 0 1rem;
+
+    .form-group {
+        flex-direction: row;
+        align-items: center;
+        width: 100%;
+        justify-content: flex-end;
+        margin: 0;
+
+        .col {
+            font-size: .9em;
+            padding: 0;
+
+            &.column-1 {
+                max-width: 120px;
+            }
+
+            &.column-2 {
+                max-width: 50px;
+                margin-right: 30px;
+            }
+
+            &.column-3 {
+                max-width: 150px;
+            }
+        }
+
+        .form-control {
+            padding: 3px;
+            height: auto;
+        }
+
+        .visible__page,
+        .page__selection {
+            display: inline-block;
+        }
+
+        .page__selection {
+            margin-left: 30px;
+
+            a:last-child {
+                cursor: pointer;
+            }
+
+            a {
+                color: #6747D4;
+                display: inline-block;
+                padding: 5px;
+                line-height: 1;
+                border-radius: 50%;
+                margin-right: 10px;
+
+                &:hover {
+                    background: #efefef;
+                }
+            }
+        }
+    }
+
+}
+
+// Username with picture
+.user-with-pic {
+    display: flex;
+    align-items: center;
+
+    .pic {
+        margin-right: 10px;
+
+        span {
+            width: 30px;
+            height: 30px;
+            display: flex;
+            border-radius: 50%;
+            background: #d2aeed;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 12px;
+            overflow: hidden;
+
+            img {
+                max-width: 30px;
+                max-height: 30px;
+                border-radius: 50%;
+            }
+        }
+    }
+}

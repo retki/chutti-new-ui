@@ -1,0 +1,17 @@
+<div class="rounded upcomming">
+    <h5>{{headerText}}</h5>
+    <div class="float-right viewMore__details expand" (click)="expandupcomingholiday();"><span
+            class="icon_expand"></span></div>
+    <div class="float-right viewMore__details compress d-none" (click)="expandupcomingholiday();"><span
+            class="icon_collapse"></span></div>
+    <div class="upcomming__table">
+        <table class="table">
+            <tbody>
+                <tr *ngFor="let upcominholidayListobj of upcominholidayList;let i =index">
+                    <td>{{upcominholidayListobj.gemsHolidayName}}</td>
+                    <td>{{upcominholidayListobj.gemsHolidayOn | date: 'dd MMM yyyy' }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

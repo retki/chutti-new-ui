@@ -1,0 +1,77 @@
+@mixin breakpoint($point) {
+    @if $point==big-desktop {
+        @media (max-width: 1600px) {
+            @content ;
+        }
+    }
+
+    @else if $point==desktop {
+        @media (max-width: 1440px) {
+            @content ;
+        }
+    }
+
+    @else if $point==laptop {
+        @media (max-width: 1366px) {
+            @content ;
+        }
+    }
+
+    @else if $point==apple-laptop {
+        @media (max-width: 1280px) {
+            @content ;
+        }
+    }
+
+    @else if $point==tablet-landscape {
+        @media (max-width: 1024px) {
+            @content ;
+        }
+
+    }
+
+    @else if $point==tablet {
+        @media (max-width: 991px) {
+            @content ;
+        }
+
+    }
+
+    @else if $point==tablet-s {
+        @media (max-width: 768px) {
+            @content ;
+        }
+
+    }
+    @else if $point==mobile-landscape {
+        @media (max-width: 720px) {
+            @content ;
+        }
+
+    }
+    @else if $point==mobile {
+        @media (max-width: 567px) {
+            @content ;
+        }
+
+    }
+   
+
+}
+
+
+
+@mixin gradient-text($angle: 45deg, $color: #6747D4, $amount: 35%) {
+    color: $color;
+    background: -webkit-linear-gradient($angle, $color, adjust-hue($color, $amount));
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+    display: inline-block;
+  }
+  @mixin transition($transition...) {
+    -moz-transition:    $transition;
+    -o-transition:      $transition;
+    -webkit-transition: $transition;
+    transition:         $transition;
+}
+  

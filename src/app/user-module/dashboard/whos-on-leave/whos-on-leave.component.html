@@ -1,0 +1,436 @@
+<div class="leave__status" id="whosison__leave">
+    <!-- <div class="d-flex"> -->
+    <h5>Who's on Leave</h5>
+    <div class="viewMore__details expand text-right" (click)="isTodayActive=true;isWeekActive=false;onexpand();"><span
+            class="icon_expand"></span></div>
+    <!-- <div class="attendance__filter"> -->
+    <ul class="dateFilter__selection d-flex" *ngIf="!showdashwhoseonleavepagination">
+        <li class="mx-0 mx-md-4">
+            <span class="page__selection" *ngIf="showHide">
+                <a><span class="icon_arrow_thick_left" (click)="decreaseMonth()"></span></a>
+                <div class="current__month">{{currentMonth}}</div>
+                <a><span class="icon_arrow_thick_right" (click)="nextmonths()"></span></a>
+            </span>
+        </li>
+        <li *ngIf="isTodayActive" class="mx-md-3 mx-2 filterToday active">
+            <a (click)="leavestatus();">Today</a>
+        </li>
+        <li *ngIf="!isTodayActive" class="mx-md-3 mx-2 filterToday">
+            <a (click)="leavestatus();">Today</a>
+        </li>
+        <li *ngIf="isWeekActive" class="mx-md-3 mx-2 filterWeek active">
+            <a data-toggle="modal" data-target=".whosonleave-modal-lg">Week</a>
+        </li>
+        <li *ngIf="!isWeekActive" class="mx-md-3 mx-2 filterWeek">
+            <a data-toggle="modal" data-target=".whosonleave-modal-lg">Week</a>
+        </li>
+        <li class="ml-3 mr-5 filterMonth"> <a (click)="monthclick()">Month</a></li>
+    </ul>
+    <!-- </div> -->
+
+    <div class="viewMore__details compress d-none" (click)="isData=true;expandwhoseonleave(true);"><span
+            class="icon_collapse"></span></div>
+    <!-- </div> -->
+    <div class="whos-on-avatar" *ngIf="showdashwhoseonleavepagination">
+        <div class="leave__data">
+            <div class="leave__person inline-block">
+                <p>Today</p>
+                <div class="d-flex">
+                    <ul class="leave__person--list">
+                        <div *ngIf="todayList.length!=0">
+                            <li *ngFor="let todayobj of todayList| slice:0:5">
+                                <ng-template #popContent0>
+                                    <div class="pop__over">
+                                        <strong>{{todayobj.employeeFirstName}}</strong>
+                                        <div class="row">
+                                            <div class="col-md-4 flex-column  pop__over-data">
+                                                <p>From:</p>
+                                                <p>{{todayobj.fromDate | date:'dd-MMM-yy'|uppercase }}</p>
+                                            </div>
+                                            <div class="col-md-4  pop__over-data">
+                                                <p>To:</p>
+                                                <p>{{todayobj.toDate | date:'dd-MMM-yy'|uppercase}}</p>
+                                            </div>
+                                            <div class="col-md-4  pop__over-data">
+                                                <p>Duration:</p>
+                                                <p>{{todayobj.permissionDuration}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </ng-template>
+                                <div *ngIf="todayobj.profileImgData == null || todayobj.profileImgData == undefined">
+                                    <span class="user_img4 img_none bg__blue" [ngbPopover]="popContent0" placement="top"
+                                        triggers="mouseenter:mouseleave">{{todayobj.employeeLastName.charAt(0)}}{{todayobj.employeeFirstName.charAt(0)}}</span>
+                                </div>
+                                <div *ngIf="todayobj.profileImgData != null && todayobj.profileImgData != undefined"
+                                    class="mouseOver">
+                                    <span [ngbPopover]="popContent0" placement="top" triggers="mouseenter:mouseleave">
+                                        <img class="rounded-circle user__img"
+                                            [src]="todayobj.profileImgData?
+                                    'data:image/jpg;base64,'+todayobj.profileImgData:'assets/images/admin/profile_image.png'" />
+                                    </span></div>
+                            </li>
+                        </div>
+                        <div *ngIf="todayList.length==0">
+                            <h6>No leave found</h6>
+                        </div>
+                    </ul>
+
+                    <div *ngIf="todayList.length > 5" class="view__more--person inline-block pl-3 align-self-center">
+                        <a class="viewMore">
+                            <div (click)="isTodayActive=true;isWeekActive=false;viewMoreDetails('today');">
+                                +{{todayList.length - 5}} more</div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="leave__data h-100">
+            <div class="leave__person inline-block">
+                <p>This Week</p>
+                <div class="d-flex">
+                    <ul class="leave__person--list">
+                        <div *ngIf="thisweekList.length!=0">
+                            <li *ngFor="let thisweekobj of thisweekList | slice:0:5">
+                                <ng-template #popContent1 style="border: none;">
+                                    <div class="pop__over">
+                                        <strong>{{thisweekobj.employeeFirstName}}</strong>
+                                        <div class="row">
+                                            <div class="col-md-4 flex-column pop__over-data">
+                                                <p>From:</p>
+                                                <p>{{thisweekobj.fromDate | date:'dd-MMM-yy'|uppercase}}</p>
+                                            </div>
+                                            <div class="col-md-4 pop__over-data">
+                                                <p>To:</p>
+                                                <p>{{thisweekobj.toDate | date:'dd-MMM-yy'|uppercase}}</p>
+                                            </div>
+                                            <div class="col-md-4 pop__over-data">
+                                                <p>Duration:</p>
+                                                <p>{{thisweekobj.permissionDuration}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </ng-template>
+
+                                <div
+                                    *ngIf="thisweekobj.profileImgData == null || thisweekobj.profileImgData == undefined">
+                                    <span class="user_img4 img_none bg__brown" [ngbPopover]="popContent1"
+                                        placement="top"
+                                        triggers="mouseenter:mouseleave">{{thisweekobj.employeeLastName.charAt(0)}}{{thisweekobj.employeeFirstName.charAt(0)}}</span>
+                                </div>
+                                <div *ngIf="thisweekobj.profileImgData != null && thisweekobj.profileImgData != undefined"
+                                    class="mouseOver">
+                                    <span [ngbPopover]="popContent1" placement="top" triggers="mouseenter:mouseleave">
+                                        <img class="rounded-circle user__img"
+                                            [src]="thisweekobj.profileImgData?
+                                    'data:image/jpg;base64,'+thisweekobj.profileImgData:'assets/images/admin/profile_image.png'" />
+                                    </span></div>
+                                <!-- -->
+                            </li>
+                        </div>
+                        <div *ngIf="thisweekList.length==0"><h6>No leave found</h6>
+                        </div>
+
+                    </ul>
+                    <div *ngIf="thisweekList.length > 5" class="view__more--person inline-block align-self-center pl-3">
+                        <a class="viewMore">
+                            <div (click)="isWeekActive=true;isTodayActive=false;viewMoreDetails('thisWeek');">+
+                                {{thisweekList.length - 5}} more</div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="leave__data">
+            <div class="leave__person inline-block">
+
+                <p>Next Week</p>
+                <div class="d-flex">
+                    <ul class="leave__person--list">
+                        <div *ngIf="nextWeekList.length!=0">
+                            <li *ngFor="let nextWeekListobj of nextWeekList | slice:0:5">
+                                <ng-template #popContent2>
+                                    <div class="pop__over">
+                                        <strong>{{nextWeekListobj.employeeFirstName}}</strong>
+                                        <div class="row ">
+                                            <div class="col-md-4 pop__over-data">
+                                                <p>From:</p>
+                                                <p>{{nextWeekListobj.fromDate | date:'dd-MMM-yy'|uppercase}}</p>
+                                            </div>
+                                            <div class="col-md-4 pop__over-data">
+                                                <p>To:</p>
+                                                <p>{{nextWeekListobj.toDate | date:'dd-MMM-yy'|uppercase}}</p>
+                                            </div>
+                                            <div class="col-md-4 pop__over-data">
+                                                <p>Duration:</p>
+                                                <p>{{nextWeekListobj.permissionDuration}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </ng-template>
+
+                                <div *ngIf="nextWeekListobj.profileImgData == null || nextWeekListobj.profileImgData == undefined"
+                                    class="mouseOver">
+                                    <span class="user_img4 img_none bg__neptune" [ngbPopover]="popContent2"
+                                        placement="top"
+                                        triggers="mouseenter:mouseleave">{{nextWeekListobj.employeeLastName.charAt(0)}}{{nextWeekListobj.employeeFirstName.charAt(0)}}</span>
+                                </div>
+
+                                <div *ngIf="nextWeekListobj.profileImgData != null && nextWeekListobj.profileImgData != undefined"
+                                    class="mouseOver">
+                                    <span [ngbPopover]="popContent2" placement="top" triggers="mouseenter:mouseleave">
+                                        <img class="rounded-circle user__img"
+                                            [src]="nextWeekListobj.profileImgData?
+                                    'data:image/jpg;base64,'+nextWeekListobj.profileImgData:'assets/images/admin/profile_image.png'" />
+                                    </span></div>
+                            </li>
+                        </div>
+                        <div *ngIf="thisweekList.length==0"><h6>No leave found</h6>
+                        </div>
+                    </ul>
+                    <div *ngIf="nextWeekList.length > 5 "
+                        class="view__more--person inline-block pl-3 align-self-center">
+                        <a class="viewMore">
+                            <div (click)="isWeekActive=true;isTodayActive=false;viewMoreDetails('nextWeek');">
+                                +{{nextWeekList.length - 5}} more</div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="leave__data">
+
+            <div class="leave__person inline-block">
+                <p>{{nextOfNextWeekStartDate | date: 'dd MMM'|uppercase}} -
+                    {{nextOfNextWeekEndDate | date: 'dd MMM'|uppercase}}</p>
+                <div class="flex">
+                    <ul class="leave__person--list">
+                        <div *ngIf="nextOfNextWeekList.length!=0">
+                            <li *ngFor="let nextOfNextWeekListobj of nextOfNextWeekList | slice:0:5">
+                                <ng-template #popContent3>
+                                    <div class="pop__over">
+                                        <strong>{{nextOfNextWeekListobj.employeeFirstName}}</strong>
+                                        <div class="row ">
+                                            <div class="col-md-4 flex-column pop__over-data">
+                                                <p>From:</p>
+                                                <p>{{nextOfNextWeekListobj.fromDate | date:'dd-MMM-yy'|uppercase}}</p>
+                                            </div>
+                                            <div class="col-md-4 pop__over-data">
+                                                <p>To:</p>
+                                                <p>{{nextOfNextWeekListobj.toDate | date:'dd-MMM-yy'|uppercase}}</p>
+                                            </div>
+                                            <div class="col-md-4 pop__over-data">
+                                                <p>Duration:</p>
+                                                <p>{{nextOfNextWeekListobj.permissionDuration}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </ng-template>
+                                <div *ngIf="nextOfNextWeekListobj.profileImgData == null || nextOfNextWeekListobj.profileImgData == undefined"
+                                    class="mouseOver">
+                                    <span class="user_img4 img_none bg__neptune" [ngbPopover]="popContent3"
+                                        placement="top"
+                                        triggers="mouseenter:mouseleave">{{nextOfNextWeekListobj.employeeLastName.charAt(0)}}{{nextOfNextWeekListobj.employeeFirstName.charAt(0)}}</span>
+                                </div>
+
+                                <div *ngIf="nextOfNextWeekListobj.profileImgData != null && nextOfNextWeekListobj.profileImgData != undefined"
+                                    class="mouseOver">
+                                    <span [ngbPopover]="popContent3" placement="top" triggers="mouseenter:mouseleave">
+                                        <img class="rounded-circle user__img"
+                                            [src]="nextOfNextWeekListobj.profileImgData?
+                                    'data:image/jpg;base64,'+nextOfNextWeekListobj.profileImgData:'assets/images/admin/profile_image.png'" />
+                                    </span></div>
+                            </li>
+                        </div>
+                        <div *ngIf="nextOfNextWeekList.length==0"><h6>No leave found</h6>
+                        </div>
+                    </ul>
+                    <div *ngIf="nextOfNextWeekList.length > 5"
+                        class="view__more--person inline-block pl-3 align-self-center">
+                        <a class="viewMore">
+                            <div (click)="isWeekActive=true;isTodayActive=false;viewMoreDetails('nextOfNextWeek');">
+                                +{{nextOfNextWeekList.length - 5}} more</div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- //whose on leave expansion -->
+    <div class="whos-on-leave-table" *ngIf="!showdashwhoseonleavepagination">
+        <div class="clearfix"></div>
+        <div class="leave__table">
+            <div>
+                <table class="table table-fixed rwd-table">
+                    <thead>
+                        <tr>
+                            <th scope="col" class="col-md-3">Employee Name</th>
+                            <th scope="col" class="col-md-2 pl-0">From</th>
+                            <th scope="col" class="col-md-2 pl-0">To</th>
+                            <th scope="col" class="col-md-2 pl-0">Duration</th>
+                            <th scope="col" class="col-md-3  pl-0">Reason</th>
+
+                        </tr>
+                    </thead>
+                    <tbody *ngIf="isData" class="scroll user__icon--row">
+                        <tr class="d-flex whosonleave_table" *ngFor="let leavestatusobj of leavestausList;let i =index">
+                            <td scope="row" class="col-md-3" data-th="Employee Name">
+                                <div class="d-flex">
+                                    <span
+                                        *ngIf="leavestatusobj.profileImgData != null && leavestatusobj.profileImgData != undefined">
+                                        <img class="rounded-circle user__img--row"
+                                            [src]="leavestatusobj.profileImgData?
+                                            'data:image/jpg;base64,'+leavestatusobj.profileImgData:'assets/images/admin/profile_image.png'" />
+                                    </span>
+
+                                    <span
+                                        *ngIf="leavestatusobj.profileImgData == null || leavestatusobj.profileImgData == undefined"
+                                        class="user_img4  user__img--row bg__neptune" [ngbPopover]="popContent2"
+                                        placement="top"
+                                        triggers="mouseenter:mouseleave">{{leavestatusobj.employeeLastName.charAt(0)}}{{leavestatusobj.employeeFirstName.charAt(0)}}</span>
+                                    <span class="nameImg"> {{leavestatusobj.employeeFirstName}}</span>
+                                </div>
+                            </td>
+                            <td class="col-md-2" data-th="From">{{leavestatusobj.fromDate  | date:'dd MMM yyyy'}}</td>
+                            <td class="col-md-2" data-th="To">{{leavestatusobj.toDate | date:'dd MMM yyyy'}}</td>
+                            <td class="col-md-2" data-th="Duration">{{leavestatusobj.permissionDuration}}</td>
+                            <td class="col-md-3" *ngIf="leavestatusobj.reason != null" data-th="Reason">
+                                <div class="v__scroll">{{leavestatusobj.reason}}</div>
+                            </td>
+                            <td class="col-md-3" *ngIf="leavestatusobj.reason == null" data-th="Reason">
+                                <div class="v__scroll">-</div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div *ngIf="isData && totalCount > 10 " class="table__bottom text-right">
+                    <span class="items__nos">
+                        <div class="form-group page__section">
+                            <label for="pageNo">Items per page:</label>
+                            <select class="form-control" [(ngModel)]="selectedItemsPerPage" id="pageNo"
+                                (ngModelChange)="changeItemPerPage($event)">
+                                <option *ngFor="let perpageVal of perpageOption" [value]="perpageVal.value">
+                                    {{perpageVal.label}}</option>
+                            </select>
+                        </div>
+                    </span>
+                    <app-chutti-pagination [currentPage]="currentPage" [count]="totalCount" [pagesToShow]="totalPages"
+                        (goPrev)="goToPrev()" (goNext)="goToNext()" (onPage)="goToPageNo($event)">
+                    </app-chutti-pagination>
+                </div>
+            </div>
+            <div class="text-center w-100 py-5" *ngIf="!isData">
+                <h4>No Record Found!</h4>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Daterangepicker -->
+<div class="modal fade whosonleave-modal-lg" tabindex="-1" id="permissionmodel" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg modal-dialog-centered double__dateModel">
+        <div class="modal-content">
+            <div class="modal-header date__picker--header row mx-0 px-0 mt-3">
+                <div class="col-md-4 align-self-center time__title">
+
+                </div>
+
+                <div class="col-md-8 float-right text-right datePicker__header--right align-self-center">
+                    <a class="reset-permission  align-self-center" href="javascript:void(0);"
+                        (click)='resetFormInDatePicker()'>Reset</a>
+                    <span class="pl-2 ml-2 permissionDate  align-self-center"><span class="icon_date_picker"></span>
+                        {{startLeaveDate}}- {{EndLeaveDate}}</span>
+                </div>
+            </div>
+            <div class="row px-0 mx-0">
+                <div class="col-12 text-center px-0">
+                    <!-- <ngb-datepicker #d (select)="onPermissionDate($event)" class="date__table"></ngb-datepicker> -->
+                    <ngb-datepicker #dp (select)="onDateSelection($event)" class="date__table" [displayMonths]="2"
+                        [dayTemplate]="t" outsideDays="hidden">
+                    </ngb-datepicker>
+
+                    <ng-template #t let-date let-focused="focused">
+                        <span class="custom-day" [class.focused]="focused" [class.range]="isRange(date)"
+                            [class.faded]="isHovered(date) || isInside(date)" (mouseenter)="hoveredDate = date"
+                            (mouseleave)="hoveredDate = null">
+                            {{ date.day }}
+                        </span>
+                    </ng-template>
+                </div>
+
+                <!-- <div class="col-5 time__section">
+                   
+                <div class="mb-5 pl-4 row">
+                    <div class="col-6">
+                            <label for="startTimepicker">Start Time</label>
+                        <ngb-timepicker [(ngModel)]="permissionStartTimepicker" id="startTimepicker"
+                        [spinners]="spinners" [meridian]="meridian"></ngb-timepicker></div>
+                    <div class="col-6 text-right time__margin"> <button type="button" id="am" class="btn permissionAmorPM"
+                        (click)='startTimepickerAMOrPM("AM")'>AM</button>
+                    <button type="button" class="btn permissionAmorPM"
+                        (click)='startTimepickerAMOrPM("PM")'>PM</button></div>
+                </div>
+               
+                <div class="mb-5 pl-4 row">
+                        
+                    <div class="col-6">
+                            <label  for="endTimepicker">End Time</label>
+                        <ngb-timepicker [(ngModel)]="permissionEndTimepicker" id="endTimepicker"
+                        [spinners]="spinners" [meridian]="meridian"></ngb-timepicker></div>
+                    <div class="col-6 text-right time__margin">
+                            <button type="button" (click)='endTimepickerAMorPM("AM")'
+                            class="btn permissionEndAmorPM">AM</button>
+                        <button type="button" (click)='endTimepickerAMorPM("PM")'
+                            class="btn permissionEndAmorPM">PM</button>
+                    </div>    
+                </div>
+            </div> -->
+            </div>
+
+            <div class="row justify-content-end mx-0 px-0 mb-5">
+                <!-- <div *ngIf="halfdayflog" class="col-8 align-self-center date__model--footer active">
+                    <div class="form-group">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" [checked]="leaveTypeChecked" (click)="halfdaychkfun($event);" class="custom-control-input" id="permisstionType">
+                            <label class="custom-control-label rememberme float-left" for="permisstionType">Half Day
+                                Leave?
+                            </label>
+                        </div>
+                    </div>
+                    <div *ngIf="noonFlag" class="form-group leaveSelection">
+                        <div class="radio">
+                            <input id="radio-4" name="radio" value="FORE" type="radio" checked (change)="halfdayRadioChange($event)">
+                            <label for="radio-4" class="radio-label">
+                                <div class="checker"></div> Forenoon
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <input id="radio-5" type="radio" name="radio" value="POST" (change)="halfdayRadioChange($event)">
+                            <label for="radio-5" class="radio-label">
+                                <div class="checker"></div> Afternoon
+                            </label>
+                        </div>
+                    </div>
+
+                </div> -->
+                <div class="col-12 col-md-4  text-right time__submit align-self-center">
+                    <button type="button" class="btn cancel-button" data-dismiss="modal"
+                        (click)='resetFormInDatePicker()'>Cancel</button>
+                    <button type="button" class="btn theme__btn btn-hover color-3" data-dismiss="modal"
+                        (click)='setValues()'>Done</button>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>

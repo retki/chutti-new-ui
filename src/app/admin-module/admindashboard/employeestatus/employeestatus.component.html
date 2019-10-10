@@ -1,0 +1,983 @@
+<!-- <div class="attendance__filter"> -->
+<ngx-loading-bar [color]="'#6747D4'" [includeSpinner]='false'></ngx-loading-bar>
+<div class="admin__card">
+    <div class="row">
+        <h6>Employee Status</h6>
+        <div class="viewMore__details expand text-right" (click)="isTodayActive=true;isWeekActive=false;onexpand();">
+            <span class="icon_expand"></span>
+        </div>
+        <div class="col-md-2 " *ngIf="!showdashwhoseonleavepagination">
+            <div class="form-group">
+
+                <select class="form-control" id="currency" required (change)="onSelectType($event)">
+                    <option>
+                        Leave
+                    </option>
+                    <option>
+                        LateComers
+                    </option>
+                    <option>
+                        OverTimeWorker
+                    </option>
+                </select>
+
+            </div>
+
+
+        </div>
+    </div>
+    <ul class="dateFilter__selection d-flex nav nav-tabs attendance__tab" *ngIf="showdashwhoseonleavepagination"
+        id="nav-tab" role="tablist">
+        <li>
+            <a class=" active" id="nav-reports" data-toggle="tab" href="#reports" role="tab" aria-controls="nav-reports"
+                aria-selected="true">Leave</a>
+        </li>
+        <li class="mx-3 filterWeek ">
+            <a class="" id="late-comers" data-toggle="tab" href="#late" role="tab" aria-controls="late-comers"
+                aria-selected="false">Late Comers</a>
+        </li>
+        <li class="ml-2 filterMonth">
+            <a class="" id="nav-policy" data-toggle="tab" href="#policy" role="tab" aria-controls="nav-policy"
+                aria-selected="false">Overtime Workers</a>
+        </li>
+    </ul>
+    <div class="viewMore__details compress d-none" (click)="isData=true;expandwhoseonleave();">
+        <span class="icon_collapse"></span>
+    </div>
+    <div class="tab-content h-100" *ngIf="showdashwhoseonleavepagination" id="nav-tabContent">
+
+
+        <!-- Whoes OnLeave Code -->
+
+
+        <div class="tab-pane fade show active h-100" id="reports" href="#nav-reports" role="tabpanel"
+            aria-labelledby="nav-reports">
+            <div *ngIf="expandCard">
+                <div class="leave__data mt-4">
+                    <div class="leave__person inline-block">
+                        <p>Today</p>
+
+                        <div class="d-flex">
+                            <div *ngIf="totalLeaveList!=null">
+                                <ul class="leave__person--list d-flex" *ngIf="totalLeaveList.today">
+                                    <div *ngIf="totalLeaveList.today.length!=0">
+                                        <li *ngFor="let leaveEmployee of totalLeaveList.today">
+                                            <ng-template #leavePopContent0>
+                                                <div class="pop__over">
+                                                    <strong>{{leaveEmployee.employeeFirstName}}</strong>
+                                                    <div class="row">
+                                                        <div class="col-md-4 flex-column  pop__over-data">
+                                                            <p>From:</p>
+                                                            <p>{{leaveEmployee.fromDate | date:'dd-MMM-yy'|uppercase }}
+                                                            </p>
+                                                        </div>
+                                                        <div class="col-md-4  pop__over-data">
+                                                            <p>To:</p>
+                                                            <p>{{leaveEmployee.toDate | date:'dd-MMM-yy'|uppercase}}</p>
+                                                        </div>
+                                                        <div class="col-md-4  pop__over-data">
+                                                            <p>Duration:</p>
+                                                            <p [innerHTML]="duration(leaveEmployee)"></p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                            </ng-template>
+                                            <div class="profile-placeholder">
+                                                <div class="placeholder-1">
+                                                    <span [ngbPopover]="leavePopContent0" placement="top"
+                                                        triggers="mouseenter:mouseleave" class="mouseOver">
+                                                        <img class="profile__images" src="{{leaveEmployee.profileImgData?
+                                                        'data:image/jpg;base64,'+leaveEmployee.profileImgData:
+                                                        'https://via.placeholder.com/50'}}" />
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </div>
+                                    <div *ngIf="totalLeaveList.today.length==0">
+                                        No Leaves Found
+                                    </div>
+                                </ul>
+                                <p *ngIf="!totalLeaveList.today">Loading...</p>
+                            </div>
+                            <div *ngIf="totalLeaveList==null">
+                                No Leaves Found
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="leave__data">
+                    <div class="leave__person inline-block">
+                        <p>This Week</p>
+                        <div class="d-flex">
+                            <div *ngIf="totalLeaveList!=null">
+                                <ul class="leave__person--list d-flex" *ngIf="totalLeaveList.thisWeek">
+                                    <div *ngIf="totalLeaveList.thisWeek.length!=0">
+                                        <li *ngFor="let leaveEmployee of totalLeaveList.thisWeek">
+                                            <ng-template #leavePopContent1>
+                                                <div class="pop__over">
+                                                    <strong>{{leaveEmployee.employeeFirstName}}</strong>
+                                                    <div class="row">
+                                                        <div class="col-md-4 flex-column  pop__over-data">
+                                                            <p>From:</p>
+                                                            <p>{{leaveEmployee.fromDate | date:'dd-MMM-yy'|uppercase }}
+                                                            </p>
+                                                        </div>
+                                                        <div class="col-md-4  pop__over-data">
+                                                            <p>To:</p>
+                                                            <p>{{leaveEmployee.toDate | date:'dd-MMM-yy'|uppercase}}</p>
+                                                        </div>
+                                                        <div class="col-md-4  pop__over-data">
+                                                            <p>Duration:</p>
+                                                            <!-- {{leaveEmployee.permissionDuration}} -->
+                                                            <p [innerHTML]="duration(leaveEmployee)"></p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                            </ng-template>
+                                            <div class="profile-placeholder">
+                                                <div class="placeholder-1">
+                                                    <span [ngbPopover]="leavePopContent1" placement="top"
+                                                        triggers="mouseenter:mouseleave" class="mouseOver">
+                                                        <img class="profile__images" src="{{leaveEmployee.profileImgData?
+                                            'data:image/jpg;base64,'+leaveEmployee.profileImgData:
+                                            'https://via.placeholder.com/50'}}" />
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </div>
+                                    <div *ngIf="totalLeaveList.thisWeek.length==0">
+                                        No Leaves Found
+                                    </div>
+                                </ul>
+
+                                <p *ngIf="!totalLeaveList.thisWeek">Loading...</p>
+
+                            </div>
+                            <div *ngIf="totalLeaveList==null">
+                                No Leaves Found
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="leave__data">
+                    <div class="leave__person inline-block">
+                        <div *ngIf="totalLeaveList!=null">
+                            <p>{{totalLeaveList?.nextWeekDateRange?.split('to')[0] | date: ' MMM dd'}} -
+                                {{totalLeaveList?.nextWeekDateRange?.split('to')[1] | date: ' MMM dd'}}</p>
+                            <div class="d-flex">
+                                <ul class="leave__person--list d-flex" *ngIf="totalLeaveList.nextWeek">
+                                    <div *ngIf="totalLeaveList.nextWeek.length!=0">
+                                        <li *ngFor="let leaveEmployee of totalLeaveList.nextWeek">
+                                            <ng-template #leavePopContent2>
+                                                <div class="pop__over">
+                                                    <strong>{{leaveEmployee.employeeFirstName}}</strong>
+                                                    <div class="row">
+                                                        <div class="col-md-4 flex-column  pop__over-data">
+                                                            <p>From:</p>
+                                                            <p>{{leaveEmployee.fromDate | date:'dd-MMM-yy'|uppercase }}
+                                                            </p>
+                                                        </div>
+                                                        <div class="col-md-4  pop__over-data">
+                                                            <p>To:</p>
+                                                            <p>{{leaveEmployee.toDate | date:'dd-MMM-yy'|uppercase}}</p>
+                                                        </div>
+                                                        <div class="col-md-4  pop__over-data">
+                                                            <p>Duration:</p>
+                                                            <p [innerHTML]="duration(leaveEmployee)"></p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                            </ng-template>
+                                            <div class="profile-placeholder">
+                                                <div class="placeholder-1">
+                                                    <span [ngbPopover]="leavePopContent2" placement="top"
+                                                        triggers="mouseenter:mouseleave" class="mouseOver">
+                                                        <img class="profile__images" src="{{leaveEmployee.profileImgData?
+                                            'data:image/jpg;base64,'+leaveEmployee.profileImgData:
+                                            'https://via.placeholder.com/50'}}" />
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </div>
+                                    <div *ngIf="totalLeaveList.nextWeek.length==0">
+                                        No Leaves Found
+                                    </div>
+                                </ul>
+                                <p *ngIf="!totalLeaveList.nextWeek">Loading...</p>
+                            </div>
+
+                        </div>
+                        <div *ngIf="totalLeaveList==null">
+                            No Leaves Found
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="leave__data">
+                    <div class="leave__person inline-block">
+                        <div *ngIf="totalLeaveList!=null">
+                            <p class="">{{totalLeaveList?.nextOfNextWeekDateRange?.split('to')[0] | date: ' MMM dd'}} -
+                                {{totalLeaveList?.nextOfNextWeekDateRange?.split('to')[1] | date: ' MMM dd'}}</p>
+                            <div class="d-flex">
+                                <ul class="leave__person--list d-flex" *ngIf="totalLeaveList.nextWeek">
+                                    <div *ngIf="totalLeaveList.nextOfNextWeek.length!=0">
+                                        <li *ngFor="let leaveEmployee of totalLeaveList.nextOfNextWeek">
+                                            <ng-template #leavePopContent3>
+                                                <div class="pop__over">
+                                                    <strong>{{leaveEmployee.employeeFirstName}}</strong>
+                                                    <div class="row">
+                                                        <div class="col-md-4 flex-column  pop__over-data">
+                                                            <p>From:</p>
+                                                            <p>{{leaveEmployee.fromDate | date:'dd-MMM-yy'|uppercase }}
+                                                            </p>
+                                                        </div>
+                                                        <div class="col-md-4  pop__over-data">
+                                                            <p>To:</p>
+                                                            <p>{{leaveEmployee.toDate | date:'dd-MMM-yy'|uppercase}}</p>
+                                                        </div>
+                                                        <div class="col-md-4  pop__over-data">
+                                                            <p>Duration:</p>
+                                                            <p [innerHTML]="duration(leaveEmployee)"></p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                            </ng-template>
+                                            <div class="profile-placeholder">
+                                                <div class="placeholder-1">
+                                                    <span [ngbPopover]="leavePopContent3" placement="top"
+                                                        triggers="mouseenter:mouseleave" class="mouseOver">
+                                                        <img class="profile__images" src="{{leaveEmployee.profileImgData?
+                                            'data:image/jpg;base64,'+leaveEmployee.profileImgData:
+                                            'https://via.placeholder.com/50'}}" />
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </div>
+                                    <div *ngIf="totalLeaveList.nextOfNextWeek.length==0">
+                                        No Leaves Found
+                                    </div>
+                                </ul>
+                                <p *ngIf="!totalLeaveList.nextOfNextWeek">Loading...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+        <!-- Late Commers code  -->
+
+        <div class="tab-pane fade  h-100" id="late" href="#late-comers" role="tabpanel" aria-labelledby="late-comers">
+            <div *ngIf="expandCard">
+                <div class="leave__data mt-4">
+                    <div class="leave__person inline-block">
+                        <p>Yesterday</p>
+                        <div class="d-flex">
+                            <div *ngIf="totalLateList!=null">
+                                <ul class="leave__person--list d-flex" *ngIf="totalLateList[0]">
+                                    <div *ngIf="totalLateList[0].value.length!=0">
+                                        <li *ngFor="let lateComers of totalLateList[0]?.value">
+                                            <ng-template #latePopContent0>
+                                                <div class="pop__over">
+                                                    <strong>{{lateComers.employeeFirstName}}</strong>
+                                                    <div class="row">
+                                                        <div class="col-md-3 flex-column  pop__over-data">
+                                                            <p>Date:</p>
+                                                            <p>{{lateComers.attendanceDate | date:'dd-MMM-yy'|uppercase }}
+                                                            </p>
+                                                        </div>
+                                                        <div class="col-md-3  pop__over-data">
+                                                            <p>In Time:</p>
+                                                            <p>{{this.Unix_timestamp(lateComers.attendanceInTime)}}</p>
+                                                        </div>
+                                                        <div class="col-md-3 pop__over-data">
+                                                            <p>Late For:</p>
+                                                            <p>{{this.getTimeDifference(lateComers.shiftInTime,lateComers.attendanceInTime)}}
+                                                            </p>
+                                                        </div>
+                                                        <div class="col-md-3  pop__over-data">
+                                                            <p>Shift:</p>
+                                                            <p>{{lateComers.shiftName}}</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                            </ng-template>
+                                            <div class="profile-placeholder">
+                                                <div class="placeholder-1">
+
+                                                    <span [ngbPopover]="latePopContent0" placement="top"
+                                                        triggers="mouseenter:mouseleave" class="mouseOver">
+                                                        <img class="profile__images"
+                                                            src="{{lateComers.profileImgData?'data:image/jpg;base64,'+lateComers.profileImgData:'https://via.placeholder.com/50'}}">
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </div>
+                                    <div *ngIf="totalLateList[0].value.length==0">
+                                        No late commers found
+                                    </div>
+                                </ul>
+                                <p *ngIf="!totalLateList[0]">Loading...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="leave__data">
+                    <div class="leave__person inline-block">
+                        <p>Last Week</p>
+                        <div class="d-flex">
+                            <ul class="leave__person--list d-flex" *ngIf="totalLateList[1]">
+                                <div *ngIf="totalLateList[1].value.length!=0">
+                                    <li *ngFor="let lateComers of totalLateList[1]?.value">
+                                        <ng-template #latePopContent1>
+                                            <div class="pop__over">
+                                                <strong>{{lateComers.employeeFirstName}}</strong>
+                                                <div class="row">
+                                                    <div class="col-md-3 flex-column  pop__over-data">
+                                                        <p>Date:</p>
+                                                        <p>{{lateComers.attendanceDate | date:'dd-MMM-yy'|uppercase }}
+                                                        </p>
+                                                    </div>
+                                                    <div class="col-md-3  pop__over-data">
+                                                        <p>In Time:</p>
+                                                        <p>{{this.Unix_timestamp(lateComers.attendanceInTime)}}</p>
+                                                    </div>
+                                                    <div class="col-md-3 pop__over-data">
+                                                        <p>Late For:</p>
+                                                        <p>{{this.getTimeDifference(lateComers.shiftInTime,lateComers.attendanceInTime)}}
+                                                        </p>
+                                                    </div>
+                                                    <div class="col-md-3  pop__over-data">
+                                                        <p>Shift:</p>
+                                                        <p>{{lateComers.shiftName}}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                        </ng-template>
+
+                                        <div class="profile-placeholder">
+                                            <div class="placeholder-1">
+                                                <span [ngbPopover]="latePopContent1" placement="top"
+                                                    triggers="mouseenter:mouseleave" class="mouseOver">
+                                                    <img class="profile__images" src="{{lateComers.profileImgData?
+                                            'data:image/jpg;base64,'+lateComers.profileImgData:
+                                            'https://via.placeholder.com/50'}}" />
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </div>
+                                <div *ngIf="totalLateList[1].value.length==0">
+                                    No late commers found
+                                </div>
+                            </ul>
+                            <p *ngIf="!totalLateList[1]">Loading...</p>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="leave__data ">
+                    <div class="leave__person inline-block">
+                        <p>{{totalLateList[2]?.key.split('to')[0] | date: ' MMM dd'}} -
+                            {{totalLateList[2]?.key.split('to')[1] | date: ' MMM dd'}}</p>
+                        <div class="d-flex">
+                            <ul class="leave__person--list d-flex" *ngIf="totalLateList[2]">
+                                <div *ngIf="totalLateList[2].value.length!=0">
+                                    <li *ngFor="let lateComers of totalLateList[2].value">
+                                        <ng-template #latePopContent2>
+                                            <div class="pop__over">
+                                                <strong>{{lateComers.employeeFirstName}}</strong>
+                                                <div class="row">
+                                                    <div class="col-md-3 flex-column  pop__over-data">
+                                                        <p>Date:</p>
+                                                        <p>{{lateComers.attendanceDate | date:'dd-MMM-yy'|uppercase }}
+                                                        </p>
+                                                    </div>
+                                                    <div class="col-md-3  pop__over-data">
+                                                        <p>In Time:</p>
+                                                        <p>{{this.Unix_timestamp(lateComers.attendanceInTime)}}</p>
+                                                    </div>
+                                                    <div class="col-md-3 pop__over-data">
+                                                        <p>Late For:</p>
+                                                        <p>{{this.getTimeDifference(lateComers.shiftInTime,lateComers.attendanceInTime)}}
+                                                        </p>
+                                                    </div>
+                                                    <div class="col-md-3  pop__over-data">
+                                                        <p>Shift:</p>
+                                                        <p>{{lateComers.shiftName}}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                        </ng-template>
+                                        <div class="profile-placeholder" *ngIf="lateComers">
+                                            <div class="placeholder-1">
+                                                <span [ngbPopover]="latePopContent2" placement="top"
+                                                    triggers="mouseenter:mouseleave" class="mouseOver">
+                                                    <img class="profile__images" src="{{lateComers.profileImgData?
+                                            'data:image/jpg;base64,'+lateComers.profileImgData:
+                                        'https://via.placeholder.com/50'}}" />
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </div>
+                                <div *ngIf="totalLateList[2].value.length==0">
+                                    No late commers found
+                                </div>
+                            </ul>
+                            <p *ngIf="!totalLateList[2]">Loading...</p>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="leave__data">
+                    <div class="leave__person inline-block">
+                        <p>{{totalLateList[3]?.key.split('to')[0] | date: ' MMM dd'}} -
+                            {{totalLateList[3]?.key.split('to')[1] | date: ' MMM dd'}}</p>
+                        <div class="d-flex">
+                            <ul class="leave__person--list d-flex" *ngIf="this.totalLateList[3]">
+                                <div *ngIf="totalLateList[3].value.length!=0">
+                                    <li *ngFor="let lateComers of totalLateList[3].value">
+                                        <ng-template #latePopContent3>
+                                            <div class="pop__over">
+                                                <strong>{{lateComers.employeeFirstName}}</strong>
+                                                <div class="row">
+                                                    <div class="col-md-3 flex-column  pop__over-data">
+                                                        <p>Date:</p>
+                                                        <p>{{lateComers.attendanceDate | date:'dd-MMM-yy'|uppercase }}
+                                                        </p>
+                                                    </div>
+                                                    <div class="col-md-3  pop__over-data">
+                                                        <p>In Time:</p>
+                                                        <p>{{this.Unix_timestamp(lateComers.attendanceInTime)}}</p>
+                                                    </div>
+                                                    <div class="col-md-3 pop__over-data">
+                                                        <p>Late For:</p>
+                                                        <p>{{this.getTimeDifference(lateComers.shiftInTime,lateComers.attendanceInTime)}}
+                                                        </p>
+                                                    </div>
+                                                    <div class="col-md-3  pop__over-data">
+                                                        <p>Shift:</p>
+                                                        <p>{{lateComers.shiftName}}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                        </ng-template>
+                                        <div class="profile-placeholder">
+                                            <div class="placeholder-1">
+                                                <span [ngbPopover]="latePopContent3" placement="top"
+                                                    triggers="mouseenter:mouseleave" class="mouseOver">
+                                                    <img class="profile__images" src="{{lateComers.profileImgData?
+                                                'data:image/jpg;base64,'+lateComers.profileImgData:
+                                                'https://via.placeholder.com/50'}}" />
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </div>
+                                <div *ngIf="totalLateList[3].value.length==0">
+                                    No late commers found
+                                </div>
+                            </ul>
+                            <p *ngIf="!this.totalLateList[3]">Loading...</p>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+        <!-- Over TimeWorkers Code-->
+
+        <div class="tab-pane fade  h-100" id="policy" href="#nav-policy" role="tabpanel" aria-labelledby="nav-policy">
+            <div *ngIf="expandCard">
+                <div class="leave__data mt-4">
+                    <div class="leave__person inline-block">
+                        <p>Yesterday</p>
+                        <div class="d-flex">
+                            <ul class="leave__person--list d-flex" *ngIf="totalOverTimeWorkersList[0]">
+                                <div *ngIf="totalOverTimeWorkersList[0].value.length!=0">
+                                    <li *ngFor="let overTimeWorker of totalOverTimeWorkersList[0].value">
+                                        <ng-template #overTimePopContent0>
+                                            <div class="pop__over">
+                                                <strong>{{overTimeWorker.employeeFirstName}}</strong>
+                                                <div class="row">
+                                                    <div class="col-md-3 flex-column  pop__over-data">
+                                                        <p>Date:</p>
+                                                        <p>{{overTimeWorker.attendanceDate | date:'dd-MMM-yy'|uppercase }}
+                                                        </p>
+                                                    </div>
+                                                    <div class="col-md-3  pop__over-data">
+                                                        <p>Out Time:</p>
+                                                        <p>{{this.Unix_timestamp(overTimeWorker.attendanceOutTime)}}</p>
+                                                    </div>
+                                                    <div class="col-md-3 pop__over-data">
+                                                        <p>Over Time For:</p>
+                                                        <p>{{this.getTimeDifference(overTimeWorker.shiftOutTime,overTimeWorker.attendanceOutTime)}}
+                                                        </p>
+                                                    </div>
+                                                    <div class="col-md-3  pop__over-data">
+                                                        <p>Shift:</p>
+                                                        <p>{{overTimeWorker.shiftName}}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                        </ng-template>
+
+                                        <div class="profile-placeholder">
+                                            <div class="placeholder-1">
+                                                <span [ngbPopover]="overTimePopContent0" placement="top"
+                                                    triggers="mouseenter:mouseleave" class="mouseOver">
+                                                    <img class="profile__images" src="{{overTimeWorker.profileImgData?
+                                            'data:image/jpg;base64,'+overTimeWorker.profileImgData:
+                                            'https://via.placeholder.com/50'}}">
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </div>
+                                <div *ngIf="totalOverTimeWorkersList[0].value.length==0">No overTime workers found
+                                </div>
+
+                            </ul>
+                            <p *ngIf="!this.totalOverTimeWorkersList[0]">Loading...</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="leave__data">
+                    <div class="leave__person inline-block">
+                        <p>Last Week</p>
+                        <div class="d-flex">
+                            <ul class="leave__person--list d-flex" *ngIf="totalOverTimeWorkersList[1]">
+                                <div *ngIf="totalOverTimeWorkersList[1].value.length!=0">
+                                    <li *ngFor="let overTimeWorker of totalOverTimeWorkersList[1].value">
+                                        <ng-template #overTimePopContent1>
+                                            <div class="pop__over">
+                                                <strong>{{overTimeWorker.employeeFirstName}}</strong>
+                                                <div class="row">
+                                                    <div class="col-md-3 flex-column  pop__over-data">
+                                                        <p>Date:</p>
+                                                        <p>{{overTimeWorker.attendanceDate | date:'dd-MMM-yy'|uppercase }}
+                                                        </p>
+                                                    </div>
+                                                    <div class="col-md-3  pop__over-data">
+                                                        <p>Out Time:</p>
+                                                        <p>{{this.Unix_timestamp(overTimeWorker.attendanceOutTime)}}</p>
+                                                    </div>
+                                                    <div class="col-md-3 pop__over-data">
+                                                        <p>Over Time For:</p>
+                                                        <p>{{this.getTimeDifference(overTimeWorker.shiftOutTime,overTimeWorker.attendanceOutTime)}}
+                                                        </p>
+                                                    </div>
+                                                    <div class="col-md-3  pop__over-data">
+                                                        <p>Shift:</p>
+                                                        <p>{{overTimeWorker.shiftName}}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                        </ng-template>
+                                        <div class="profile-placeholder">
+                                            <div class="placeholder-1">
+                                                <span [ngbPopover]="overTimePopContent1" placement="top"
+                                                    triggers="mouseenter:mouseleave" class="mouseOver">
+                                                    <img class="profile__images" src="{{overTimeWorker.profileImgData?
+                                            'data:image/jpg;base64,'+overTimeWorker.profileImgData:
+                                            'https://via.placeholder.com/50'}}">
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </div>
+                                <div *ngIf="totalOverTimeWorkersList[1].value.length==0">No overTime workers found
+                                </div>
+
+                            </ul>
+                            <p *ngIf="!this.totalOverTimeWorkersList[1]">Loading...</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="leave__data">
+                    <div class="leave__person inline-block">
+                        <p>{{totalOverTimeWorkersList[2]?.key.split('to')[0] | date: ' MMM dd'}} -
+                            {{totalOverTimeWorkersList[2]?.key.split('to')[1] | date: ' MMM dd'}}</p>
+                        <div class="d-flex">
+                            <ul class="leave__person--list d-flex" *ngIf="totalOverTimeWorkersList[2]">
+                                <div *ngIf="totalOverTimeWorkersList[2].value.length!=0">
+                                    <li *ngFor="let overTimeWorker of totalOverTimeWorkersList[2].value">
+                                        <ng-template #overTimePopContent2>
+                                            <div class="pop__over">
+                                                <strong>{{overTimeWorker.employeeFirstName}}</strong>
+                                                <div class="row">
+                                                    <div class="col-md-3 flex-column  pop__over-data">
+                                                        <p>Date:</p>
+                                                        <p>{{overTimeWorker.attendanceDate | date:'dd-MMM-yy'|uppercase }}
+                                                        </p>
+                                                    </div>
+                                                    <div class="col-md-3  pop__over-data">
+                                                        <p>Out Time:</p>
+                                                        <p>{{this.Unix_timestamp(overTimeWorker.attendanceOutTime)}}</p>
+                                                    </div>
+                                                    <div class="col-md-3 pop__over-data">
+                                                        <p>Over Time For:</p>
+                                                        <p>{{this.getTimeDifference(overTimeWorker.shiftOutTime,overTimeWorker.attendanceOutTime)}}
+                                                        </p>
+                                                    </div>
+                                                    <div class="col-md-3  pop__over-data">
+                                                        <p>Shift:</p>
+                                                        <p>{{overTimeWorker.shiftName}}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                        </ng-template>
+
+                                        <div class="profile-placeholder">
+                                            <div class="placeholder-1">
+                                                <span [ngbPopover]="overTimePopContent2" placement="top"
+                                                    triggers="mouseenter:mouseleave" class="mouseOver">
+                                                    <img class="profile__images" src="{{overTimeWorker.profileImgData?
+                                            'data:image/jpg;base64,'+overTimeWorker.profileImgData:
+                                            'https://via.placeholder.com/50'}}">
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </div>
+                                <div *ngIf="totalOverTimeWorkersList[2].value.length==0">No overTime workers found
+                                </div>
+                            </ul>
+                            <p *ngIf="!this.totalOverTimeWorkersList[2]">Loading...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="leave__data">
+                    <div class="leave__person inline-block">
+                        <p>{{totalOverTimeWorkersList[3]?.key.split('to')[0] | date: ' MMM dd'}} -
+                            {{totalOverTimeWorkersList[3]?.key.split('to')[1] | date: ' MMM dd'}}</p>
+                        <div class="d-flex">
+                            <ul class="leave__person--list d-flex" *ngIf="totalOverTimeWorkersList[3]">
+                                <div *ngIf="totalOverTimeWorkersList[3].value.length!=0">
+                                    <li *ngFor="let overTimeWorker of totalOverTimeWorkersList[3].value">
+                                        <ng-template #overTimePopContent3>
+                                            <div class="pop__over">
+                                                <strong>{{overTimeWorker.employeeFirstName}}</strong>
+                                                <div class="row">
+                                                    <div class="col-md-3 flex-column  pop__over-data">
+                                                        <p>Date:</p>
+                                                        <p>{{overTimeWorker.attendanceDate | date:'dd-MMM-yy'|uppercase }}
+                                                        </p>
+                                                    </div>
+                                                    <div class="col-md-3  pop__over-data">
+                                                        <p>Out Time:</p>
+                                                        <p>{{this.Unix_timestamp(overTimeWorker.attendanceOutTime)}}</p>
+                                                    </div>
+                                                    <div class="col-md-3 pop__over-data">
+                                                        <p>Over Time For:</p>
+                                                        <p>{{this.getTimeDifference(overTimeWorker.shiftOutTime,overTimeWorker.attendanceOutTime)}}
+                                                        </p>
+                                                    </div>
+                                                    <div class="col-md-3  pop__over-data">
+                                                        <p>Shift:</p>
+                                                        <p>{{overTimeWorker.shiftName}}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                        </ng-template>
+
+                                        <div class="profile-placeholder">
+                                            <div class="placeholder-1">
+                                                <span [ngbPopover]="overTimePopContent3" placement="top"
+                                                    triggers="mouseenter:mouseleave" class="mouseOver">
+                                                    <img class="profile__images" src="{{overTimeWorker.profileImgData?
+                                            'data:image/jpg;base64,'+overTimeWorker.profileImgData:
+                                            'https://via.placeholder.com/50'}}">
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </div>
+                                <div *ngIf="totalOverTimeWorkersList[3].value.length==0">No overTime workers found
+                                </div>
+                            </ul>
+                            <p *ngIf="!this.totalOverTimeWorkersList[3]">Loading...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+        </div>
+
+
+    </div>
+
+    <ul class="dateFilter__selection d-flex" *ngIf="!showdashwhoseonleavepagination">
+
+
+
+        <li class="mx-4">
+            <span class="page__selection" *ngIf="showHide">
+                <a>
+                    <span class="icon_arrow_thick_left" (click)="decreaseMonth()"></span>
+                </a>
+                <div class="current__month">{{currentMonth}}</div>
+                <a>
+                    <span class="icon_arrow_thick_right" (click)="nextmonths()"></span>
+                </a>
+            </span>
+        </li>
+        <li *ngIf="isTodayActive" class="mx-3 filterToday active">
+            <a (click)="leavestatus();">Today</a>
+        </li>
+        <li *ngIf="!isTodayActive" class="mx-3 filterToday">
+            <a (click)="leavestatus();">Today</a>
+        </li>
+        <li *ngIf="isWeekActive" class="mx-3 filterWeek active">
+            <a data-toggle="modal" data-target=".whosonleave-modal-lg">Week</a>
+        </li>
+        <li *ngIf="!isWeekActive" class="mx-3 filterWeek">
+            <a data-toggle="modal" data-target=".whosonleave-modal-lg">Week</a>
+        </li>
+        <li class="ml-3 mr-5 filterMonth">
+            <a (click)="monthclick()">Month</a>
+        </li>
+    </ul>
+    <div class="whos-on-leave-table" *ngIf="!showdashwhoseonleavepagination">
+        <div class="clearfix"></div>
+        <div class="leave__table">
+            <div>
+                <table class="table table-fixed rwd-table" *ngIf="employeeStatusType=='Leave'">
+                    <thead>
+                        <tr>
+                            <th scope="col" class="col-md-3">Employee Name</th>
+                            <th scope="col" class="col-md-2 pl-0">From</th>
+                            <th scope="col" class="col-md-2 pl-0">To</th>
+                            <th scope="col" class="col-md-2 pl-0">Duration</th>
+                            <th scope="col" class="col-md-3  pl-0">Reason</th>
+                        </tr>
+                    </thead>
+                    <tbody *ngIf="isData" class="scroll user__icon--row">
+                        <tr class="d-flex whosonleave_table" *ngFor="let leavestatusobj of leavestausList;let i =index">
+                            <td scope="row" class="col-md-3" data-th="Employee Name">
+                                <div class="d-flex">
+                                    <span
+                                        *ngIf="leavestatusobj.profileImgData != null && leavestatusobj.profileImgData != undefined">
+                                        <img class="rounded-circle user__img--row"
+                                            [src]="'data:image/jpg;base64,'+leavestatusobj.profileImgData" />
+                                    </span>
+
+                                    <span
+                                        *ngIf="leavestatusobj.profileImgData == null || leavestatusobj.profileImgData == undefined"
+                                        class="user_img4  user__img--row bg__neptune" placement="top"
+                                        triggers="mouseenter:mouseleave">{{leavestatusobj.employeeLastName.charAt(0)}}{{leavestatusobj.employeeFirstName.charAt(0)}}</span>
+                                    <span class="nameImg"> {{leavestatusobj.employeeFirstName}}</span>
+                                </div>
+                            </td>
+                            <td class="col-md-2" data-th="From">{{leavestatusobj.fromDate | date:'dd MMM yyyy'}}</td>
+                            <td class="col-md-2" data-th="To">{{leavestatusobj.toDate | date:'dd MMM yyyy'}}</td>
+                            <td class="col-md-2" data-th="Duration" [innerHTML]="duration(leavestatusobj)">
+                                {{leavestatusobj}}</td>
+                            <td class="col-md-3" *ngIf="leavestatusobj.reason != null" data-th="Reason">
+                                <div class="v__scroll">{{leavestatusobj.reason}}</div>
+                            </td>
+                            <td class="col-md-3" *ngIf="leavestatusobj.reason == null" data-th="Reason">
+                                <div class="v__scroll">-</div>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <div *ngIf="leavestausList==null">
+                        <div class="text-center w-100 py-5">
+                            <h4 class="mt-1">No Records Found!</h4>
+
+                        </div>
+                    </div>
+                </table>
+                <table class="table table-fixed rwd-table" *ngIf="employeeStatusType!='Leave'">
+                    <thead>
+                        <tr>
+                            <th scope="col" class="col-md-3">Employee Name</th>
+                            <th scope="col" class="col-md-1 pl-0">Date</th>
+                            <th scope="col" class="col-md-1 pl-0">Shift</th>
+                            <th scope="col" class="col-md-2 pl-0">In Time</th>
+                            <th scope="col" class="col-md-2  pl-0">Late For</th>
+                            <th scope="col" class="col-md-3 pl-0">Reason</th>
+
+
+                        </tr>
+                    </thead>
+                    <tbody *ngIf="isData" class="scroll user__icon--row">
+                        <tr class="d-flex whosonleave_table" *ngFor="let leavestatusobj of leavestausList;let i =index">
+                            <td scope="row" class="col-md-3" data-th="Employee Name">
+                                <div class="d-flex">
+                                    <span
+                                        *ngIf="leavestatusobj.profileImgData != null && leavestatusobj.profileImgData != undefined">
+                                        <img class="rounded-circle user__img--row"
+                                            [src]="'data:image/jpg;base64,'+leavestatusobj.profileImgData" />
+                                    </span>
+
+                                    <span
+                                        *ngIf="leavestatusobj.profileImgData == null || leavestatusobj.profileImgData == undefined"
+                                        class="user_img4  user__img--row bg__neptune" placement="top"
+                                        triggers="mouseenter:mouseleave">{{leavestatusobj.employeeLastName.charAt(0)}}{{leavestatusobj.employeeFirstName.charAt(0)}}</span>
+                                    <span class="nameImg">{{leavestatusobj.employeeFirstName}} </span>
+                                </div>
+                            </td>
+                            <td class="col-md-1" data-th="Date">{{leavestatusobj.attendanceDate | date:'dd MMM yyyy'}}
+                            </td>
+                            <td class="col-md-1" data-th="Shift">
+                                <span> {{leavestatusobj.shiftName}}</span>
+                            </td>
+                            <td class="col-md-2" data-th="In Time">
+                                {{this.Unix_timestamp(leavestatusobj.attendanceInTime)}}</td>
+
+                            <td class="col-md-2" data-th="Late For" *ngIf="employeeStatusType!='Leave'">
+                                <span
+                                    *ngIf="employeeStatusType=='LateComers'">{{this.getTimeDifference(leavestatusobj.shiftInTime,leavestatusobj.attendanceInTime)}}</span>
+                                <span
+                                    *ngIf="employeeStatusType=='OverTimeWorker'">{{this.getTimeDifference(leavestatusobj.shiftOutTime,leavestatusobj.attendanceOutTime)}}</span>
+                            </td>
+                            <td class="col-md-3" *ngIf="leavestatusobj.remarks != null" data-th="Reason">
+                                <div class="v__scroll">{{leavestatusobj.remarks}}</div>
+                            </td>
+                            <td class="col-md-3" *ngIf="leavestatusobj.remarks == null" data-th="Reason">
+                                <div class="v__scroll">-</div>
+                            </td>
+
+
+                    </tbody>
+
+
+                    <div *ngIf="leavestausList==null">
+                        <div class="text-center w-100 py-5">
+                            <h4 class="mt-1">No Records Found!</h4>
+
+                        </div>
+                    </div>
+
+
+
+
+                </table>
+
+                <div *ngIf="isData && totalCount > 10 " class="table__bottom text-right">
+                    <span class="items__nos">
+                        <div class="form-group page__section">
+                            <label for="pageNo">Items per page:</label>
+                            <select class="form-control" [(ngModel)]="selectedItemsPerPage" id="pageNo"
+                                (ngModelChange)="changeItemPerPage($event)">
+                                <option *ngFor="let perpageVal of perpageOption" [value]="perpageVal.value">
+                                    {{perpageVal.label}}</option>
+                            </select>
+                        </div>
+                    </span>
+                    <app-chutti-pagination [currentPage]="currentPage" [count]="totalCount" [pagesToShow]="totalPages"
+                        (goPrev)="goToPrev()" (goNext)="goToNext()" (onPage)="goToPageNo($event)">
+                    </app-chutti-pagination>
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+    </div>
+</div>
+<div class="modal fade whosonleave-modal-lg" tabindex="-1" id="permissionmodel" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg modal-dialog-centered double__dateModel">
+        <div class="modal-content">
+            <div class="modal-header date__picker--header row mx-0 px-0 mt-3">
+                <div class="col-md-4 align-self-center time__title">
+
+                </div>
+
+                <div class="col-md-8 float-right text-right datePicker__header--right align-self-center">
+                    <a class="reset-permission  align-self-center" href="javascript:void(0);"
+                        (click)='resetFormInDatePicker()'>Reset</a>
+                    <span class="pl-2 ml-2 permissionDate  align-self-center">
+                        <span class="icon_date_picker"></span>
+                        {{startLeaveDate}}- {{EndLeaveDate}}</span>
+                </div>
+            </div>
+            <div class="row px-0 mx-0">
+                <div class="col-12 text-center px-0">
+                    <!-- <ngb-datepicker #d (select)="onPermissionDate($event)" class="date__table"></ngb-datepicker> -->
+                    <ngb-datepicker #dp (select)="onDateSelection($event)" class="date__table" [displayMonths]="2"
+                        [dayTemplate]="t" outsideDays="hidden">
+                    </ngb-datepicker>
+
+                    <ng-template #t let-date let-focused="focused">
+                        <span class="custom-day" [class.focused]="focused" [class.range]="isRange(date)"
+                            [class.faded]="isHovered(date) || isInside(date)" (mouseenter)="hoveredDate = date"
+                            (mouseleave)="hoveredDate = null">
+                            {{ date.day }}
+                        </span>
+                    </ng-template>
+                </div>
+
+
+            </div>
+
+            <div class="row justify-content-end mx-0 px-0 mb-5">
+
+                <div class="col-4  text-right time__submit align-self-center">
+                    <button type="button" class="btn cancel-button" data-dismiss="modal"
+                        (click)='resetFormInDatePicker()'>Cancel</button>
+                    <button type="button" class="btn theme__btn btn-hover color-3" data-dismiss="modal"
+                        (click)='setValues()'>Done</button>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>

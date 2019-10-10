@@ -1,0 +1,125 @@
+<div class="main">
+    <div class="main-overlay"></div>
+    <header class="header" [ngClass]="{'class': true}">
+        <div class="row justify-content-center h-100 mx-0">
+            <div class="col-2 menu__container">
+                <div class="menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+
+            </div>
+            <div class="col-7 col-md-1 col-lg-2 logo__left">
+                <div class="logo">
+                    <a routerLink="/user/dashboard">
+                        <img src="../../assets/images/Logo.svg">
+                    </a>
+                </div>
+
+            </div>
+            <div class="col-3 col-md-11 col-lg-10 align-self-center">
+
+                <div class="userTop__selection text-right">
+                    <ul class="userTop__selection--list justify-content-end pointer d-flex">
+
+
+                        <li data-toggle="dropdown" *ngIf="notificationList.length!=0" class="align-self-center">
+                            <span class="notification notification-active icon_notifications"
+                                (click)="notification()"></span>
+
+                            <div class="notification__content  slideIn dropdown-menu pointer dropdown-menu-right"
+                                aria-labelledby="dropdownMenuButton">
+                                <ul class="notification__list">
+                                    <li (click)="myLeave(notificationListobj)" class="leave__approved--icon"
+                                        *ngFor="let notificationListobj of notificationList">
+                                        {{notificationListobj.notification}}</li>
+                                    <!-- <li class="leave__notApproved--icon"></li> -->
+
+                                </ul>
+                            </div>
+
+                        </li>
+                        <li *ngIf="notificationList.length==0" class="align-self-center">
+                            <span class="notification icon_notifications"></span>
+                        </li>
+                        <!-- <li  data-toggle="dropdown">
+                                    <span class="notification active icon_notifications" (click)="notification()"></span>
+                                    <ul class="notification__list  dropdown-menu" aria-labelledby="dropdownMenuButton" >
+                                        <li class="leave__approved--icon" *ngFor="let notificationListobj of notificationList">{{notificationListobj.notification}}</li> -->
+                        <!-- <li class="leave__notApproved--icon"></li>
+                                    </ul>
+                                </li> -->
+                        <li><span class="user__img bg_img_green" id="notification" data-toggle="dropdown">
+                                <span *ngIf="!isImage">{{name}}</span>
+                                <span *ngIf="isImage"><img class="rounded-circle user__img" [src]="name?name:'assets/images/admin/profile_image.png'" />
+                                </span>
+
+                            </span>
+                            <ul class="headerUser__info dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <li  routerLink="/user/myprofile"> <a>My Profile </a></li>
+                                <li *ngIf="isAdmin === true" routerLink="/admin/admindashboard"> <a>Switch Admin </a></li>
+                                <li (click)="logout()">
+                                    <div class="d-flex">
+                                        <!-- <i><img class="logout-img"
+                                            src=".././../assets/images/admin/logout.svg"></i> -->
+                                        <a>Logout </a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+
+            </div>
+
+        </div>
+    </header>
+    <div class="body">
+        <div class="row h-100 mx-0">
+            <div class="col-12 col-md-1 col-lg-2">
+                <nav class="pointer sidebar">
+                    <ul class="nav mt-5">
+                        <li class="nav-item " routerLinkActive="active" routerLink="/user/dashboard"
+                            (click)="onexpandatasharing()"><a class="nav-link"><span class="icon_dashboard"></span>
+                                <span class="menu__text">Dashboard</span></a>
+                        </li>
+                        <!-- <li class="nav-item" routerLinkActive="active" routerLink="/user/admin/admindashboard"><a
+                                class="nav-link"><span class="icon_dashboard"></span>Admin Dashboard</a>
+                        </li>
+                        <li class="nav-item" routerLinkActive="active" routerLink="/user/admin/employee"><a
+                                class="nav-link"><span class="icon_profile"></span>Employee</a>
+                        </li>
+                        <li class="nav-item" routerLinkActive="active" routerLink="/user/admin/organization"><a
+                                class="nav-link"><span class="icon_profile"></span>Organization</a>
+                        </li> -->
+                        <li class="nav-item" routerLinkActive="active" routerLink="/user/leave"> <a
+                                class="nav-link"><span class="icon_leave"></span> <span class="menu__text">Leave</span>
+                            </a>
+                        </li>
+                        <li class="nav-item" routerLinkActive="active" routerLink="/user/attendance"> <a
+                                class="nav-link"><span class="icon_attendance"></span> <span
+                                    class="menu__text">Attendance</span> </a>
+                        </li>
+                        <!-- <li class="nav-item" routerLinkActive="active" routerLink="/user/timesheet"> <a
+                                            class="nav-link"><span class="icon_timesheet"></span> <span class="menu__text">Timesheet</span> </a>
+                                    </li> -->
+                        <li class="nav-item" routerLinkActive="active" routerLink="/user/calendar"> <a
+                                class="nav-link"><span class="icon_attendance1"></span> <span
+                                    class="menu__text">Calendar</span> </a>
+                        </li>
+                        <li class="nav-item" routerLinkActive="active" routerLink="/user/support"> <a
+                                class="nav-link"><span class="icon_support"></span> <span
+                                    class="menu__text">Support</span>
+                            </a>
+                        </li>
+
+                    </ul>
+                </nav>
+            </div>
+            <div class="col-12 col-md-11 col-lg-10">
+                <router-outlet></router-outlet>
+            </div>
+        </div>
+    </div>

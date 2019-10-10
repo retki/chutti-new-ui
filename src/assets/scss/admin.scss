@@ -1,0 +1,197 @@
+// Admin content style
+.admin-content {
+    .icon {
+        color: #6747D4;
+    }
+
+    // page title
+    .page-title {
+        margin: 0 0 1.5rem;
+
+        h3 {
+            font-weight: 600;
+            font-size: 1.6rem;
+        }
+        &.with-tabs {
+            h3 {
+                display: inline-block;
+            }
+            .leave__tab {
+                display: inline-block;
+                margin-left: 4rem;
+            }
+        }
+    }
+
+    // card
+    .card {
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: .45rem;
+        border: 0 none;
+
+        .search__container {
+            display: flex;
+            align-items: center;
+            flex-direction: row;
+            justify-content: flex-end;
+
+            div {
+                margin-left: 2.5rem;
+
+                &.filter {
+                    cursor: pointer;
+                }
+            }
+
+            .form-group {
+                margin-bottom: 0;
+
+                .form-control {
+                    padding-bottom: 0;
+                    padding-right: 2rem;
+                }
+
+                .icon {
+                    position: absolute;
+                    top: 13px;
+                    right: 6px;
+                    color: #444444;
+                }
+            }
+
+            .dropdown {
+                .dropdown-menu {
+                    .dropdown-item {
+                        padding: 0.5rem 1.1rem;
+
+                        &:hover,
+                        &:focus,
+                        &:active {
+                            color: #16181b;
+                            text-decoration: none;
+                            background-color: #F3F2F3;
+                        }
+
+                        &:first-child {
+                            border-radius: 10px 10px 0 0;
+                        }
+
+                        &:last-child {
+                            border-radius: 0 0 10px 10px;
+                        }
+                    }
+                }
+            }
+
+        }
+
+
+        .card-header {
+            border-top-left-radius: 0.45rem;
+            border-top-right-radius: 0.45rem;
+            background-color: #ffffff;
+            border: 0 none;
+            display: flex;
+            flex-direction: column;
+            // align-items: center;
+            // justify-content: space-between;
+            padding: 1.5rem 1.25rem 0;
+
+            .card-title {
+                margin-bottom: 0;
+
+                h6 {
+                    font-weight: 600;
+                    margin: 0;
+
+                    .icon {
+                        display: inline-block;
+                        margin-right: 10px;
+                    }
+                }
+            }
+
+
+        }
+
+        .filter-by {
+            background-color: #F6F6F6;
+            padding: 15px 1.25rem 0;
+            margin: 1rem 0;
+            display: none;
+
+            h6 {
+                font-size: 14px;
+            }
+
+            &.active {
+                display: block;
+            }
+
+            .form-inline {
+                .col {
+                    display: flex;
+                    align-items: center;
+                    flex-grow: inherit;
+                    padding: 15px;
+
+                    label {
+                        margin-right: 10px;
+                        font-size: 14px;
+                    }
+
+                    .form-control {
+                        font-size: 12px;
+                        padding: 5px !important;
+                        border: 1px solid #ced4da !important;
+
+                        &:focus {
+                            border: 1px solid #6747D4 !important;
+                            box-shadow: none;
+                        }
+                    }
+
+                    .btn {
+                        font-size: 13px;
+                        min-width: 70px;
+                    }
+
+                    .icon {
+                        position: absolute;
+                        top: 50%;
+                        transform: translateY(-50%);
+                        right: 20px;
+                        font-size: 16px;
+                        z-index: 1;
+                        color: #444444;
+                    }
+
+                    &.date {
+                        .form-control {
+                            width: 120px;
+                        }
+
+                    }
+
+
+                    &.select {
+                        .form-control {
+                            width: 180px;
+                        }
+                    }
+                }
+            }
+        }
+
+        .card-body {
+            .tab-content {
+                position: relative;
+                .search__container {
+                    position: absolute;
+                    right: 0;
+                    top: -50px;
+                }
+            }
+        }
+    }
+}

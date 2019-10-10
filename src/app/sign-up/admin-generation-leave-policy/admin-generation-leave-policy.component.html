@@ -1,0 +1,40 @@
+<div class="row">
+    <div class="col-lg-12">
+        <div class="data__table">
+            <div class="table-container">
+                <table class="table support__table table-fixed">
+                    <thead>
+                        <tr class="border__hide">
+                            <th scope="col" class="col-md-3 pl-0">Leave Name</th>
+                            <th scope="col" class="col-md-7 pl-0">Description</th>
+                            <th scope="col" class="col-md-2 pl-0">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="scroll-1">
+                        <tr>
+                            <td scope="row" class="col-md-3">Sick Leave</td>
+                            <td scope="row" class="col-md-7">Lorem ipsum lorem ipsum
+                                lorem ipsum
+                            </td>
+                            <td class="col-md-2 pl-0" data-th="Action">
+                                <p><span class="icon_edit_filled"
+                                        data-target="#LeavePolicyEdit"
+                                        data-toggle="modal"></span><span
+                                        class="icon_delete_filled"
+                                        data-target="#deleteModal"
+                                        data-toggle="modal"></span>
+                                </p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="tabs-prev-next">
+    <button class="btn theme__btn__cancel" type="button">Back</button>
+    <button class="btn theme__btn" type="submit" data-target="#nav-import"
+        (click)="tabNext($event)">Submit</button>
+</div>

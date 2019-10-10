@@ -1,0 +1,13 @@
+
+<div *ngIf="showSuccessNotification==true" class="alert__msg success"
+  role="alert">
+  <p><span class="icon_tick icon align-self-center"></span> <span class="align-self-center">{{successMessage}}</span></p>
+</div>
+
+<div *ngIf="showFailureNotification"  class="alert__msg failure"
+  role="alert">
+  <p><span class="icon_cancel icon align-self-center"></span> <span class="align-self-center">  {{failureMessage}}</span></p>
+ 
+</div>
+<!-- <div (click)="democlick()">hi</div> -->
+<router-outlet></router-outlet>

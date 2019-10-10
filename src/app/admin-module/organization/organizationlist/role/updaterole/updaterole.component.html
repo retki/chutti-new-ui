@@ -1,0 +1,49 @@
+<div class="dashboard__content">
+    <h3>Organization</h3>
+    <div class="create__role inner__section">
+        <h5>Update Role</h5>
+        <form [formGroup]="addroleForm">
+            <div class="col-6">
+                <div class="form-group support__request--input">
+                    <label for="" class="form-label">Role Name</label>
+                    <input class="form-control" formControlName="rolename" required />
+                    <small *ngIf="addroleForm.controls['rolename'].errors && !addroleForm.controls['rolename'].pristine"
+                        class="form-text text-muted"> Enter a Role Name</small>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="form-group support__request--input">
+                    <label class="form-label">Role Description</label>
+                    <input class="form-control" formControlName="roledesc" required />
+                    <small *ngIf="addroleForm.controls['roledesc'].errors && !addroleForm.controls['roledesc'].pristine"
+                        class="form-text text-muted"> Enter a Role Description</small>
+                </div>
+            </div>
+        <div class="row">
+
+            <div class="col-12">
+                <h6 class="text-uppercase mt-lg-5 mb-5">Permissions</h6>
+            </div>
+            <div class="col-12">
+
+                    <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="admin" formControlName="admin" name="admin">
+                            <label class="custom-control-label rememberme float-left" for="admin">Enable Admin Previlege</label>
+
+                            </div>
+
+            </div>
+
+            <div class="col-12">
+                <div class="bottom__btn mt-0">
+                    <button class="btn btn-primary cancel" data-dismiss="modal" type="submit"
+                        (click)="goBack()">Cancel</button>
+                    <button class="btn btn-primary submit" type="submit" [disabled]="addroleForm.invalid"
+                        (click)="updaterole()">Submit</button>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    </div>
+</div>

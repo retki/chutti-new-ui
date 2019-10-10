@@ -1,0 +1,101 @@
+<form class="row" [formGroup]="organizationForm" novalidate>
+    <div class="col-lg-6">
+        <div class="form-group left">
+            <input type="text" class="form-control" id="organizationName"  formControlName="organizationName"
+                placeholder="Organisation Name">
+            <div *ngIf="organizationForm.controls['organizationName'].errors &&!organizationForm.controls['organizationName'].pristine"
+                class="error error-msg">
+                <div [hidden]="!organizationForm.controls['organizationName'].errors.required">
+                    <small>Organization Name is required.</small>
+                </div>
+                <div
+                    [hidden]="!organizationForm.controls['organizationName'].errors.invalidData">
+                    <small>Please fill some characters!</small>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="form-group right">
+            <input type="text" (keypress)="onKeyPress($event)" class="form-control" id="totalNumberOfEmployee" formControlName="totalNumberOfEmployee"
+                placeholder="Total number of employees*">
+
+                <div *ngIf="organizationForm.controls['totalNumberOfEmployee'].errors &&!organizationForm.controls['totalNumberOfEmployee'].pristine"
+                class="error error-msg">
+                <div [hidden]="!organizationForm.controls['totalNumberOfEmployee'].errors.required">
+                    <small>Total number of employees is required.</small>
+                </div>
+                <div
+                    [hidden]="!organizationForm.controls['totalNumberOfEmployee'].errors.invalidData">
+                    <small>Please fill some characters!</small>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="form-group left">
+            <input type="text" class="form-control" id="adminName" formControlName="adminName"
+                placeholder="Admin Name*">
+            <div *ngIf="organizationForm.controls['adminName'].errors &&!organizationForm.controls['adminName'].pristine"
+                class="error error-msg">
+                <div [hidden]="!organizationForm.controls['adminName'].errors.required">
+                    <small>Admin Name is required.</small>
+                </div>
+                <div
+                [hidden]="!organizationForm.controls['adminName'].errors.invalidData">
+                    <small>Please fill some characters!</small>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="form-group right">
+            <input type="text"  (keypress)="onKeyPress($event)" class="form-control" id="phoneNumber" formControlName='phoneNumber'
+                placeholder="Phone Number" maxlength="10" minlength="10">
+                <div *ngIf="organizationForm.controls['phoneNumber'].errors &&!organizationForm.controls['phoneNumber'].pristine"
+                class="error error-msg">
+                <div [hidden]="!organizationForm.controls['phoneNumber'].errors.required">
+                    <small>Phone Number is required.</small>
+                </div>
+                <div
+                    [hidden]="!organizationForm.controls['phoneNumber'].errors.invalidData">
+                    <small>Please fill some characters!</small>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="form-group left">
+            <input type="email" class="form-control" id="adminEmailId" formControlName="adminEmailId"
+                placeholder="Admin Email id*">
+            <div *ngIf="adminEmailId.errors &&(adminEmailId.dirty || adminEmailId.touched)">
+                <div *ngIf="adminEmailId.errors.required">
+                    <small class="form-text text-muted">Enter Organization Email ID</small>
+                </div>
+                <div *ngIf="adminEmailId.errors.pattern">
+                    <small>Please enter valid email address.</small>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="form-group right">
+            <input type="text" class="form-control" id="location"  placeholder="Location" formControlName="location">
+            <div *ngIf="organizationForm.controls['location'].errors &&!organizationForm.controls['location'].pristine"
+                class="error error-msg">
+                <div [hidden]="!organizationForm.controls['location'].errors.required">
+                    <small>Location is required.</small>
+                </div>
+                <div
+                [hidden]="!organizationForm.controls['location'].errors.invalidData">
+                    <small>Please fill some characters!</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<div class="tabs-prev-next">
+    <!-- <button class="btn theme__btn__cancel" type="button" (click)="tabPrev()">Cancel</button> -->
+    <button class="btn theme__btn" type="submit" [disabled]="organizationForm.invalid"
+        (click)="tabNext($event)">Next</button>
+</div>

@@ -1,0 +1,37 @@
+<ngx-loading-bar [color]="'#6747D4'" [includeSpinner]='false'></ngx-loading-bar>
+<div class="admin-content">
+    <!-- Page Title -->
+    <div class="page-title">
+        <h3 class="m-0">Organization</h3>
+    </div>
+    <!-- card -->
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title">
+                <h6 routerLink="/admin/organization/organizationUpate"><i class="icon icon1-building"></i>{{organizationName}} <i class="icon_edit_filled"></i></h6>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="nav nav-tabs leave__tab mt-4 mb-3 pt-1" id="nav-tab" role="tablist">
+                <a class="active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab"
+                    aria-controls="nav-home" aria-selected="true">Departments</a>
+                <a class="" id="nav-approve-tab" data-toggle="tab" href="#nav-approve" role="tab"
+                    aria-controls="nav-approve" aria-selected="false">Designations</a>
+                <a class="" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab"
+                    aria-controls="nav-profile" aria-selected="false">Roles</a>
+            </div>
+            <div class="tab-content h-100" id="nav-tabContent">
+                <div class="tab-pane fade show active h-100" id="nav-home" role="tabpanel"
+                    aria-labelledby="nav-home-tab">
+                    <app-departments></app-departments>
+                </div>
+                <div class="tab-pane fade h-100" id="nav-approve" role="tabpanel" aria-labelledby="nav-approve-tab">
+                    <app-designations></app-designations>
+                </div>
+                <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                    <app-role></app-role>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,145 @@
+<ngx-loading-bar [color]="'#6747D4'" [includeSpinner]='false'></ngx-loading-bar>
+<div class="admin-content">
+    <!-- Page Title -->
+    <div class="page-title">
+        <h3 class="m-0"> Employee</h3>
+    </div>
+    <!-- card -->
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title">
+                <h6><i class="icon icon_profile"></i>Employee Directory</h6>
+            </div>
+            <div class="search__container">
+                <div class="form-group">
+                    <input type="text" placeholder="Search" [(ngModel)]="filterkey" class="form-control">
+                    <span class="icon icon_search"></span>
+                </div>
+                <div class="form-group search__input">
+                    <select class="form-control" [(ngModel)]="selectedStatus" (click)="changeStatus()">
+                        <option value="Active">Active</option>
+                        <option value="Suspend">Suspend</option>
+                        <!-- <option *ngFor="let month of months" [ngValue]="month"> {{ month.viewValue }}</option> -->
+                    </select>
+                </div>
+                <div><a routerLink="/admin/employee/add" (click)="reset()" class="btn btn-primary btn-round"> <i
+                            class="icon_add"></i> </a></div>
+            </div>
+        </div>
+
+
+        <!-- </a> -->
+        <div class="card-body">
+            <table class="table table-fixed">
+                <thead>
+                    <tr class="border__hide">
+                        <!-- <th scope="col"class="col-md-3">Ticket Id</th> -->
+                        <th scope="col" [class.active]="order == 'employeeCode'" class=" col-md-2 pl-0">Employee
+                            Code <div class="sorting"><span class="sorting-up"
+                                    (click)="setOrder('employeeCode','asc')"></span> <span class="sorting-down"
+                                    (click)="setOrder('employeeCode','desc')"></span></div>
+                            <!-- <i class="fa fa-arrow-up" 
+                                    aria-hidden="true"></i> -->
+                            <!-- <i class="fa fa-arrow-down" aria-hidden="true"></i> -->
+                        </th>
+                        <th scope="col" [class.active]="order == 'employeeFirstName'" class=" col-md-2 pl-0">
+                            Employee Name <div class="sorting"><span class="sorting-up"
+                                    (click)="setOrder('employeeFirstName','asc')"></span>
+                                <span class="sorting-down" (click)="setOrder('employeeFirstName','desc')"></span></div>
+                            <!-- <i class="fa fa-arrow-up" 
+                                    aria-hidden="true"></i>
+                                <i class="fa fa-arrow-down"
+                                    aria-hidden="true"></i> -->
+                        </th>
+                        <th scope="col" class="col-md-4 pl-0">Email Address</th>
+                        <th scope="col" class="col-md-1 pl-0">Status</th>
+                        <th scope="col" class="col-md-2 pl-0">Contact</th>
+                        <th scope="col" class="col-md-1 pl-0 action-head">Actions</th>
+
+
+                    </tr>
+                </thead>
+                <tbody class="scroll-1">
+                    <div *ngIf="totalEmployeeList?.length!=0">
+                        <tr
+                            *ngFor="let employee of totalEmployeeList | search: filterkey | sort: order: orderBy  | paginate: {start: start , limit: limit }; let i = index;">
+                            <td scope="row" class="col-md-2">{{employee.employeeCode}}</td>
+                            <td scope="row" class="col-md-2 d-flex">
+                                <div class="placeholder" *ngIf="!employee.profileImgData">
+                                    <span
+                                        class="profile__text brown">{{employee.employeeFirstName[0]+employee.employeeFirstName[1]}}</span>
+                                </div>
+                                <div class="placeholder" *ngIf="employee.profileImgData">
+                                    <img class="profile__images"
+                                        src="{{'data:image/png;base64,'+employee.profileImgData}}">
+                                </div>
+                                <p class="employeeFirstName"> {{employee.employeeFirstName}}</p>
+                            </td>
+                            <td scope="row" class="col-md-4">{{employee.officialEmailid}}</td>
+                            <td *ngIf="selectedStatus === 'Active'" scope="row" class="col-md-1">Active</td>
+                            <td *ngIf="selectedStatus === 'Suspend'" scope="row" class="col-md-1">Suspend</td>
+                            <td scope="row" class="col-md-2">{{employee.officeContactNumber}}</td>
+                            <td scope="row" class="col-md-1 mouse-action"><span class="icon_edit_filled mx-1"
+                                    (click)="goToEmployeeEdit(employee.gemsEmployeeMasterId)"></span>
+                                <span class="icon_delete_filled mx-1"
+                                    (click)="openDeleteModal(deleteModal,employee)"></span></td>
+                        </tr>
+                    </div>
+                    <div class="text-center w-100 py-5" *ngIf="totalEmployeeList?.length==0">
+                        <h4>No Record Found!</h4>
+                    </div>
+                </tbody>
+            </table>
+        </div>
+        <div *ngIf=" (totalEmployeeList | search:filterkey)?.length  > 10" class="table__bottom text-right">
+            
+                <div class="form-group page__section">
+                    <label for="pageNo">Items per page:</label>
+                    <select class="form-control" [(ngModel)]="selectedItemsPerPage"
+                        (ngModelChange)="changeItemPerPage($event)">
+                        <option *ngFor="let perpageVal of perpageOption" [value]="perpageVal.value">
+                            {{perpageVal.label}}</option>
+                    </select>
+                </div>
+                <div class="col column-3">
+                    <app-chutti-pagination [currentPage]="currentPage" [count]="totalCount" [pagesToShow]="totalPages"
+                        (goPrev)="goToPrev()" (goNext)="goToNext()" (onPage)="goToPageNo($event)">
+                    </app-chutti-pagination>
+                </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+<ng-template #deleteModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Delete Employee </h4>
+    </div>
+    <div class="modal-body">
+        <p>Do you want to remove the <b>{{deleteEmployeeName | uppercase}}</b> from the Employee list ?</p>
+    </div>
+    <div class="bottom__btn mt-0 modal-footer d-flex justify-content-between">
+        <button type="button" class="btn btn-secondary" (click)="dismissModal()">Close</button>
+        <button type="button" class="btn btn-primary" (click)="suspendEmployee()">Delete</button>
+    </div>
+</ng-template>
+<!-- Delete Modal -->
+<!-- <div class="modal fade delete-modal" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Delete Employee</h5>
+            </div>
+            <div class="modal-body">
+                <p>Do you want to remove the <b>{{deleteEmployeeName | uppercase}}</b> from the Employee list ?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="dismissModal()">Close</button>
+                <button type="button" class="btn btn-primary" (click)="suspendEmployee()">Delete</button>
+            </div>
+        </div>
+    </div>
+</div> -->

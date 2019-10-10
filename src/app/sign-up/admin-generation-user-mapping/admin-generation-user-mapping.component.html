@@ -1,0 +1,154 @@
+<div class="loader" *ngIf="preloader">
+    <svg class="spinner" width="65px" height="65px" viewBox="0 0 66 66" >
+        <circle class="path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle>
+     </svg>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="data__table">
+            <div class="table-container">
+                <table class="table support__table table-fixed">
+                    <thead>
+                        <tr class="border__hide">
+                            <th scope="col" class="col-md-2 pl-0">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" (click)="selectAll($event)"
+                                        id="customCheck1">
+                                    <label class="custom-control-label" for="customCheck1">Employee Code</label>
+                                </div>
+                            </th>
+                            <th scope="col" class="col-md-2 pl-0"> Employee Name </th>
+                            <th scope="col" class="col-md-4 pl-0">Email Address</th>
+                            <th scope="col" class="col-md-2 pl-0">Department</th>
+                            <th scope="col" class="col-md-2 pl-0">Manager</th>
+                        </tr>
+                    </thead>
+                    <tbody class="scroll-1">
+                        <tr *ngFor="let user of usersList;let i = index;">
+                            <td scope="row" class="col-md-2">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" (click)="selectSingle($event, user)" [checked]="setCheckbox"
+                                        class="custom-control-input" id="customCheck2{{i}}">
+                                    <label class="custom-control-label"
+                                        for="customCheck2{{i}}">{{user.employeeCode}}</label>
+                                </div>
+                            </td>
+                            <td scope="row" class="col-md-2 d-flex">
+                                <!-- <div class="placeholder"><span class="profile__text brown">gt</span> </div> -->
+                                <p class="employeeFirstName">{{user.employeeFirstName}}</p>
+                            </td>
+                            <td scope="row" class="col-md-4">{{user.employeeEmailid}}
+                            </td>
+                            <!-- <td *ngIf="user.gemsDepartment == null" scope="row" class="col-md-2"><a data-toggle="modal"
+                                     data-target="#addDepartment">Add
+                                    Department</a></td> -->
+                            <td *ngIf="user.gemsDepartment == null" scope="row" class="col-md-2">-</td>
+                            <td *ngIf="user.gemsDepartment" scope="row" class="col-md-2">
+                                {{user.gemsDepartment.departmentName}}</td>
+                            <!-- (click)="setEmployee(user)" -->
+                            <!-- <td *ngIf="user.reportingManager == null" scope="row" class="col-md-2"><a
+                                    data-toggle="modal"  data-target="#addManager">Add
+                                    Manager</a></td> -->
+                            <td *ngIf="user.gemsReportingManagerId == null" scope="row" class="col-md-2">-</td>
+                            <td *ngIf="user.gemsReportingManagerId" scope="row" class="col-md-2">
+                                {{user.reportingManager.employeeFirstName}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div id="updateButtons" class="buttons-left">
+    <a data-toggle="modal" data-target="#addDepartment">Add department for the selected employees</a>
+    <!-- <span [disabled]="isAllUsers"> -->
+    <a data-toggle="modal" data-target="#addManager">Add reporting manager for the selected employees</a>
+    <!-- </span> -->
+</div>
+<div class="tabs-prev-next">
+    <button class="btn theme__btn__cancel" type="button" (click)="tabPrev()">Back</button>
+    <button class="btn theme__btn" type="submit" data-target="#nav-import" (click)="tabNext($event)">Next</button>
+</div>
+
+
+
+
+<!-- Add Department Modal -->
+<div class="modal fade admin-gen-modal" id="addDepartment" tabindex="-1" role="dialog" aria-labelledby="addDepartment"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div *ngIf="isData" class="modal-body projects-body">
+                <form>
+                    <h6>Add Department</h6>
+                    <div class="form-group">
+                        <label class="form-label" for="department"> Select Department Name</label>
+                        <select class="form-control" name="department" id="department" [(ngModel)]="selectedDepartment"
+                            (change)="selectDepartment($event)">
+                            <option *ngFor="let department of departmentsList" [ngValue]="department">
+                                {{department.departmentName}}
+                            </option>
+                        </select>
+                        <!-- <input type="text" class="form-control" required> -->
+                    </div>
+                    <div class="bottom__btn mt-0">
+                        <button class="btn btn-primary cancel" data-dismiss="modal" type="submit">Cancel</button>
+                        <button class="btn btn-primary submit"
+                            [disabled]="selectedDepartment == undefined || selectedDepartment == ''"
+                            data-dismiss="modal" type="submit" (click)="addDepartment()">Add</button>
+                    </div>
+                </form>
+            </div>
+            <div *ngIf="!isData" class="modal-body projects-body">
+                <form>
+                    <h6>Alert Message</h6>
+                    <p>Please select any employee to Add Department.</p>
+                    <div class="bottom__btn mt-0">
+                        <!-- <button class="btn btn-primary cancel" data-dismiss="modal" type="submit">Cancel</button> -->
+                        <button class="btn btn-primary submit" data-dismiss="modal" type="submit">Ok</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Add Manager Modal -->
+<div class="modal fade admin-gen-modal" id="addManager" tabindex="-1" role="dialog" aria-labelledby="addManager"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div *ngIf="isData" class="modal-body projects-body">
+                <form>
+                    <h6>Add Manager</h6>
+                    <div class="form-group">
+                        <label class="form-label" for="manager"> Select Manager Name</label>
+                        <select class="form-control" name="manager" id="manager" [(ngModel)]="selectedManager"
+                            (change)="selectManager($event)">
+                            <option *ngFor="let manager of managersList" [ngValue]="manager">
+                                {{manager.employeeFirstName}} {{manager.employeeLastName}}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="bottom__btn mt-0">
+                        <button class="btn btn-primary cancel" data-dismiss="modal" type="submit">Cancel</button>
+                        <button class="btn btn-primary submit" data-dismiss="modal" id="managerId"
+                            [disabled]="selectedManager == undefined || selectedManager == ''" type="submit"
+                            (click)="addManager()">Add</button>
+                    </div>
+                </form>
+            </div>
+            <div *ngIf="!isData" class="modal-body projects-body">
+                <form>
+                    <h6>Alert Message</h6>
+                    <p>Please select any employee to Add Reporting Manager.</p>
+                    <div class="bottom__btn mt-0">
+                        <!-- <button class="btn btn-primary cancel" data-dismiss="modal" type="submit">Cancel</button> -->
+                        <button class="btn btn-primary submit" data-dismiss="modal" type="submit">Ok</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

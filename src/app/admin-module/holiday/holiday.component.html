@@ -1,0 +1,228 @@
+<div class="admin-content">
+    <!-- Page Title -->
+    <div class="page-title">
+        <h3 class="m-0"> Holidays</h3>
+    </div>
+    <!-- card -->
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title">
+                <h6><i class="icon icon_attendance1"></i>List of Holidays</h6>
+            </div>
+            <div class="search__container">
+                <div class="form-group">
+                    <input type="text" placeholder="Search" [(ngModel)]="filterkey" class="form-control">
+                    <span class="icon icon_search"></span>
+                </div>
+                <div class="dropdown">
+                    <a href="#" class="btn btn-primary btn-round" data-toggle="dropdown" data-target="#downloadLink">
+                        <i class="icon_add"></i>
+                    </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="#." data-toggle="modal" data-target="#import__attendance">Upload
+                            File</a>
+                        <a class="dropdown-item" href="#." data-toggle="modal" data-target="#addLeave">Add Holiday</a>
+                    </div>
+                </div>
+
+                
+
+            </div>
+        </div>
+        <div class="card-body">
+            <table class="table table-fixed">
+                <thead>
+                    <tr class="border__hide">
+                        <th scope="col" class="col-md-4 pl-0">Holiday Name </th>
+                        <th scope="col" class="col-md-3 pl-0">Holiday on</th>
+                        <th scope="col" class="col-md-3 pl-0">Recurring</th>
+                        <th scope="col" class="col-md-2 pl-0 action-head">Action</th>
+                    </tr>
+                </thead>
+
+                <tbody class="scroll">
+                    <div *ngIf="HolidayList?.length!=0">
+                        <tr
+                            *ngFor="let holiday of HolidayList | search:filterkey | paginate: {start: start , limit: limit };">
+                            <td scope="row" class="col-md-4" [innerHTML]="holiday.gemsHolidayName"></td>
+                            <td scope="row" class="col-md-3" [innerHTML]="holiday.gemsHolidayOn | date: 'dd MMM yy' ">
+                            </td>
+                            <td scope="row" class="col-md-3" [innerHTML]="holiday.holidayRecurring"></td>
+                            <td scope="row" class="col-md-2 action-btn">
+                                <i class="icon_edit_filled" data-toggle="modal" data-target="#addLeave"
+                                    (click)="editHoliday(holiday)"></i><i class="icon_delete_filled"
+                                    (click)="openDeleteModal(deleteModal,holiday)"></i>
+                            </td>
+                        </tr>
+                    </div>
+                    <div class="text-center w-100 py-5" *ngIf="HolidayList?.length==0">
+                        <h4>No Record Found!</h4>
+                    </div>
+                </tbody>
+            </table>
+            <!-- Pagination -->
+            <div class="pagination">
+                <div class="form-group row">
+                    <label class="col col-form-label column-1">Items per page:</label>
+                    <select class="form-control col column-2" [(ngModel)]="selectedItemsPerPage" id="pageNo"
+                        (ngModelChange)="changeItemPerPage($event)">
+                        <option *ngFor="let perpageVal of pageOptions" [value]="perpageVal.value">
+                            {{perpageVal.label}}</option>
+                    </select>
+                    <div class="col column-3">
+                        <app-chutti-pagination [currentPage]="currentPage" [count]="totalCount"
+                            [pagesToShow]="totalPages" (goPrev)="goToPrev()" (goNext)="goToNext()"
+                            (onPage)="goToPageNo($event)"></app-chutti-pagination>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!--Import Holiday Modal -->
+<div class="modal fade" id="import__attendance" tabindex="-1" data-backdrop="static" role="dialog"
+    aria-labelledby="import__attendanceLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="import__modal">
+                    <h5 class="mb-3">Import Holidays</h5>
+                    <p class="lable-error">{{errorMessage}}</p>
+                    <div class="download text-center ">
+                        <label class="fileUpload download-file my-4 " for="fileupload"><img
+                                src="../../../assets/images/cloud-computing.svg"> Upload .xls
+                            /
+                            .xlxs file
+                            <input #myInput class=" custom-file-input " type="file" id="fileupload"
+                                accept=".xls,.xlsx,.csv" (change)="selectExcelFile($event)" />
+                            <b>{{selectExcelFileName}}</b>
+                        </label>
+                        <a (click)="downLoadSampleFile()">Download a Sample</a>
+                    </div>
+                    <div class="bottom__btn mt-5">
+                        <button id="upload_dismiss_modal" class="btn btn-primary cancel" data-dismiss="modal"
+                            type="button" (click)="errorMessage='';selectExcelFileName='';resetForm()">Cancel</button>
+                        <button class="btn btn-primary submit" type="submit"
+                            (click)="uploadHolidayFile()">Submit</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<!--Add Leave Modal -->
+<div class="modal fade" id="addLeave" data-backdrop="static" tabindex="-1" role="dialog"
+    aria-labelledby="import__attendanceLabel" aria-hidden="true">
+    <div class="modal-dialog leave-dialog" role="document">
+        <div class="modal-content">
+            <form [formGroup]="holidaFormGroup" (ngSubmit)="submitHolidaForm()" novalidate>
+                <div class="modal-header">
+                    <h5 class="modal-title">{{manipulationMode}} Holiday</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="addLeaveModal">
+                        <p class="lable-error">{{errorMessage}}</p>
+                        <div class="row mt-4">
+                            <div class="col-12 col-md-6 col-lg-6">
+                                <div class="form-group">
+                                    <label for="" class="form-label">New Year Day</label>
+                                    <input type="text" class="form-control" formControlName="gemsHolidayName"
+                                        value="Holiday Name">
+                                </div>
+                                <div
+                                    *ngIf="gemsHolidayName.invalid && (gemsHolidayName.dirty || gemsHolidayName.touched || submitBtn.value)">
+                                    <label class="lable-error " *ngIf="gemsHolidayName.hasError('required')">
+                                        Holiday name is required.
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6 col-lg-6">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Date</label>
+                                    <input type="date" formControlName="gemsHolidayOn" class="form-control">
+                                    <span class="icon_date_picker date__icon "></span>
+                                </div>
+                                <div
+                                    *ngIf="gemsHolidayOn.invalid && (gemsHolidayOn.dirty || gemsHolidayOn.touched || submitBtn.value)">
+                                    <label class="lable-error " *ngIf="gemsHolidayOn.hasError('required')">
+                                        Date is required.
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6 col-lg-6">
+                                <div class="form-group quick__apply--type">
+                                    <label for="" class="form-label">Date</label>
+                                    <div class="radio mr-4">
+                                        <input formControlName="holidayRecurring" id="radio-1" name="holidayRecurring"
+                                            value="yes" type="radio" checked>
+                                        <label for="radio-1" class="radio-label">
+                                            <div class="checker"></div> Yes
+                                        </label>
+                                    </div>
+
+                                    <div class="radio">
+                                        <input id="radio-2" name="holidayRecurring" value="no"
+                                            formControlName="holidayRecurring" type="radio">
+                                        <label for="radio-2" class="radio-label">
+                                            <div class="checker"></div> No
+                                        </label>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="dismiss_modal" class="btn btn-secondary" data-dismiss="modal" type="submit"
+                        (click)="resetForm();submitBtn.value=''">Cancel</button>
+                    <button class="btn btn-primary" type="submit" #submitBtn
+                        (click)="submitBtn.value=1">{{manipulationMode}}</button>
+                </div>
+            </form>
+
+        </div>
+
+    </div>
+</div>
+
+
+
+<ng-template #deleteModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Delete Holiday </h4>
+    </div>
+    <div class="modal-body">
+        <p>Do you want to remove the <b>{{holidayName | uppercase}}</b> from the Holiday list ?</p>
+    </div>
+    <div class="bottom__btn mt-0 modal-footer d-flex justify-content-between">
+        <button type="button" class="btn btn-secondary " (click)="dismissModal()">Close</button>
+        <button type="button" class="btn btn-primary" (click)="deleteHoliday()">Delete</button>
+    </div>
+</ng-template>
+
+<!-- Delete Modal -->
+<!-- <div class="modal fade delete-modal" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Delete Holiday</h5>
+            </div>
+            <div class="modal-body">
+                <p>Do you want to remove the <b>{{holidayName | uppercase}}</b> from the Holiday list ?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="dismissModal()">Close</button>
+                <button type="button" class="btn btn-primary" (click)="deleteHoliday()">Delete</button>
+            </div>
+        </div>
+    </div>
+</div> -->

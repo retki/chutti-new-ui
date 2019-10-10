@@ -1,0 +1,75 @@
+<div class="search__container">
+    <div class="form-group">
+        <input type="text" placeholder="Search" [(ngModel)]="filterkey" class="form-control">
+        <span class="icon icon_search"></span>
+    </div>
+    <div>
+        <a href="#" class="btn btn-primary btn-round" routerLink="/admin/organization/role/add">
+            <i class="icon_add"></i>
+        </a>
+    </div>
+</div>
+<table class="table table-fixed">
+    <thead>
+        <tr class="border__hide">
+            <th scope="col" class=" col-md-4 pl-0">Roles</th>
+            <th scope="col" class=" col-md-6 pl-0">Description</th>
+            <th scope="col" class="col-md-2 pl-0 action-head">Actions</th>
+        </tr>
+    </thead>
+    <tbody class="scroll-1">
+        <tr
+            *ngFor="let roleListobj of rolelist | search: filterkey | paginate: {start: start , limit: limit }; let i = index;">
+            <td scope="row" class="col-md-4">{{roleListobj.roleCode}}</td>
+            <td scope="row" class="col-md-6">{{roleListobj.roleName}}</td>
+            <td scope="row" class="col-md-2 action-btn">
+                <i class="icon_edit_filled" (click)="updaterole(roleListobj)"></i>
+                <i class="icon_delete_filled" (click)="deleterole(roleListobj)" data-toggle="modal"
+                    data-target="#deleteroleModal"></i>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<!-- Pagination -->
+<div class="pagination" *ngIf=" (rolelist | search:filterkey)?.length  > 10">
+    <div class="form-group row">
+        <label class="col col-form-label column-1">Items per page:</label>
+        <select class="form-control col column-2" [(ngModel)]="selectedItemsPerPage" id="pageNo"
+                (ngModelChange)="changeItemPerPage($event)">
+                <option *ngFor="let perpageVal of perpageOption" [value]="perpageVal.value">
+                    {{perpageVal.label}}</option>
+            </select>
+        <div class="col column-3">
+            <app-chutti-pagination [currentPage]="currentPage" [count]="totalCount" [pagesToShow]="totalPages"
+        (goPrev)="goToPrev()" (goNext)="goToNext()" (onPage)="goToPageNo($event)"></app-chutti-pagination>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- delete modal -->
+<div class="modal fade" id="deleteroleModal" tabindex="-1" role="dialog" aria-labelledby="deleteroleLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body addDepartmentModal">
+                <h5>Delete Role</h5>
+                <form class="support__request">
+
+                    <div class="col-12 pl-0">
+                        <div class="form-group support__request--input">
+                            <label> Do you want to remove <b>{{deleteRoleName}}</b> from the role list?</label>
+                        </div>
+                    </div>
+                    <div class="bottom__btn">
+                        <button type="submit" class="btn btn-primary cancel" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary submit" data-dismiss="modal"
+                            (click)="deletedrole()">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

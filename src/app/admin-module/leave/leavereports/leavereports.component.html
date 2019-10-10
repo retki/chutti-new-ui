@@ -1,0 +1,188 @@
+<div class="inner__section  px-0">
+    <section class="section-1 attendance">
+        <h5>Manage Leave Reports</h5>
+        <div class="search__container float-right">
+
+            <!-- <div class="form-group">
+                <input type="text" class="form-control" placeholder="Search">
+            </div> -->
+            <div class="filter align-self-center mr-4">
+                <p class="mb-0" (click)="clickfilter()"><span class="icon_filter"></span> Filter</p>
+            </div>
+            <div *ngIf="!isData">
+                <button name="download" (click)="exportAttendanceReport($event) ">Download</button>
+            </div>
+           
+        </div>
+
+    </section>
+
+                
+     
+    <div class="clearfix"></div>
+    <div class="filter__input active" *ngIf="showfilters">
+        <div class="row">
+
+            <div class="col-lg-10">
+                <h6>Filter by:</h6>
+                <form [formGroup]="leavereportForm">
+                    <div class="row">
+                        <div class="col-lg-2">
+                            <div class="form-group">
+                                <label class="custom-label align-self-center">Form : </label>
+                                <input class="form-control CustomForm-control" type="date" formControlName="from">
+                                <span class="icon_date_picker date__icon">
+
+                                </span>
+                            </div>
+
+                        </div>
+
+                        <div class="col-lg-2">
+                            <div class="form-group">
+                                <label class="custom-label align-self-center">to: </label>
+                                <input class="form-control CustomForm-control" type="date" formControlName="to">
+                                <span class="icon_date_picker date__icon"></span>
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
+                            <div class="form-group">
+                                <label class="custom-label align-self-center">Type:</label>
+                                <select formControlName="leavetypes" class="form-control CustomForm-control">
+                                    <!-- <input class="form-control CustomForm-control" type="text"
+                                    [formControl]="leaveTypeControl"> -->
+                                    <option *ngFor="let leavetype of leavetypelists" [ngValue]="leavetype">
+                                        {{leavetype.leaveTypeDescription}} </option>
+
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label class="custom-label align-self-center">Department : </label>
+                                <select formControlName="departments" class="form-control CustomForm-control">
+                                    <!-- <input class="form-control CustomForm-control" type="text"
+                                    [formControl]="departmentControl"> -->
+                                    <option *ngFor="let department of leavedepartmentslist" [ngValue]="department">
+                                        {{department.departmentDescription}} </option>
+
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label class="custom-label align-self-center">Employee : </label>
+                                <select formControlName="employee" class="form-control CustomForm-control">
+                                    <!-- <input class="form-control CustomForm-control" type="text"
+                                    placeholder="Enter Employee Name"> -->
+                                    <option *ngFor="let employee of Leavereportemployeelist" [ngValue]="employee">
+                                        {{ employee.employeeFirstName}}
+                                        ({{employee.employeeCode}}) </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-lg-2 align-self-center">
+                <div class="bottom__btn mt-1">
+
+                    <button class="btn btn-primary submit" data-dismiss="modal" type="submit"
+                        (click)="clicksubmit()">Submit</button>
+                    <button class="btn btn-primary cancel" data-dismiss="modal" type="submit"
+                        (click)="clear()">clear</button>
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+
+
+
+
+
+    <!-- filtersectiom -->
+
+    <section class="section-2">
+        <div class="data__table">
+            <div class="table-container">
+                <table class="table support__table table-fixed">
+                    <thead>
+                        <tr class="border__hide">
+                            <th scope="col" class="col-md-2 pl-0">Leave Type </th>
+                            <th scope="col" class="col-md-2 pl-0">Employee Name</th>
+                            <th scope="col" class="col-md-2 pl-0">From</th>
+                            <th scope="col" class="col-md-2 pl-0">To</th>
+                            <th scope="col" class="col-md-1 pl-0">Duration</th>
+                            <th scope="col" class="col-md-3 pl-0">Reason</th>
+
+                        </tr>
+                    </thead>
+
+
+
+                    <tbody class="scroll-2">
+                        <tr *ngFor="let Leavereports of getallreportlist">
+                            <td scope="row" class="col-md-2">{{Leavereports.leaveCode}}</td>
+                            <td scope="row" class="col-md-2 d-flex">
+                                <span placement="top" class="mouseOver">
+                                    <img class="profile__images" src="{{Leavereports.profileImage?
+                                                'data:image/jpg;base64,'+Leavereports.profileImage:
+                                                'https://via.placeholder.com/50'}}" />
+                                </span>
+                                {{Leavereports.firstName}}
+
+                            </td>
+                            <td scope="row" class="col-md-2">{{Leavereports.fromDate | date:'dd MMM yyy'}}</td>
+                            <td scope="row" class="col-md-2">{{Leavereports.toDate | date:'dd MMM yyy'}}</td>
+                            <td scope="row" class="col-md-1">
+
+                                {{getLeaveDurationByType(Leavereports)}}
+                                <!-- <span
+                                        *ngIf="Leavereports.gemsEmplyeeLeaveSummary.gemsLeaveTypeMaster.leaveTypeCode === 'PER' && 
+                                        Leavereports.permissionDuration <= 1 ">{{Leavereports.permissionDuration}}
+                                        Hr</span>
+                                    <span
+                                        *ngIf="{{Leavereports.permissionDuration}}.gemsEmplyeeLeaveSummary.gemsLeaveTypeMaster.leaveTypeCode === 'PER' && 
+                                        Leavereports.permissionDuration > 1 ">{{Leavereports.permissionDuration}}
+                                        Hrs</span>
+                                    <span
+                                        *ngIf="Leavereports.gemsEmplyeeLeaveSummary.gemsLeaveTypeMaster.leaveTypeCode != 'PER' && 
+                                        Leavereports.permissionDuration <= 1">{{Leavereports.permissionDuration}}
+                                        Day</span>
+                                    <span
+                                        *ngIf="Leavereports.gemsEmplyeeLeaveSummary.gemsLeaveTypeMaster.leaveTypeCode != 'PER' && 
+                                        Leavereports.permissionDuration > 1">{{Leavereports.permissionDuration}}
+                                        Days</span> -->
+
+                            </td>
+                            <td scope="row" class="col-md-3">{{Leavereports.reason}}
+                            </td>
+                        </tr>
+
+                        <div *ngIf="getallreportlist==null">
+                            <div class="text-center w-100 py-5">
+                                <h4>No Record Found!</h4>
+                            </div>
+                        </div>
+                    </tbody>
+                </table>
+                <div *ngIf="totalCount > 10" class="table__bottom text-right">
+                    <span class="items__nos">
+                        <div class="form-group page__section">
+                            <label for="pageNo">Items per page:</label>
+                            <select class="form-control" [(ngModel)]="selectedItemsPerPage" id="pageNo" (ngModelChange)="changeItemPerPage($event)">
+                                <option *ngFor="let perpageVal of pageOptions" [value]="perpageVal.value">
+                                    {{perpageVal.label}}</option>
+                            </select>
+                        </div>
+                    </span>
+                    <app-chutti-pagination [currentPage]="currentPage" [count]="totalCount" [pagesToShow]="totalPages" (goPrev)="goToPrev()"
+                        (goNext)="goToNext()" (onPage)="goToPageNo($event)"></app-chutti-pagination>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

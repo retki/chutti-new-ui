@@ -1,0 +1,82 @@
+
+
+
+
+
+
+    <ngx-loading-bar [color]="'#6747D4'" [includeSpinner]='false'></ngx-loading-bar>
+    <div class="leave__status rounded">
+        <h3>Leave Status</h3>
+        <div class="white__border inner__section support__page rounded h-0">
+            <h5></h5>
+           
+               <div class="leave__table">
+            <div>
+                <table class="table table-fixed rwd-table">
+                    <thead>
+                        <tr>
+                            <th scope="col" class="col-md-2">Type</th>
+                            <th scope="col" class="col-md-1">From</th>
+                            <th scope="col" class="col-md-1">To</th>
+                            <th scope="col" class="col-md-1">Duration</th>
+                            <th scope="col" class="col-md-3">Reason</th>
+                            <th scope="col" class="col-md-2">Status</th>
+                            <th scope="col" class="col-md-2">Remarks</th>
+                            <th scope="col" *ngIf="displayHide">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody *ngIf="isData" class="scroll">
+                        <tr *ngFor="let leavestatusobj of leavestausList;let i =index">
+                            <td scope="row" class="col-md-2" data-th="Type">{{leavestatusobj.leaveTypeDescription}}</td>
+                            <td class="col-md-1" data-th="From">{{leavestatusobj.fromDate | date:'dd MMM yy'}}</td>
+                            <td class="col-md-1" data-th="To">{{leavestatusobj.toDate | date:'dd MMM yy'}}</td>
+                            <td class="col-md-1" data-th="Duration">{{leavestatusobj.permissionDuration}}</td>
+                            <td *ngIf="leavestatusobj.reason!=null" class="col-md-3" data-th="Reason">{{leavestatusobj.reason}}</td>
+                            <td *ngIf="leavestatusobj.reason==null" class="col-md-3" data-th="Reason">Not Feeling well</td>                            <td class="col-md-2" data-th="Status">
+                                <!-- for  Approved leave  -->
+                                <span class="leave_approved text-capitalize" *ngIf="leavestatusobj.status == 'APPROVED'">
+                                    <span class="icon_tick"></span> {{leavestatusobj.status | lowercase}}
+                                </span>
+                                <span class="leave_pending text-capitalize" *ngIf="leavestatusobj.status == 'PENDING'">
+                                    {{leavestatusobj.status | lowercase}}
+                                </span>
+                                <span class="leave_notApproved text-capitalize" *ngIf="leavestatusobj.status == 'REJECTED'">
+                                    <!-- {{leavestatusobj.status | lowercase}} -->Not Approved
+                                </span>
+                                <span class="leave_notApproved text-capitalize" *ngIf="leavestatusobj.status == 'ONHOLD'">
+                                    {{leavestatusobj.status | lowercase}}
+                                </span>
+                                <!-- for  Not Approved leave  -->
+                                <!-- <span class="leave_notApproved">Not Approved</span> -->
+                            </td>
+                            <td *ngIf="leavestatusobj.remarks!=null" class="col-md-2" data-th="Remarks">{{leavestatusobj.remarks}}</td>
+                            <td *ngIf="leavestatusobj.remarks==null" class="col-md-2" data-th="Actions">-</td>
+                            <td *ngIf="displayHide" data-th="Actions"></td>
+                        </tr>
+                    </tbody>
+    
+                </table>
+                <div class="text-center w-100 py-5" *ngIf="!isData">
+                    <h4 class="mt-4">No Records Found!</h4>
+                </div>
+            </div>
+    
+            <div class="table__bottom text-right" *ngIf="isData &&totalCount>10">
+                <span class="items__nos">
+                    <div class="form-group page__section">
+                        <label for="pageNo">Items per page:</label>
+                        <select class="form-control" [(ngModel)]="selectedItemsPerPage" id="pageNo"
+                            (ngModelChange)="changeItemPerPage($event)">
+                            <option *ngFor="let perpageVal of perpageOption" [value]="perpageVal.value">{{perpageVal.label}}
+                            </option>
+                        </select>
+                    </div>
+                </span>
+                <app-chutti-pagination [currentPage]="currentPage" [count]="totalCount" [pagesToShow]="totalPages"
+                    (goPrev)="goToPrev()" (goNext)="goToNext()" (onPage)="goToPageNo($event)"></app-chutti-pagination>
+            </div>
+        </div>
+        </div>
+    </div>
+    
+  

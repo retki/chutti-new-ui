@@ -1,0 +1,198 @@
+<div class="search__container">
+    <div class="form-group">
+        <input type="text" placeholder="Search" [(ngModel)]="filterkey" class="form-control">
+        <span class="icon icon_search"></span>
+    </div>
+    <div>
+        <a href="#" class="btn btn-primary btn-round" data-toggle="modal" data-target="#addDesignationModal">
+            <i class="icon_add"></i>
+        </a>
+    </div>
+</div>
+
+<table class="table table-fixed">
+    <thead>
+        <tr class="border__hide">
+            <th scope="col" class=" col-md-4 pl-0">Designation</th>
+            <th scope="col" class=" col-md-4 pl-0">Description</th>
+            <th scope="col" class="col-md-3 pl-0">Department </th>
+            <th scope="col" class="col-md-1 pl-0 action-head">Actions</th>
+        </tr>
+    </thead>
+    <tbody *ngIf="isData" class="scroll-1">
+        <tr *ngFor="let roleListobj of roleList | search: filterkey;let i =index">
+            <td scope="row" class="col-md-4">{{roleListobj.gemsDesignationName}}</td>
+            <td scope="row" class="col-md-4">{{roleListobj.gemsDesignationDescription}}</td>
+            <td scope="row" class="col-md-3">{{roleListobj.gemsDepartmentName}}</td>
+            <td scope="row" class="col-md-1 action-btn">
+                <i class="icon_edit_filled" data-toggle="modal" data-target="#update__Modal"
+                    (click)="upadteobj(roleListobj)"></i>
+                <i class="icon_delete_filled" data-toggle="modal" data-target="#deleteDesignationModal"
+                    (click)="deletedesignationObj(roleListobj)"></i>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<!-- Pagination -->
+<div class="pagination" *ngIf="isData &&totalCount>10 | search:filterkey">
+    <div class="form-group row">
+        <label class="col col-form-label column-1">Items per page:</label>
+        <select class="form-control col column-2" [(ngModel)]="selectedItemsPerPage" id="pageNo"
+            (ngModelChange)="changeItemPerPage($event)">
+            <option *ngFor="let perpageVal of perpageOption" [value]="perpageVal.value">
+                {{perpageVal.label}}</option>
+        </select>
+        <div class="col column-3">
+            <app-chutti-pagination [currentPage]="currentPage" [count]="totalCount" [pagesToShow]="totalPages"
+                (goPrev)="goToPrev()" (goNext)="goToNext()" (onPage)="goToPageNo($event)"></app-chutti-pagination>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Modal 1-->
+<div class="modal fade" id="addDesignationModal" data-backdrop="static" data-keyboard="false" tabindex="-1"
+    role="dialog" aria-labelledby="addDesignationModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body addDepartmentModal">
+                <h5>Add Designation</h5>
+                <form class="support__request" [formGroup]="adddesignationform">
+                    <div class="form-group support__request--input">
+                        <label class="form-label">Name</label>
+                        <input class="form-control" id="designationname" formControlName="designationname" required />
+                        <small
+                            *ngIf="adddesignationform.controls['designationname'].errors && !adddesignationform.controls['designationname'].pristine"
+                            class="form-text text-muted"> Enter a designation name</small>
+                    </div>
+                    <div class="form-group support__request--input">
+                        <label class="form-label">Code</label>
+                        <input class="form-control" formControlName="designationCode" required />
+                        <small
+                            *ngIf="adddesignationform.controls['designationCode'].errors && !adddesignationform.controls['designationCode'].pristine"
+                            class="form-text text-muted"> Enter a desinationCode</small>
+                    </div>
+                    <div class="form-group support__request--input">
+                        <label class="form-label">Description</label>
+                        <input class="form-control" formControlName="gemsDesignationDescription" required />
+                        <small
+                            *ngIf="adddesignationform.controls['gemsDesignationDescription'].errors && !adddesignationform.controls['gemsDesignationDescription'].pristine"
+                            class="form-text text-muted"> Enter a designations description</small>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Department</label>
+                        <select class="form-control" (ngModelChange)="onChange($event)"
+                            formControlName="gemsDepartmentId">
+                            <option *ngFor="let getdepartmentleadobj of getdepartmentlist"
+                                [value]="getdepartmentleadobj.gemsDepartmentId">
+                                {{getdepartmentleadobj.departmentName}}
+                            </option>
+                        </select>
+                        <div
+                            *ngIf="adddesignationform.controls['gemsDepartmentId'].errors && !adddesignationform.controls['gemsDepartmentId'].pristine">
+                            <small>Departmentlead is Required</small>
+                        </div>
+                    </div>
+                    <div class="bottom__btn">
+                        <button type="submit" class="btn btn-primary cancel" data-dismiss="modal"
+                            (click)="resetFrom()">Cancel</button>
+                        <button type="submit" class="btn btn-primary submit" data-dismiss="modal"
+                            [disabled]="adddesignationform.invalid" (click)="saveDesignation()">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- ////update modal//////// -->
+<div class="modal fade" id="update__Modal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog"
+    aria-labelledby="UpdateModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+            <div class="modal-body addDepartmentModal">
+                <h5>Update Designation</h5>
+                <form class="support__request" [formGroup]="adddesignationform">
+                    <div class="form-group support__request--input">
+                        <input type="hidden" class="form-control" formControlName="designationId" id='designationId'
+                            name="designationId" placeholder="designationId" />
+                    </div>
+
+                    <div class="form-group support__request--input">
+                        <label class="form-label ">Name</label>
+                        <input class="form-control" formControlName="designationname" required />
+                        <small
+                            *ngIf="adddesignationform.controls['designationname'].errors && !adddesignationform.controls['designationname'].pristine"
+                            class="form-text text-muted"> Enter a Designation Name</small>
+                    </div>
+                    <div class="form-group support__request--input">
+                        <label class="form-label ">Code</label>
+                        <input class="form-control" formControlName="designationCode" required />
+                        <small
+                            *ngIf="adddesignationform.controls['designationCode'].errors && !adddesignationform.controls['designationCode'].pristine"
+                            class="form-text text-muted"> Enter a DesiganationCode</small>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label ">Description</label>
+                        <input class="form-control" formControlName="gemsDesignationDescription" required />
+                        <small
+                            *ngIf="adddesignationform.controls['gemsDesignationDescription'].errors && !adddesignationform.controls['gemsDesignationDescription'].pristine"
+                            class="form-text text-muted"> Enter a Designation Description</small>
+                    </div>
+
+                    <div class="form-group support__request--input">
+                        <label class="form-label ">Department</label>
+                        <select class="form-control" (ngModelChange)="onChange($event)"
+                            formControlName="gemsDepartmentId">
+                            <option *ngFor="let getdepartmentleadobj of getdepartmentlist"
+                                [value]="getdepartmentleadobj.gemsDepartmentId">
+                                {{getdepartmentleadobj.departmentName}}
+                            </option>
+                        </select>
+                        <div
+                            *ngIf="adddesignationform.controls['gemsDepartmentId'].errors && !adddesignationform.controls['gemsDepartmentId'].pristine">
+                            <small>Department is Required</small>
+                        </div>
+                    </div>
+                    <div class="bottom__btn">
+                        <button type="submit" class="btn btn-primary cancel" data-dismiss="modal"
+                            (click)="resetFrom()">Cancel</button>
+                        <button type="submit" class="btn btn-primary submit" data-dismiss="modal"
+                            [disabled]="adddesignationform.invalid" (click)="saveDesignation()">Submit</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- delete modal -->
+<div class="modal fade" id="deleteDesignationModal" tabindex="-1" role="dialog" aria-labelledby="deleteDesignationLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body addDepartmentModal">
+                <h5>Delete Designation</h5>
+                <form class="support__request">
+
+                    <div class="col-12 pl-0">
+                        <div class="form-group support__request--input">
+                            <label> Do you want remove <b>{{deleteDesignationName}}</b> from the designation list
+                                ?</label>
+                        </div>
+                    </div>
+                    <div class="bottom__btn">
+                        <button type="submit" class="btn btn-primary cancel" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary submit" data-dismiss="modal"
+                            (click)="deletedesiganation()">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

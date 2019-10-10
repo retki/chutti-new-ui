@@ -1,0 +1,107 @@
+<!-- <p>time-sheet works!</p>
+
+<a routerLink="/user/timesheet/addTimeSheet">Add Timesheet click</a>
+<br>
+<a routerLink="/user/timesheet/editTimeSheet">Edit Timesheet click</a> -->
+<div class="timeSheet dashboard__content">
+    <h3>Timesheet</h3>
+    <div class="choose projects">
+        <div class="form-group chutti__app">
+            <label for="exampleFormControlSelect1">projects</label>
+            <select class="form-control" id="exampleFormControlSelect1" [(ngModel)]="selectedproject" (ngModelChange)="onChange($event)">
+                <option *ngFor="let project of projectList" [ngValue]="project.gemsProjectMaster">{{project.gemsProjectMaster.projectName}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="inner__section timesheet__section rounded">
+        <h5>Chutti Timesheet</h5>
+        <div class="search">
+            <div class="form-group">
+                <!-- <input type="text" class="form-control" placeholder="search">
+                <span class="icon_search"></span> -->
+            </div>
+            <a routerLink="/user/timesheet/" class="float-right add__timesheet--btn"><span
+                    class="open__modal  icon_add cancel"></span></a>
+        </div>
+        <div class="timesheet__table">
+            <div class="row w-100 pr-0 ml-0">
+                <div class="col-md-3 ">
+                    <div class="form-group week__details">
+                        <label>Week</label>
+                        <select class="form-control" (change)="getAttendanceByWeekDetails()" [(ngModel)]="selectedweek">
+                            <option *ngFor="let weekduration of weekdurationList"  [value]="weekduration">{{weekduration}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-12 mt-4">
+                    <div class="weekDays row">
+                        <div class="form-group">
+                            <label>Sun</label>
+                            <input [textMask]="{mask: mask}" type="text" class="form-control" id="sun" name="sun" [value]="sunvalue" 
+                            (ngModelChange)="onSearchsun($event)" (keyup)="onSearchsun($event)" [disabled]="weeklist[0]">
+                          <small *ngIf="exceedsun">Max Time is:{{sunDuration}}</small>
+                          <span class="leave__type">{{leavecodesun}}</span>
+                        </div>
+                        <div class="form-group">
+                            <label>Mon</label>
+                            <input [textMask]="{mask: mask}" type="text" class="form-control" id="mon" name="mon"  [value]="monvalue"
+                            (ngModelChange)="onSearchmon($event)" (keyup)="onSearchmon($event)" [disabled]="weeklist[1]">
+                            <small *ngIf="exceedmon">Max Time is:{{monDuration}}</small>
+                          <span class="leave__type">{{leavecodemon}}</span>
+                        </div>
+                        <div class="form-group">
+                            <label>Tue</label>
+                            <input [textMask]="{mask: mask}" type="text" class="form-control" id="tue" name="tue"  [value]="tuevalue"
+                            (ngModelChange)="onSearchtue($event)" (keyup)="onSearchtue($event)" [disabled]="weeklist[2]">
+                            <small *ngIf="exceedtue">Max Time is:{{tueDuration}}</small>
+                            <span class="leave__type">{{leavecodetue}}</span>
+                        </div>
+                        <div class="form-group">
+                            <label>Wed</label>
+                            <input [textMask]="{mask: mask}" type="text" class="form-control" id="wed" name="wed" [value]="wedvalue"
+                            (ngModelChange)="onSearchwed($event)" (keyup)="onSearchwed($event)" [disabled]="weeklist[3]">
+                            <small *ngIf="exceedwed">Max Time is:{{wedDuration}}</small>
+                            <span class="leave__type">{{leavecodewed}}</span>
+                        </div>
+                        <div class="form-group">
+                            <label>Thu</label>
+                            <input [textMask]="{mask: mask}" type="text" class="form-control" id="thu" name="thu" [value]="thuvalue"
+                            (ngModelChange)="onSearchthu($event)" (keyup)="onSearchthu($event)" [disabled]="weeklist[4]">
+                            <small *ngIf="exceedthu">Max Time is:{{thuDuration}}</small>
+                            <span class="leave__type">{{leavecodethu}}</span>
+                        </div>
+                        <div class="form-group">
+                            <label>Fri</label>
+                            <input [textMask]="{mask: mask}" type="text" class="form-control" id="fri" name="fri"  [value]="frivalue"
+                            (ngModelChange)="onSearchfri($event)" (keyup)="onSearchfri($event)" [disabled]="weeklist[5]">
+                            <small *ngIf="exceedfri">Max Time is:{{friDuration}}</small>
+                            <span class="leave__type">{{leavecodefri}}</span>
+                        </div>
+                        <div class="form-group pr-0">
+                            <label>Sat</label>
+                            <input [textMask]="{mask: mask}" type="text" class="form-control" id="sat" name="sat" [value]="satvalue"
+                            (ngModelChange)="onSearchsat($event)" (keyup)="onSearchsat($event)" [disabled]="weeklist[6]">
+                            <small *ngIf="exceedsat">Max Time is:{{satDuration}}</small>
+                            <span class="leave__type">{{leavecodesat}}</span>
+                        </div>
+                   
+                        <div class="row total__section w-100">
+                                <div class="col-md-12 float-right">
+                                    <div class="total">
+                                        <span>Total Working Hours:</span>
+                                        <span class="total__value">{{sum}}</span>
+                                    </div>
+                                    <div class="bottom__btn">
+                                            <button type="submit" class="btn btn-primary cancel" (click)="savetimeSheet('SUBMITTED')">Save</button>
+                                            <button type="submit" class="btn btn-primary submit" (click)="savetimeSheet('DRAFT')">Submit</button>
+                                        </div>
+                                </div>
+                            </div> 
+                    
+                    </div>
+                  
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

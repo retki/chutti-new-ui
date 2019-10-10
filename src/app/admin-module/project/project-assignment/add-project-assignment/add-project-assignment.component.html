@@ -1,0 +1,150 @@
+
+<div class="attendance dashboard__content">
+<h3>Projects</h3>
+<div class="inner__section projectAssignment rounded">
+    <h5><span class="title active">Assign Project To Employee </span> <span class="title">Assign Projects to
+            Employees</span></h5>
+            
+    <div class="project__assignment">
+        <!-- section -2  -->
+        <form [formGroup]="addForm">  
+        <div class="project__section active">
+            <div class="new__project row w-100">
+                <div class="col-12 col-md-6 col-lg-6">
+                    <div class="form-group">
+                        <label class="form-label" for="ProjectList">Select Project </label>
+                        <select class="form-control" id="ProjectList"  formControlName='gemsProjectMaster' required>
+                            <option *ngFor="let project of  masterProjectList" [ngValue]="project">
+                                {{project.projectName}}
+                            </option>
+                        </select>
+
+                        <small *ngIf="addForm.controls['gemsProjectMaster'].errors && !addForm.controls['gemsProjectMaster'].pristine" class="form-text text-muted">
+                        select a customer</small>
+
+                    </div>
+                
+                </div>
+                <div class="col-12 col-md-6 col-lg-6 pr-0 text-right">
+                    <p class="multiple-employee" data-toggle="modal" data-target="#selectModal">+ Add Multiple Employee
+                        to this project</p>
+                </div>
+                <div class="col-12 mb-4 ">
+                    <ngb-tabset class="employeeList" type="pills" *ngIf="selectedResourceListWithFullObj.length>=0">
+                        <ngb-tab *ngFor="let assign of selectedResourceListWithFullObj; let i = index" >
+                            <ng-template ngbTabTitle  >
+                                    <span  class="user__img">{{assign.employeeFirstName.slice(0, 2)}}</span> 
+                                    <span (click)="test()">{{assign.employeeFirstName}}</span> 
+                                    <span class="icon_delete_filled" (click)="deleteEmployee(i)"></span></ng-template>
+                            <ng-template ngbTabContent  >
+                                    <form [formGroup]="formAssign.controls[i]" >
+                                    <div class="col-12 row">
+                                        <div class="col-md-6 ">
+                                            <div class="form-group">
+                                                <label class="form-label" for="">Assign Employee</label>
+                                                <input type="text" class="form-control"  formControlName='gemsEmployeeMaster' required placeholder="" >
+                                                <small *ngIf="formAssign.controls[i].controls['gemsEmployeeMaster'].errors && !formAssign.controls[i].controls['gemsEmployeeMaster'].pristine" class="form-text text-muted">
+                                                    Enter a Assigned Employee Name</small>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="exampleFormControlSelect1" class="form-label">Resource Start
+                                                    Date</label>
+                                                <input type="date" class="form-control" formControlName='resourceStartDate' required placeholder="">
+                                                <!-- <span class="calender_icon icon_date_picker"></span> -->
+                                                <small *ngIf="formAssign.controls[i].controls['resourceStartDate'].errors && !formAssign.controls[i].controls['resourceStartDate'].pristine" class="form-text text-muted">
+                                                   Enter Resource Start Date </small>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                                <div class="form-group">
+                                                        <label for="" class="form-label">Resource End Date</label>
+                                                        <input type="date" class="form-control" formControlName='resourceEndDate' required placeholder="">
+                                                        <!-- <span class="calender_icon icon_date_picker"></span> -->
+                                                        <small *ngIf="formAssign.controls[i].controls['resourceEndDate'].errors && !formAssign.controls[i].controls['resourceEndDate'].pristine" class="form-text text-muted">
+                                                            Enter Resource End Date </small>
+                                                    </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 row">
+                                            <div class="col-md-2 ">
+                                                    <div class="form-group">
+                                                            <label for="Currency" class="form-label">Employee Billing</label>
+                                                            <select class="form-control" id="currency"  formControlName='currency' required>
+                                                                    <option *ngFor="let currency of  currencyList" [ngValue]="currency">
+                                                                        {{currency.name}}
+                                                                    </option>
+                                                                </select>
+                                                            <small *ngIf="formAssign.controls[i].controls['currency'].errors && !formAssign.controls[i].controls['currency'].pristine"
+                                                            class="form-text text-muted">
+                                                            select Currency</small>
+                                                        </div>
+        
+                                            </div> 
+                                            <div class="col-md-4">
+                                                    <div class="form-group">
+                                                            <label for="" class="form-label">Billing Rate</label>
+                                                            <input type="number" class="form-control" placeholder="" formControlName='projectBillingRate' required>
+                                                            <small *ngIf="formAssign.controls[i].controls['projectBillingRate'].errors && !formAssign.controls[i].controls['projectBillingRate'].pristine" class="form-text text-muted">
+                                                                Enter Project Billing Rate</small>
+                                                        </div>
+                                            </div> 
+                                            <div class="col-md-6">
+                                                    <div class="form-group">
+    
+                                                            <label for="" class="form-label">Schedule Efforts (In Hours)</label>
+                                                            <input type="number" class="form-control" placeholder=""formControlName='scheduleEffort' required> 
+                                                            <small *ngIf="formAssign.controls[i].controls['scheduleEffort'].errors && !formAssign.controls[i].controls['scheduleEffort'].pristine" class="form-text text-muted">
+                                                                enter Schedule Efforts </small>
+                                                        </div>
+                                            </div>
+                                        </div>
+                                    </form>
+
+                                </ng-template>
+                        </ngb-tab>
+                    </ngb-tabset>
+                    <div class="col-12">
+                        <div class="bottom__btn mt-0">
+                            <button class="btn btn-primary cancel" data-dismiss="modal" type="submit" (click)="onCancel()">Cancel</button>
+                            <button class="btn btn-primary submit" data-dismiss="modal" type="submit"
+                            [disabled]="addForm.invalid || this.addForm.value.assign.length==0"   (click)="saveassignment()">Save</button>
+                        </div>
+                    </div>
+                </div>     
+            </div>
+        </div>
+    </form>
+
+
+        <!-- Multi select modal -->
+        <div class="modal fade" id="selectModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content  border-none employee__modal-content">
+                    <div class="modal-body border-none">
+                        <div class="multiSelect">
+                            <h6>Select Multiple Employee</h6>
+                            <div class="listScroll mt-3">
+                                <ng-multiselect-dropdown [data]="masterEmployeeList" [(ngModel)]="selectedItems"
+                                    [settings]="dropdownSettings" (onSelect)="onItemSelect($event)"
+                                    (onSelectAll)="onSelectAll($event)">
+                                </ng-multiselect-dropdown>
+                            </div>
+
+                        </div>
+                        <div class="bottom__btn mt-3">
+                            <button class="btn btn-primary cancel" data-dismiss="modal" type="submit">Cancel</button>
+                            <button class="btn btn-primary submit" data-dismiss="modal" type="submit"
+                                (click)="onEmployeeAssign()">Assign</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    
+    </div>
+    </div>

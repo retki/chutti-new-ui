@@ -1,0 +1,161 @@
+@import '../../../../assets/scss/variables.scss';
+@import '../../../../assets/scss/mixin.scss';
+
+.attendance__section{
+    h5 {
+        
+        display: inline-block;
+
+        &::before {
+            content: "\e104";
+        }
+
+        width: 60%;
+        @include breakpoint(mobile-landscape) 
+        {
+            width: 100% !important;
+        }
+    }
+}
+.reason__btn
+{
+    
+    border:1.4px solid $darkBlue;
+font-size: .9em ;
+ color: #2733a0;
+border-radius: 30px;
+
+}
+
+.table td {
+    
+    font-size: 0.9em;
+    color: #404040;
+    padding: 7px;
+    vertical-align: middle;
+}
+.reason__selection{
+    padding:5px !important;
+}
+.search__input
+{
+   .form-control
+   {
+    @include border-bottom();
+    padding-left:0px;
+    color: $gray;font-size: .9em;
+    
+   }
+}
+
+  
+.filter__btn
+{
+    
+    padding-right: 0px !important;
+    text-align: right;
+    button 
+    {
+        padding: 5px 8px;font-size: .9em;
+        display: inline-block;
+        margin-left: .5rem;
+    }
+}
+.attendance__filter
+{
+    width: 30%;
+    float: right;
+    margin: 0rem 0 1rem;
+    right: 2rem;
+    @include breakpoint(mobile) {
+        width: 100%;
+        float: none;
+        position: inherit;
+        margin-top: 1rem;
+    }
+}
+
+.search__btn 
+{
+    position: absolute;
+    top: 6px;
+    right: 0;
+    color: #a0a0a0;
+    cursor: pointer;
+}
+
+.support__request--input {
+    .form-control {
+        border-left: none;
+        border-right: none;
+        border-top: none;
+        border-radius: 0;
+        padding-top: 0;
+        font-size: .9em;
+        padding-left: 0px;
+        padding-bottom: 5px;
+        margin-bottom: 0 !important;
+        &:focus {
+            box-shadow: none;
+        }
+    }
+
+    label {
+        margin-bottom: 0px;
+        font-size: .8em;
+        color: $arrowGray;
+        padding-left: 4px;
+    }
+}
+
+.support__request-modal {
+    padding: 2rem 1.5rem 1.5rem;
+
+    h5 {
+        padding-left: 0rem;
+        font-size: 1.1em;
+        
+    }
+    select#exampleFormControlSelect1 {
+        margin-bottom: 61px;
+    }
+    .support__request {
+        
+        margin: 1.3rem 0 1rem;
+    }
+}
+
+.modal-content {
+    
+    border-radius: 8px;
+}
+.support__page
+{
+    .trigger__btn, h5
+    {
+        display: inline-block;
+    }
+}
+.modal-dialog--support
+{
+    padding-top: 55px;
+    max-width: 420px;
+}
+.attendance__approval__table {
+    .table {
+        margin-top: 1rem;
+        img {
+            width: 35px;
+            height: 35px;
+    }
+    .icon_tick {
+        color:#6747D4;
+    }
+    .icon_cancel {
+        color: red;
+    }
+}
+}
+.text-capitalize {
+    text-transform: capitalize;
+  }

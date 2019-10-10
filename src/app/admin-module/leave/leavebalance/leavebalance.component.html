@@ -1,0 +1,154 @@
+<div class="inner__section leaveBalance">
+    <h5>Manage Leave Balance</h5>
+    <div class="search__container float-right">
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="Search"  [(ngModel)]="filterkey">
+        </div>
+
+    </div>
+    <div class="attendance__table">
+
+        <table class="table table-fixed">
+            <thead>
+                <tr class="border__hide">
+                    <th scope="col" class="col-md-3 pl-0">Employee.ID</th>
+                    <th scope="col" class="col-md-4 pl-0">Employee Name</th>
+                    <th scope="col" class="col-md-3 pl-0">Total Leaves</th>
+                    <th scope="col" class="col-md-2 pl-0">Action</th>
+                </tr>
+            </thead>
+
+            <tbody class="scroll">
+
+                <tr class="d-flex" *ngFor="let leavebalance of leavebalancelist | search : filterkey   | paginate: {start: start , limit: limit }; let i = index;">
+                    <td class="col-md-3 pl-0">{{leavebalance.employeeCode}}</td>
+
+                    <td scope="row" class="col-md-4 d-flex">
+                            <div class="d-flex">
+                                    <span
+                                        *ngIf="leavebalance.profileImgData != null && leavebalance.profileImgData != undefined">
+                                        <img class="rounded-circle user__img--row"  [src]="leavebalance.profileImgData?
+                                            'data:image/jpg;base64,'+leavebalance.profileImgData:'https://www.w3schools.com/howto/img_avatar.png'" />
+                                    </span>
+
+                                    <span
+                                        *ngIf="leavebalance.profileImgData == null || leavebalance.profileImgData == undefined"
+                                        class="user_img4  user__img--row bg__neptune" [ngbPopover]="popContent2" placement="top"
+                                        triggers="mouseenter:mouseleave">{{leavebalance.employeeLastName != null ? leavebalance.employeeLastName.charAt(0) : ''}}{{leavebalance.employeeFirstName.charAt(0)}}</span>
+                                    <span class="nameImg"> {{leavebalance.employeeFirstName}}</span>
+                                </div>
+                        <!-- <div class="placeholder"><span class="profile__text brown">gt</span></div> -->
+                        <!-- <p class="employeeFirstName"> {{leavebalance.employeeFirstName}}</p> -->
+                    </td>
+                    <td class="col-md-3 pl-0">{{leavebalance.totalLeaves}}</td>
+                    <td class="col-md-2 pl-0">
+
+                        <a>
+                            <span class="float-right trigger__btn" data-toggle="modal"
+                                data-target="#trigger-leavebalanceupdate" class="icon_edit_filled edit__btn"
+                                (click)="editleavebalance(leavebalance)">
+                            </span>
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <span>
+            <div *ngIf="totalCount > 10"
+                class="table__bottom text-right | search : filterkey   | paginate: {start: start , limit: limit };let i = index;">
+                <span class="items__nos">
+                    <div class="form-group page__section">
+                        <label for="pageNo">Items per page:</label>
+                        <select class="form-control" [(ngModel)]="selectedItemsPerPage"
+                            (ngModelChange)="changeItemPerPage($event)">
+                            <option *ngFor="let perpageVal of perpageOption" [value]="perpageVal.value">
+                                {{perpageVal.label}}</option>
+                        </select>
+                    </div>
+                </span>
+                <app-chutti-pagination [currentPage]="currentPage" [count]="totalCount" [pagesToShow]="totalPages"
+                    (goPrev)="goToPrev()" (goNext)="goToNext()" (onPage)="goToPageNo($event)"></app-chutti-pagination>
+            </div>
+        </span>
+    </div>
+</div>
+<!-- updatemodal -->
+
+<div class="modal fade" id="trigger-leavebalanceupdate" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-top modal-dialog--support" role="document">
+        <div class="modal-content">
+            <form [formGroup]="leavebalanceForm">
+                <div class="modal-body support__request-modal">
+                    <h5>Edit Leave balance</h5>
+                    <div class="row my-4">
+                        <div class="col-4" *ngFor="let leaveSummary of employeeleaveobj; let i = index">
+                            <div class="form-group mt-3 mb-4">
+                                <label for="{{leaveSummary.leaveEntitled}}"
+                                    class="form-label">{{leaveSummary.gemsLeaveTypeMaster.leaveTypeDescription}}</label>
+                                <input type="text" class="form-control leaveSummary" id="{{i}}"
+                                    name='{{leaveSummary.gemsLeaveTypeMaster.leaveTypeCode}}'
+                                    value="{{leaveSummary.leaveEntitled}}" (change)="leaveBalanceOnChange($event)">
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="bottom__btn">
+                    <button type="button" class="btn btn-primary cancel" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary submit" data-dismiss="modal"
+                        (click)="updateleavebalance(employeeleaveobj)">Submit</button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+<!-- updatemodal -->
+
+<!-- <div class="modal fade" id="trigger-leavebalanceupdate" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-top modal-dialog--support" role="document">
+        <div class="modal-content">
+
+            <div class="modal-body support__request-modal">
+
+
+                <h5>Edit Leave balance</h5>
+                <div class="row my-4" *ngFor="let leaveSummary of employeeleaveobj">
+                    <div class="col-4">
+                        <label>{{leaveSummary.gemsLeaveTypeMaster.leaveTypeDescription}}</label>
+                        <input type="number" class="input" [(ngModel)]="leaveSummary.leaveEntitled" />
+                    </div> -->
+<!-- <span>
+                            {{leaveSummary.gemsLeaveTypeMaster.leaveTypeDescription}}
+                        </span> 
+                        <label>
+                                {{leaveSummary.leaveEntitled}}
+                            </label> -->
+
+<!-- 
+                    </div>
+                    <div class="col-12">
+                        <button data-dismiss="modal" (click)="updateleavebalance(employeeleaveobj)">
+                            submit
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div> -->
+
+
+<!-- <div *ngFor="let leaveSummary of employeeleaveobj">
+        <div class="d-flex">
+            <label>{{leaveSummary.gemsLeaveTypeMaster.leaveTypeDescription}}</label>
+            <input type="text" class="input" [(ngModel)]="leaveSummary.leaveEntitled" />
+        </div>
+    </div> -->

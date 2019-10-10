@@ -1,0 +1,49 @@
+@import '../../../../../assets/scss/variables.scss';
+@import '../../../../../assets/scss/mixin.scss';
+
+.employee_list__page {
+    h5 {
+        &::before{
+            content: "\e12a";
+        }
+    }
+    .filters {
+        justify-content: flex-end;
+    }
+}
+.search__container 
+{
+    position: absolute;
+    right: 15px;
+    top: 15px;
+}
+
+.form-group 
+{
+margin-bottom: 2rem;
+}
+.inner__section 
+{
+    position: relative;
+}
+  
+  .form-control {
+    position: relative;
+    padding-left: 0;
+    &:focus {
+      box-shadow: 0 2px 0 0 blue;
+    }
+  }
+  
+  .form-input.filled {
+    box-shadow: 0 2px 0 0 lightgreen;
+  }
+  .addDepartmentModal 
+  {padding: 1.5rem;
+      h5 
+      {
+        padding-left: 0;
+        margin-bottom: 1rem;
+        font-size: 1.2em;
+      }
+  }

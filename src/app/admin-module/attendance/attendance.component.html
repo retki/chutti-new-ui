@@ -1,0 +1,309 @@
+<div class="loader" *ngIf="preloader">
+    <svg class="spinner" width="65px" height="65px" viewBox="0 0 66 66">
+        <circle class="path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle>
+    </svg>
+</div>
+
+<div class="admin-content">
+    <!-- Page Title -->
+    <div class="page-title">
+        <h3 class="m-0"> Attendance</h3>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title">
+                <h6><i class="icon icon_attendance"></i>Employee Attendance</h6>
+            </div>
+            <div class="search__container">
+                <div class="form-group">
+                    <input type="text" class="form-control" [(ngModel)]="filterkey" placeholder="Search">
+                    <span class="icon icon_search"></span>
+                </div>
+                <div class="filter" (click)="filterByClicked($event)"><span class="icon_filter"></span> Filter
+                </div>
+                <div class="dropdown">
+                    <a href="#" class="btn btn-primary btn-round" data-toggle="dropdown" data-target="#downloadLink">
+                        <i class="icon_add"></i>
+                    </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="#." data-toggle="modal" data-target="#import__attendance">Update
+                            Attendance</a>
+                        <a class="dropdown-item" href="#." (click)="sampleDownloadFile()">Download
+                            Report</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="flter" class="filter-by">
+            <h6 class="m-0">Filter by:</h6>
+            <form [formGroup]="attendanceFilterForm" class="form-inline">
+                <div class="row align-items-center">
+                    <div class="col date">
+                        <label>From:</label>
+                        <span data-toggle="modal" data-target=".fromdate-example-modal-lg">
+                            <input class="form-control" name="fromDate" type="text" formControlName="fromDate"
+                                placeholder="Select Date *" (selected)="onFilterFormDatechange($event)">
+                            <span class="icon icon_date_picker"></span>
+                        </span>
+                    </div>
+                    <div class="col date">
+                        <label>To:</label>
+                        <span data-toggle="modal" data-target=".toDate-example-modal-lg">
+                            <input class="form-control" name="toDate" type="text" formControlName="toDate"
+                                placeholder="Select Date *" (selected)="onFilterToDatechange($event)">
+                            <span class="icon icon_date_picker"></span>
+                        </span>
+                    </div>
+                    <div class="col select">
+                        <label>Department:</label>
+                        <select class="form-control" formControlName="departments" id="departments">
+                            <option *ngFor="let department of departmentslist" [ngValue]="department">
+                                {{department.departmentDescription}} </option>
+                        </select>
+                    </div>
+                    <div class="col select">
+                        <label>Employee:</label>
+                        <select class="form-control" formControlName="employee" id="employee">
+                            <option *ngFor="let employee of filterEmployeeList" [ngValue]="employee">
+                                {{ employee.employeeFirstName}} ({{employee.employeeCode}}) </option>
+                        </select>
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-primary mr-3" data-dismiss="modal" type="submit" (click)='submitFilter()'
+                            [disabled]="!attendanceFilterForm.valid">Submit</button>
+                        <button class="btn btn-secondary" data-dismiss="modal" type="submit"
+                            (click)='closeFilterForm()'>clear</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="card-body">
+            <table class="table table-fixed">
+                <thead>
+                    <tr class="border__hide">
+                        <th scope="col" class="col-md-2 pl-0">Date </th>
+                        <th scope="col" class="col-md-4 pl-0">Employee Name</th>
+                        <th scope="col" class="col-md-1 pl-0">Shift</th>
+                        <th scope="col" class="col-md-1 pl-0">In-Time</th>
+                        <th scope="col" class="col-md-1 pl-0">Out-Time</th>
+                        <th scope="col" class="col-md-2 pl-0">Working Hours</th>
+                        <th scope="col" class="col-md-1 pl-0">Access Time</th>
+
+                    </tr>
+                </thead>
+                <tbody class="scroll-2" id='tableReSize'>
+                    <tr *ngFor="let attendance of employeeAttendanceDataList | search: filterkey | sort: order: orderBy  | paginate: {start: start , limit: limit }; let i = index;"
+                        id="employeeAttendanceData">
+                        <td scope="row" class="col-md-2">
+                            {{formateDateAndTime(attendance.attendanceDate,"date")}}</td>
+                        <td scope="row" class="col-md-4 d-flex">
+                            <div class="placeholder bg__brown"> <img class="profile__images"
+                                    src="data:image/png;base64,{{attendance.gemsEmployeeMaster.gemsUserMaster.profileImgData}}">
+                            </div>
+                            <p class="employeeFirstName">{{attendance.gemsEmployeeMaster.employeeFirstName}}</p>
+                        </td>
+                        <td scope="row" class="col-md-1">
+                            {{attendance.gemsEmployeeMaster.gemsEmployeeShiftDetail.shiftName}}</td>
+                        <td scope="row" class="col-md-1">
+                            {{formateDateAndTime(attendance.attendanceInTime,"Time")}}</td>
+                        <td scope="row" class="col-md-1">
+                            {{formateDateAndTime(attendance.attendanceOutTime,"Time")}}</td>
+                        <td scope="row" class="col-md-2">{{getDuration(attendance.durationBtwInOut)}}</td>
+                        <td scope="row" class="col-md-1 text-center">
+                            <span class="icon_show_password" data-toggle="modal"
+                                (click)='getAttendanceSwipes(attendance)' data-target="#access__time"></span>
+                        </td>
+                    </tr>
+                    <div class="text-center w-100 py-5" *ngIf="employeeAttendanceDataList.length>0?false:true">
+                        <h4>No Record Found!</h4>
+                    </div>
+                </tbody>
+            </table>
+            <!-- Pagination -->
+            <div class="pagination" *ngIf="(employeeAttendanceDataList | search:filterkey)?.length  > 10">
+                <div class="form-group row">
+                    <label class="col col-form-label column-1">Items per page:</label>
+                    <select class="form-control" [(ngModel)]="selectedItemsPerPage" id="pageNo"
+                        (ngModelChange)="changeItemPerPage($event)">
+                        <option *ngFor="let perpageVal of perpageOption" [value]="perpageVal.value">
+                            {{perpageVal.label}}</option>
+                    </select>
+                    <div class="col column-3">
+                        <app-chutti-pagination [currentPage]="currentPage" [count]="totalCount" [pagesToShow]="totalPages"
+                            (goPrev)="goToPrev()" (goNext)="goToNext()" (onPage)="goToPageNo($event)">
+                        </app-chutti-pagination>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!--Import Attendance Modal -->
+<div class="modal fade" id="import__attendance" tabindex="-1" data-backdrop="static" data-keyboard="false" role="dialog"
+    aria-labelledby="import__attendanceLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Import Attendances</h5>
+            </div>
+            <div class="modal-body">
+                <div class="import__modal">
+                    <form [formGroup]="uploadImportAttendanceForm" class="text-center">
+                        <div class="form-group mt-4">
+                            <label class="form-label" for="">Import Using</label>
+                            <select class="form-control" [(ngModel)]="selectedImportUsing"
+                                formControlName='selectedImportUsing' (ngModelChange)="changeItemImportUsing($event)"
+                                id="exampleFormControlSelect1">
+                                <option *ngFor="let importoption of importOption" [value]="importoption.value">
+                                    {{importoption.label}}</option>
+                            </select>
+                        </div>
+                        <div class="download text-center" style="position: relative;">
+                            <label for="fileToUpload" class="download-file my-4"><img
+                                    src="../../../assets/images/cloud-computing.svg">{{uploadFileName}}</label>
+                            <input class="download-file-input my-4" type="file" accept=".xls,.xlsx,.csv"
+                                (change)="onFileSelect($event)" id="fileToUpload">
+                        </div>
+                        <a class="text-center download-pointer" role="button" tabindex="0"
+                            (click)="sampleDownloadFile()">Download a Sample</a>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="upload_dismiss_modal_employee_attendance" data-dismiss="modal"
+                    (click)="resetForm()">Cancel</button>
+                <button class="btn btn-primary" type="submit" (click)="uploadEmployeeAttendance()"
+                    [disabled]="!uploadImportAttendanceForm.valid">Import</button>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<!--Access Time Modal -->
+<div class="modal fade" id="access__time" tabindex="-1" role="dialog" aria-labelledby="access__timeLabel"
+    aria-hidden="true">
+    <div class="modal-dialog timeModal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="accessTime">
+                    <h5>Access Time <span class="icon_cancel float-right" data-dismiss="modal" aria-label="Close">
+                        </span></h5>
+                    <div class="row mt-4">
+                        <div class="col-lg-8">
+                            <div class="d-flex name__select ">
+                                <span class="icon_arrow_thin_left nav-arrow align-self-center"></span>
+                                <div class="placeholder bg__brown"> <img class="profile__images"
+                                        src="{{showAttendanceSwipeProfileImage}}"></div>
+                                <p class="m-0 align-self-center pl-2">{{showAttendanceSwipeEmployeeName}}</p>
+                                <span class="icon_arrow_thin_right nav-arrow align-self-center pl-2"></span>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <h6 class="access__date">
+                                <div class="d-flex date__select justify-content-end">
+                                    <span class="icon_arrow_thin_left nav-arrow align-self-center"></span>
+                                    <p class="m-0 align-self-center pl-2">
+                                        {{formateDateAndTime(showAttendanceSwipeDate,"date")}}</p>
+                                    <span class="icon_arrow_thin_right nav-arrow align-self-center pl-2"></span>
+                                </div>
+                            </h6>
+                        </div>
+                        <div class="col-lg-12 mt-4">
+                            <table class="table support__table">
+                                <thead>
+                                    <tr class="border__hide">
+                                        <th scope="col">Time </th>
+                                        <th scope="col" class="pl-0">Accessed At</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor='let cardSwipe of attendanceSwipeList'>
+                                        <td scope="row">{{formateDateAndTime(cardSwipe.accessedOn,'time')}}</td>
+                                        <td scope="row">{{cardSwipe.accessedAT}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+<!-- Form Date Model -->
+<div class="modal fade fromdate-example-modal-lg" tabindex="-1" id="formdatemodel" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg modal-dialog-centered permissionModel">
+        <div class="modal-content">
+            <div class="modal-header row mx-0 px-0 mt-3 date__picker--header">
+                <div class="col-md-4 align-self-center time__title">
+                </div>
+                <div class="col-md-8 float-right text-right datePicker__header--right align-self-center">
+                    <a class="reset-permission  align-self-center" href="javascript:void(0);"
+                        (click)='resetFilterFormDate()'>Reset</a>
+                    <span class="pl-2 ml-2 permissionDate  align-self-center"><span class="icon_date_picker"></span>
+                        {{showFromDate}}</span>
+                    <!-- <span class="pl-2 ml-2 permissionStartTimepicker  text-right  align-self-center">
+                        <span class="icon_time  align-self-center"></span>
+                    </span> -->
+                </div>
+            </div>
+            <div class="row justify-content-center px-0 mx-0">
+                <div class="col-7 text-center">
+                    <ngb-datepicker #d (select)="onFilterFormDatechange($event)"
+                        [minDate]="{year: 2010, month: 1, day: 1}" [maxDate]="{year: 2048, month: 12, day: 31}"
+                        class="date__table">
+                    </ngb-datepicker>
+                </div>
+            </div>
+            <div class="row justify-content-end mx-0 px-0 mb-5">
+                <div class="col-6  text-right time__submit">
+                    <button type="button" class="btn cancel-button" data-dismiss="modal">Cancel</button>
+                    <!-- (click)='resetPermissionForm()' -->
+                    <button type="button" class="btn theme__btn btn-hover color-3" data-dismiss="modal">Done</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- To Date Model -->
+<div class="modal fade toDate-example-modal-lg" tabindex="-1" id="todatemodel" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg modal-dialog-centered permissionModel">
+        <div class="modal-content">
+            <div class="modal-header row mx-0 px-0 mt-3 date__picker--header">
+                <div class="col-md-4 align-self-center time__title">
+                </div>
+                <div class="col-md-8 float-right text-right datePicker__header--right align-self-center">
+                    <a class="reset-permission  align-self-center" href="javascript:void(0);"
+                        (click)='resetFilterToDate()'>Reset</a>
+                    <span class="pl-2 ml-2 permissionDate  align-self-center"><span class="icon_date_picker"></span>
+                        {{showToDate}}</span>
+                    <!-- <span class="pl-2 ml-2 permissionStartTimepicker  text-right  align-self-center">
+                        <span class="icon_time  align-self-center"></span>
+                    </span> -->
+                </div>
+            </div>
+            <div class="row justify-content-center px-0 mx-0">
+                <div class="col-7 text-center">
+                    <ngb-datepicker #d (select)="onFilterToDatechange($event)" class="date__table">
+                    </ngb-datepicker>
+                </div>
+            </div>
+            <div class="row justify-content-end mx-0 px-0 mb-5">
+                <div class="col-6  text-right time__submit">
+                    <button type="button" class="btn cancel-button" data-dismiss="modal">Cancel</button>
+                    <!-- (click)='resetPermissionForm()' -->
+                    <button type="button" class="btn theme__btn btn-hover color-3" data-dismiss="modal">Done</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

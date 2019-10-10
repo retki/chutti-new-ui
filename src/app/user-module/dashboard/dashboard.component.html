@@ -1,0 +1,42 @@
+<ngx-loading-bar [color]="'#6747D4'" [includeSpinner]='false'></ngx-loading-bar>
+<div class="dashboard__content">
+        <h3 class="w-100"><span class="api__name">{{name}}'s</span> Dashboard</h3>
+    <div class="row justify-content-center h-100 dashboard-row">
+           
+        <div class="col-12 col-md-6 col-lg-4 h-6 hide__elements" id="apply">
+            <div class="inner__section--styles">
+                <app-quick-apply [dashBoardPaginationView]="false"></app-quick-apply>
+            </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-4 h-6 quick__apply-bg hide__elements" id="bank">
+            <div class="inner__section--styles">
+                <app-leave-bank></app-leave-bank>
+            </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-4 h-3 hide__elements" id="attendance">
+            <div class="inner__section--styles">
+                <app-dashboard-attendance></app-dashboard-attendance>
+            </div>
+            
+        </div>
+        <div id="whosisonleave" class="col-12 col-md-6 col-lg-4 h-7">
+                <div class="inner__section--styles">
+                    <app-whos-on-leave [showdashwhoseonleavepagination]="showdashwhoseonleavepagination"
+                            [dashBoardPaginationView]="false"></app-whos-on-leave>
+                </div>
+            </div>
+         
+
+        <div class="col-12 col-md-12 col-lg-8 h-4" id="leavestatus">
+            <div class="inner__section--styles" id="leave__status">
+                <div class="viewMore__details expand" (click)="expandleavestatus();"><span class="icon_expand"></span>
+                </div>
+                <div class="viewMore__details compress d-none" (click)="expandleavestatus();"><span
+                        class="icon_collapse"></span></div>
+                <app-leave-status [showdashleavestatuspagination]="showdashleavestatuspagination"
+                    [dashBoardPaginationView]="false"></app-leave-status>
+            </div>
+        </div>
+       
+    </div>
+</div>

@@ -1,0 +1,14 @@
+.disabled
+{
+    pointer-events: none !important;
+}
+
+.page__selection {
+    a{
+        cursor: not-allowed;
+    }
+    span {
+    cursor: pointer;
+    pointer-events: all;
+    }
+}

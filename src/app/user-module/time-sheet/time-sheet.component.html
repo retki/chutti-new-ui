@@ -1,0 +1,79 @@
+<!-- <p>time-sheet works!</p>
+
+<a routerLink="/user/timesheet/addTimeSheet">Add Timesheet click</a>
+<br>
+<a routerLink="/user/timesheet/editTimeSheet">Edit Timesheet click</a> -->
+
+<ngx-loading-bar [color]="'#6747D4'" [includeSpinner]='false'></ngx-loading-bar>
+
+<div class="timeSheet dashboard__content">
+    <h3>Timesheet</h3>
+    <div class="choose projects">
+        <div class="form-group chutti__app">
+            <label for="exampleFormControlSelect1">projects</label>
+            <select class="form-control" id="exampleFormControlSelect1" (ngModelChange)="onChange($event)"
+                [(ngModel)]="selectedproject">
+                <option *ngFor="let project of projectList" [ngValue]="project.gemsProjectMaster">
+                    {{project.gemsProjectMaster.projectName}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="inner__section timesheet__section rounded">
+        <h5>Chutti Timesheet</h5>
+        <div class="search">
+            <!-- <div class="form-group">
+                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                    placeholder="search">
+                <span class="icon_search"></span>
+            </div> -->
+            <a routerLink="/user/timesheet/addTimeSheet" class="float-right add__timesheet--btn"><span
+                    class="open__modal icon_add"></span></a>
+        </div>
+
+
+        <div class="timesheet__table">
+            <table class="table">
+                <thead>
+                    <tr class="border__hide">
+                        <th scope="col">Date</th>
+                        <th scope="col">Duration</th>
+                        <!-- <th scope="col">Description</th> -->
+                        <th scope="col">Status</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let timeSheetdetail of timeSheetList">
+                        <td>{{timeSheetdetail.weekDuration}}</td>
+                        <td>{{timeSheetdetail.totalHours}}</td>
+                        <td>{{timeSheetdetail.status}}</td>
+                        <td><span class="icon_edit_filled edit__btn" (click)="clickedOnEditTimeSheet(timeSheetdetail)"></span>
+                            <span class="icon_delete_filled delete_btn"></span></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="table__bottom timesheet__bottom--table text-right">
+                <span class="items__nos">
+                    <div class="form-group page__section time__page">
+                        <label for="pageNo">Items per page:</label>
+                        <select class="form-control" id="pageNo">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                        </select>
+                    </div>
+                </span>
+                <span class="visible__page">
+                    <span> 1 </span> - <span> 2 </span> of <span> 2 </span>
+                </span>
+                <span class="page__selection">
+                    <a><span class="icon_arrow_thick_left"></span></a>
+                    <a><span class="icon_arrow_thick_right"></span></a>
+
+                </span>
+            </div>
+        </div>
+    </div>
+</div>

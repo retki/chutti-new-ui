@@ -1,0 +1,648 @@
+<ngx-loading-bar [color]="'#6747D4'" [includeSpinner]="false"></ngx-loading-bar>
+<div class="dashboard__content">
+    <h3> Employee</h3>
+    <div class="inner__section employee_add__page">
+        <h5>Add Employee</h5>
+        <p class="float-right alert-danger">{{errorMessage}}</p>
+        <span class="icon_arrow_up1"></span>
+        <div class="nav nav-tabs employee__tab mt-4" id="nav-tab" role="tablist">
+            <a class=" active ml-0" id="nav-general-tab" data-toggle="tab" href="#nav-general" role="tab"
+                aria-controls="nav-general" aria-selected="true">
+                <div class="steps_num align-self-center">
+                    <p>1</p>
+                </div>
+                <div class=" align-self-center">General <span> -----</span></div>
+            </a>
+
+            <a class="" id="nav-company-info-tab" data-toggle="tab" href="#nav-company-info" role="tab"
+                aria-controls="nav-company-info" (click)="goToNextTab()" aria-selected="false">
+                <div class="steps_num align-self-center">
+                    <p>2</p>
+                </div>
+                <div class=" align-self-center">Company Information </div>
+            </a>
+        </div>
+
+        <!-- General Tab Content        -->
+        <div class="tab-content employee--input h-100" id="nav-tabContent">
+            <div class="tab-pane fade show active h-100" id="nav-general" role="tabpanel"
+                aria-labelledby="nav-general-tab">
+                <form [formGroup]="generalForm">
+                    <div class="new__organization row mt-lg-2 mx-0">
+
+                        <div class="col-lg-10 pr-lg-5">
+                            <div class="row">
+                                <div class="col-lg-6  pr-lg-5">
+                                    <div class="form-group">
+                                        <label for="" class="form-label">First Name</label>
+                                        <input type="text" formControlName="firstName" class="form-control" />
+                                        <div *ngIf="generalForm.get('firstName').errors 
+                                            && (generalForm.get('firstName').dirty
+                                            || generalForm.get('firstName').touched
+                                            || submitted) " class="error error-msg">
+                                            <div [hidden]="!generalForm.get('firstName').errors.required">
+                                                <small>First Name is required.</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label for="" class="form-label">Last Name</label>
+                                        <input type="text" formControlName="lastName" class="form-control" />
+                                        <div *ngIf="generalForm.get('lastName').errors 
+                                            && (generalForm.get('lastName').dirty
+                                            || generalForm.get('lastName').touched
+                                            || submitted) " class="error error-msg">
+                                            <div [hidden]="!generalForm.get('lastName').errors.required">
+                                                <small>Last Name is required.</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6  pr-lg-5">
+                                    <div class="form-group">
+                                        <label for="" class="form-label">Date of Birth</label>
+                                        <span data-toggle="modal" data-target=".bd-example-modal-lg">
+                                            <input class="form-control" name="daterange" type="text" [max]="maxDate"
+                                                formControlName="dob" (selected)="onDateOfBirthDate($event)">
+                                            <span class="calender_icon icon_date_picker"></span>
+                                        </span>
+                                        <div *ngIf="generalForm.get('dob').errors 
+                                        && (generalForm.get('dob').dirty
+                                        || generalForm.get('dob').touched 
+                                        || submitted) " class="error error-msg">
+                                            <div [hidden]="!generalForm.get('dob').errors.required">
+                                                <small>Date of Birth is required.</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label for="" class="form-label">Personal Email ID</label>
+                                        <input type="text" formControlName="personalEmailId" class="form-control">
+                                        <div *ngIf="generalForm.get('personalEmailId').errors 
+                                            && (generalForm.get('personalEmailId').dirty
+                                            || generalForm.get('personalEmailId').touched 
+                                            || submitted) " class="error error-msg">
+                                            <div [hidden]="!generalForm.get('personalEmailId').errors.required">
+                                                <small>Personal email address is required.</small>
+                                            </div>
+                                            <div [hidden]="!generalForm.get('personalEmailId').errors.pattern">
+                                                <small>Enter valid email address.</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6  pr-lg-5">
+                                    <div class="form-group">
+                                        <label for="" class="form-label">Emergency Contact Number</label>
+                                        <input type="text" formControlName="emergencyContactNo"
+                                            (keypress)="onKeyPress($event)" maxlength="10" class="form-control" />
+                                        <div *ngIf="generalForm.get('emergencyContactNo').errors 
+                                            && (generalForm.get('emergencyContactNo').dirty
+                                            || generalForm.get('emergencyContactNo').touched 
+                                            || submitted)" class="error error-msg">
+                                            <div [hidden]="!generalForm.get('emergencyContactNo').errors?.required">
+                                                <small>Emergency contact number is required.</small>
+                                            </div>
+                                            <div [hidden]="!generalForm.get('emergencyContactNo').errors?.minlength">
+                                                    <small>Emergency contact number must be max 10 characters long.</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label for="" class="form-label">Blood Group</label>
+                                        <select class="form-control" formControlName="bloodGroup">
+                                            <option [value]=""></option>
+                                            <option value="O-">O-</option>
+                                            <option value="O+">O+</option>
+                                            <option value="A-">A-</option>
+                                            <option value="A+">A+</option>
+                                            <option value="B-">B-</option>
+                                            <option value="B+">B+</option>
+                                            <option value="AB-">AB-</option>
+                                            <option value="AB+">AB+</option>
+                                        </select>
+                                        <div *ngIf="generalForm.get('bloodGroup').errors 
+                                        && (generalForm.get('bloodGroup').dirty
+                                        || generalForm.get('bloodGroup').touched 
+                                        || submitted)" class="error error-msg">
+                                            <div [hidden]="!generalForm.get('bloodGroup').errors.required ">
+                                                <small>Blood group is required.</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6  pr-lg-5">
+                                    <div class="form-group">
+                                        <label for="" class="form-label">Contact No</label>
+                                        <input type="text" formControlName="contactNo" (keypress)="onKeyPress($event)"
+                                            maxlength="10"  class="form-control" />
+                                        <div *ngIf="generalForm.get('contactNo').errors 
+                                            && (generalForm.get('contactNo').dirty
+                                            || generalForm.get('contactNo').touched
+                                            || submitted)" class="error error-msg">
+                                            <div [hidden]="!generalForm.get('contactNo').errors.required">
+                                                <small>Contact number is required.</small>
+                                            </div>
+                                            <div [hidden]="!generalForm.get('contactNo').errors.minlength">
+                                                    <small>Contact number must be max 10 characters long.</small>
+                                                </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label for="" class="form-label">Gender</label>
+                                        <div class="form-group mb-0 quick__apply--type">
+                                            <div class="radio">
+                                                <input id="radio-1" name="employeeGender"
+                                                    formControlName="employeeGender" value="M" type="radio">
+                                                <label for="radio-1" class="radio-label">
+                                                    <div class="checker"></div> Male
+                                                </label>
+                                            </div>
+
+                                            <div class="radio">
+                                                <input id="radio-2" name="employeeGender"
+                                                    formControlName="employeeGender" value="F" type="radio">
+                                                <label for="radio-2" class="radio-label">
+                                                    <div class="checker"></div> Female
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div *ngIf="generalForm.get('employeeGender').errors 
+                                        && (generalForm.get('employeeGender').dirty
+                                        || generalForm.get('employeeGender').touched 
+                                        || submitted)" class="error error-msg">
+                                            <div [hidden]="!generalForm.get('employeeGender').errors.required">
+                                                <small>Gender is required.</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
+                            <div class="company__logo d-flex justify-content-center" id="uploadClick">
+                                <div class="upload__logo text-center  align-self-center">
+                                    <label class="fileUpload">
+                                        <img id="upload_img"
+                                            src="../../../../../assets/images/admin/upload-to-cloud.svg">
+                                        Upload Logo
+                                        <input id="fileInput" type="file" class="custom-file-input" for="uploadClick"
+                                            accept="image/png,image/jpg" (change)="onSelectFile($event)">
+                                    </label>
+                                </div>
+
+                            </div>
+                            <p class="company__logo--info d-flex mt-2">Image size should be below 1MB Supported Formats
+                                (.png,
+                                .jpeg)
+                            </p>
+                        </div>
+                        <div class="col-lg-12">
+
+                            <div class="row">
+
+                                <div class="col-12">
+                                    <h6 class="text-uppercase">CURRENT ADDRESS</h6>
+                                </div>
+                                <div class="col-lg-4">
+                                    <ng4geo-autocomplete [userSettings]="userSettings"
+                                        (componentCallback)="autoCompleteCallback1($event)"></ng4geo-autocomplete>
+                                </div>
+                                <div class="col-lg-2">
+                                    <div class="form-group">
+                                        <label for="" class="form-label">Door No.</label>
+                                        <input type="text" class="form-control" formControlName="curDoorNo" />
+                                        <div *ngIf="generalForm.get('curDoorNo').errors 
+                                            && (generalForm.get('curDoorNo').dirty
+                                            || generalForm.get('curDoorNo').touched 
+                                            || submitted)" class="error error-msg">
+                                            <div [hidden]="!generalForm.get('curDoorNo').errors.required">
+                                                <small>Door no is required.</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="form-group">
+                                        <label for="" class="form-label">Street</label>
+                                        <input type="text" class="form-control" formControlName="curStreet" />
+                                        <div *ngIf="generalForm.get('curStreet').errors 
+                                            && (generalForm.get('curStreet').dirty
+                                            || generalForm.get('curStreet').touched 
+                                            || submitted)" class="error error-msg">
+                                            <div [hidden]="!generalForm.get('curStreet').errors.required">
+                                                <small>Street is required.</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="form-group">
+                                        <label for="" class="form-label">City</label>
+                                        <input type="text" class="form-control" formControlName="curCity" />
+                                        <div *ngIf="generalForm.get('curCity').errors 
+                                            && (generalForm.get('curCity').dirty
+                                            || generalForm.get('curCity').touched 
+                                            || submitted)" class="error error-msg">
+                                            <div [hidden]="!generalForm.get('curCity').errors.required">
+                                                <small>City is required.</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label for="" class="form-label">State</label>
+                                        <input type="text" class="form-control" formControlName="curState" />
+                                        <div *ngIf="generalForm.get('curState').errors 
+                                        && (generalForm.get('curState').dirty
+                                        || generalForm.get('curState').touched 
+                                        || submitted)" class="error error-msg">
+                                            <div [hidden]="!generalForm.get('curState').errors.required">
+                                                <small>State is required.</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label for="" class="form-label">Pincode</label>
+                                        <input type="text" (keypress)="onKeyPress($event)" class="form-control" maxlength="6"
+                                            formControlName="curPincode" />
+                                        <div *ngIf="generalForm.get('curPincode').errors 
+                                            && (generalForm.get('curPincode').dirty
+                                            || generalForm.get('curPincode').touched 
+                                            || submitted)" class="error error-msg">
+                                            <div [hidden]="!generalForm.get('curPincode').errors.required">
+                                                <small>Pincode is required.</small>
+                                            </div>
+                                            <div [hidden]="!generalForm.get('curPincode').errors.minlength">
+                                                    <small>Pincode must be max 6 characters long.</small>
+                                                </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label for="" class="form-label">Country</label>
+                                        <input type="text" class="form-control" formControlName="curCountry" />
+                                        <div *ngIf="generalForm.get('curCountry').errors 
+                                            && (generalForm.get('curCountry').dirty
+                                            || generalForm.get('curCountry').touched 
+                                            || submitted)" class="error error-msg">
+                                            <div [hidden]="!generalForm.get('curCountry').errors.required">
+                                                <small>Country is required.</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="d-flex">
+                                        <h6 class="text-uppercase align-self-center mb-0 pr-3"> PERMANENT ADDRESS </h6>
+                                        <div class="form-group align-self-center">
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input"
+                                                    id="attendance__requests" [checked]="isSameAddress"
+                                                    (change)="checkSameAddress($event)">
+                                                <label class="custom-control-label" for="attendance__requests"> <span
+                                                        class="attendance__requests">Same as Current
+                                                        Address</span></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div *ngIf="!isSameAddress" class="col-12 permanent__address">
+                                    <div class="col-lg-2">
+                                        <div class="form-group">
+                                            <label for="" class="form-label">Door No.</label>
+                                            <input type="text" class="form-control" formControlName="perDoorNo" />
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-7">
+                                        <div class="form-group">
+                                            <label for="" class="form-label">Street</label>
+                                            <input type="text" class="form-control" formControlName="perStreet" />
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="form-group">
+                                            <label for="" class="form-label">City</label>
+                                            <input type="text" class="form-control" formControlName="perCity" />
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="form-group">
+                                            <label for="" class="form-label">State</label>
+                                            <input type="text" class="form-control" formControlName="perState" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-4">
+                                        <div class="form-group">
+                                            <label for="" class="form-label">Pincode</label>
+                                            <input type="text" class="form-control" minlength="6" maxlength="6"
+                                                (keypress)="onKeyPress($event)" formControlName="perPincode" />
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="form-group">
+                                            <label for="" class="form-label">Country</label>
+                                            <input type="text" class="form-control" formControlName="perCountry" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="bottom__btn mt-0">
+                                    <button class="btn btn-secondary" type="button"
+                                        [routerLink]="['/admin/employee']">Cancel</button>
+                                    <button class="btn btn-primary" data-target="#nav-company-info" type="button"><a
+                                            (click)="goToNextTab()" data-toggle="tab">Next</a></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="tab-pane fade" id="nav-companyinfo" role="tabpanel" aria-labelledby="nav-company-info-tab">
+                <form [formGroup]="companyInfoForm">
+                    <div class="row px-2 mt-3">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label">Attendance ID</label>
+                                <input type="text" formControlName="attendanceId" class="form-control" />
+                                <div *ngIf="companyInfoForm.get('attendanceId').errors 
+                                && (companyInfoForm.get('attendanceId').dirty
+                                || companyInfoForm.get('attendanceId').touched 
+                                || submittedBtn2)" class="error error-msg">
+                                    <div [hidden]="!companyInfoForm.get('attendanceId').errors.required">
+                                        <small>Attendance id is required.</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="" class="form-label">Date of Joining</label>
+                                <span data-toggle="modal" data-target=".doj-example-modal-lg">
+                                    <input class="form-control" name="dateofJoining" type="text"
+                                        formControlName="dateofJoining" (selected)="onDateOfJoiningDate($event)">
+                                    <span class="calender_icon icon_date_picker"></span>
+                                </span>
+                                <div *ngIf="companyInfoForm.get('dateofJoining').errors 
+                                && (companyInfoForm.get('dateofJoining').dirty
+                                || companyInfoForm.get('dateofJoining').touched 
+                                || submittedBtn2)" class="error error-msg">
+                                    <div [hidden]="!companyInfoForm.get('dateofJoining').errors.required">
+                                        <small>Join date is required.</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- </div> -->
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label">Work Location</label>
+                                <input type="text" formControlName="workLocation" class="form-control" />
+                                <div *ngIf="companyInfoForm.get('workLocation').errors 
+                                    && (companyInfoForm.get('workLocation').dirty
+                                    || companyInfoForm.get('workLocation').touched 
+                                    || submittedBtn2)" class="error error-msg">
+                                    <div [hidden]="!companyInfoForm.get('workLocation').errors.required">
+                                        <small>Work location is required.</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label">Department</label>
+                                <select class="form-control" formControlName="department"
+                                    [(ngModel)]="selectedDepartment"
+                                    (ngModelChange)="getDesignationByDepartment($event)">
+                                    <option *ngFor="let department of departments" [ngValue]="department">
+                                        {{department.departmentName}}</option>
+                                </select>
+                                <div *ngIf="companyInfoForm.get('department').errors 
+                                && (companyInfoForm.get('department').dirty
+                                || companyInfoForm.get('department').touched 
+                                || submittedBtn2)" class="error error-msg">
+                                    <div [hidden]="!companyInfoForm.get('department').errors.required">
+                                        <small>Department is required.</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label">Designation</label>
+                                <select class="form-control" formControlName="designation">
+                                    <option *ngFor="let designation of designations" [ngValue]="designation">
+                                        {{designation.gemsDesignationName}}
+                                    </option>
+                                </select>
+                                <div *ngIf="companyInfoForm.get('designation').errors 
+                                && (companyInfoForm.get('designation').dirty
+                                || companyInfoForm.get('designation').touched 
+                                || submittedBtn2)" class="error error-msg">
+                                    <div [hidden]="!companyInfoForm.get('designation').errors.required">
+                                        <small>Desination is required.</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label">Role</label>
+                                <select class="form-control" formControlName="role">
+                                    <option *ngFor="let role of roles" [ngValue]="role">
+                                        {{role.roleName}}
+                                    </option>
+                                </select>
+                                <div *ngIf="companyInfoForm.get('role').errors 
+                                && (companyInfoForm.get('role').dirty
+                                || companyInfoForm.get('role').touched 
+                                || submittedBtn2)" class="error error-msg">
+                                    <div [hidden]="!companyInfoForm.get('role').errors.required">
+                                        <small>Role is required.</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label">Reporting Manager</label>
+                                <select class="form-control" formControlName="reportingManager">
+                                    <option *ngFor="let employee of employeesList" [ngValue]="employee">
+                                        {{employee.employeeFirstName}} ({{employee.employeeCode}})
+                                    </option>
+                                </select>
+                                <div *ngIf="companyInfoForm.get('reportingManager').errors 
+                                && (companyInfoForm.get('reportingManager').dirty
+                                || companyInfoForm.get('reportingManager').touched 
+                                || submittedBtn2)" class="error error-msg">
+                                    <div [hidden]="!companyInfoForm.get('reportingManager').errors.required">
+                                        <small>Reporting manager is required.</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label">Employee Shift</label>
+                                <select class="form-control" formControlName="employeeShift">
+                                    <option *ngFor="let shift of shifts" [ngValue]="shift">{{shift.shiftName}}
+                                    </option>
+                                </select>
+                                <div *ngIf="companyInfoForm.get('employeeShift').errors 
+                                && (companyInfoForm.get('employeeShift').dirty
+                                || companyInfoForm.get('employeeShift').touched 
+                                || submittedBtn2)" class="error error-msg">
+                                    <div [hidden]="!companyInfoForm.get('employeeShift').errors.required">
+                                        <small>Employee shift is required.</small>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label">Company Email ID</label>
+                                <input type="text" formControlName="companyMailId" class="form-control" />
+                                <div *ngIf="companyInfoForm.get('companyMailId').errors 
+                                    && (companyInfoForm.get('companyMailId').dirty
+                                    || companyInfoForm.get('companyMailId').touched 
+                                    || submittedBtn2)" class="error error-msg">
+                                    <div [hidden]="!companyInfoForm.get('companyMailId').errors.required">
+                                        <small>Company email address is required.</small>
+                                    </div>
+                                    <div [hidden]="!companyInfoForm.get('companyMailId').errors.pattern">
+                                        <small>Enter valid email address.</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label">Employee Code</label>
+                                <input type="text" formControlName="employeeCode" class="form-control" />
+                                <div *ngIf="companyInfoForm.get('employeeCode').errors 
+                                    && (companyInfoForm.get('employeeCode').dirty
+                                    || companyInfoForm.get('employeeCode').touched 
+                                    || submittedBtn2)" class="error error-msg">
+                                    <div [hidden]="!companyInfoForm.get('employeeCode').errors.required">
+                                        <small>Employee code is required.</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label">Employee Status</label>
+                                <select class="form-control" formControlName="employeeStatus">
+                                    <option *ngFor="let status of employeeStatus" [ngValue]="status">
+                                        {{status.statusDescription}}
+                                    </option>
+                                </select>
+                                <div *ngIf="companyInfoForm.get('employeeStatus').errors 
+                                && (companyInfoForm.get('employeeStatus').dirty
+                                || companyInfoForm.get('employeeStatus').touched 
+                                || submittedBtn2)" class="error error-msg">
+                                    <div [hidden]="!companyInfoForm.get('employeeStatus').errors.required">
+                                        <small>Employee status is required.</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="row justify-content-end mx-0 px-0 mt-4">
+                    <div class="col-6  text-right time__submit">
+                        <button type="button" class="btn-secondary"
+                            [routerLink]="['/admin/employee']">Cancel</button>
+                        <button type="submit" (click)="submitGeneralForm()"
+                            class="btn btn-primary">Save</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Date Of Birth DatePicker -->
+<div class="modal fade bd-example-modal-lg" tabindex="-1" id="dobmodel" role="dialog"
+aria-labelledby="myLargeModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg modal-dialog-centered permissionModel">
+        <div class="modal-content">
+            <div class="modal-header row mx-0 px-0 mt-3 date__picker--header">
+                <div class="col-md-4 align-self-center time__title">
+                </div>
+                <div class="col-md-8 float-right text-right datePicker__header--right align-self-center">
+                    <a class="reset-permission  align-self-center" href="javascript:void(0);"
+                        (click)="resetBirthDate()">Reset</a>
+                    <span class="pl-0 ml-2 permissionDate  align-self-center"><span class="icon_date_picker"></span>
+                        {{dobDate}}</span>
+                </div>
+            </div>
+            <div class="row justify-content-center px-0 mx-0">
+                <div class="col-7 text-center">
+                    <ngb-datepicker #d (select)="onDateOfBirthDate($event)" [maxDate]="maxDate" [minDate]="minDate" class="date__table">
+                    </ngb-datepicker>
+                </div>
+            </div>
+            <div class="row justify-content-end mx-0 px-0 mb-5">
+                <div class="col-6  text-right time__submit">
+                    <button type="button" class="btn cancel-button" data-dismiss="modal">Cancel</button> 
+                    <button type="button" class="btn theme__btn btn-hover color-3" data-dismiss="modal">Done</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Date Of Joining DatePicker -->
+
+<div class="modal fade doj-example-modal-lg" tabindex="-1" id="dobmodel" role="dialog"
+aria-labelledby="myLargeModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg modal-dialog-centered permissionModel">
+        <div class="modal-content">
+            <div class="modal-header row mx-0 px-0 mt-3 date__picker--header">
+                <div class="col-md-4 align-self-center time__title">
+                </div>
+                <div class="col-md-8 float-right text-right datePicker__header--right align-self-center">
+                    <a class="reset-permission  align-self-center" href="javascript:void(0);"
+                        (click)="resetDateOfJoining()">Reset</a>
+                    <span class="pl-0 ml-2 permissionDate  align-self-center">
+                        <span class="icon_date_picker"></span>{{dojDate}}</span>
+                </div>
+            </div>
+            <div class="row justify-content-center px-0 mx-0">
+                <div class="col-7 text-center">
+                    <ngb-datepicker #d (select)="onDateOfJoiningDate($event)" [maxDate]="maxDate" [minDate]="minDate" class="date__table">
+                    </ngb-datepicker>
+                </div>
+            </div>
+            <div class="row justify-content-end mx-0 px-0 mb-5">
+                <div class="col-6  text-right time__submit">
+                    <button type="button" class="btn cancel-button" data-dismiss="modal">Cancel</button> 
+                    <button type="button" class="btn theme__btn btn-hover color-3" data-dismiss="modal">Done</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,324 @@
+$white:#ffffff;
+$border-color:#DEDEDE;
+$border-light:#E8E8E8;
+$light-blue:#F1F7FB;
+$darkPink:#9A45D2;
+$darkBlue:#6747D4;
+$text-color:#212529;
+$table-text-color:#5c5c5c;
+$primaryColor:#7151DC;
+$gray:#6E6E6E;
+$black:#000000;
+$darkRed:#E32C2C;
+$orange:#FF6C00;
+$brown:#AA347B;
+$arrowGray:#848484;
+$blue: #1c91ff;
+$rose:#F94F89;
+$neptune:#7CA1B1;
+$yellow:#E2860D;
+$color-back: #efefef;
+$color-bar: #6747D4;
+
+[class^="icon_"],
+[class*=" icon_"] {
+  font-family: 'chutti' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+[class^="icon1-"],
+[class*=" icon1-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+
+@mixin bg-gradient() {
+  background-image: linear-gradient(120deg, $darkPink 20%, $darkBlue 80%);
+}
+
+@mixin theme-btn() {
+  background-image: linear-gradient(120deg, $darkBlue 0%, $darkPink 100%);
+}
+
+@mixin bg-black() {
+  background-image: linear-gradient(to right, $black 0%, #121213 100%);
+}
+
+@mixin font-color() {
+  background-image: linear-gradient(120deg, $darkPink 20%, $darkBlue 80%);
+  background: -webkit-linear-gradient(120deg, $darkPink 20%, $darkBlue 80%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+@mixin border-bottom() {
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-radius: 0;
+  outline: none !important;
+
+  &:focus {
+    box-shadow: none;
+    border-color: $darkBlue;
+  }
+}
+
+@mixin userImg () {
+
+  box-shadow: 0 0 5px rgba(0, 0, 0, .15);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: $white;
+  font-weight: 500;
+  letter-spacing: 0px;
+  text-transform: uppercase;
+}
+
+%btn-shared {
+  min-height: 55px;
+}
+
+.icon_dashboard:before {
+  content: "\e100"
+}
+
+.icon_leave:before {
+  content: "\e101"
+}
+
+.icon_attendance:before {
+  content: "\e102"
+}
+
+.icon_timesheet:before {
+  content: "\e103"
+}
+
+.icon_attendance1:before {
+  content: "\e104"
+}
+
+.icon_support:before {
+  content: "\e105"
+}
+
+.icon_quick_apply:before {
+  content: "\e106"
+}
+
+.icon_leave_bank:before {
+  content: "\e107"
+}
+
+.icon_collapse:before {
+  content: "\e108"
+}
+
+.icon_expand:before {
+  content: "\e109"
+}
+
+.icon_filter:before {
+  content: "\e10a"
+}
+
+.icon_date_picker:before {
+  content: "\e10b"
+}
+
+.icon_arrow_thick_left:before {
+  content: "\e10c"
+}
+
+.icon_arrow_thick_right:before {
+  content: "\e10d"
+}
+
+.icon_arrow_thin_left:before {
+  content: "\e10e"
+}
+
+.icon_arrow_thin_right:before {
+  content: "\e10f"
+}
+
+.icon_hold:before {
+  content: "\e110"
+}
+
+.icon_cancel:before {
+  content: "\e111"
+}
+
+.icon_tick:before {
+  content: "\e112"
+}
+
+.icon_lock:before {
+  content: "\e113"
+}
+
+.icon_edit_outline:before {
+  content: "\e114"
+}
+
+.icon_edit_filled:before {
+  content: "\e115"
+}
+
+.icon_delete_filled:before {
+  content: "\e116"
+}
+
+.icon_search:before {
+  content: "\e117"
+}
+
+.icon_notifications:before {
+  content: "\e118"
+}
+
+.icon_time:before {
+  content: "\e119"
+}
+
+.icon_date_time:before {
+  content: "\e11a"
+}
+
+.icon_probation:before {
+  content: "\e11b"
+}
+
+.icon_confirmed:before {
+  content: "\e11c"
+}
+
+.icon_holidays:before {
+  content: "\e11d"
+}
+
+.icon_priority_urgent:before {
+  content: "\e11e"
+}
+
+.icon_arrow_up:before {
+  content: "\e11f"
+}
+
+.icon_arrow_down:before {
+  content: "\e120"
+}
+
+.icon_show_password:before {
+  content: "\e121"
+}
+
+.icon_hide_password:before {
+  content: "\e122"
+}
+
+.icon_name:before {
+  content: "\e123"
+}
+
+.icon_organisation:before {
+  content: "\e124"
+}
+
+.icon_phone:before {
+  content: "\e125"
+}
+
+.icon_email:before {
+  content: "\e126"
+}
+
+.icon_password:before {
+  content: "\e127"
+}
+
+.icon_add:before {
+  content: "\e128"
+}
+
+.icon_sign_out:before {
+  content: "\e129"
+}
+
+.icon_profile:before {
+  content: "\e12a"
+}
+
+.icon_warning:before {
+  content: "\e12b"
+}
+
+.icon_camera:before {
+  content: "\e12c"
+}
+
+.icon1-upload-to-cloud:before {
+  content: "\e900";
+}
+
+.icon1-cloud-computing:before {
+  content: "\e901";
+}
+
+.icon1-dashboard:before {
+  content: "\e902";
+}
+
+.icon1-filter-results:before {
+  content: "\e903";
+}
+
+.icon1-building:before {
+  content: "\e904";
+}
+
+.icon1-noun_Calendar:before {
+  content: "\e905";
+}
+
+.icon1-noun_Project:before {
+  content: "\e906";
+}
+
+.icon1-noun_Upload:before {
+  content: "\e907";
+}
+
+.icon1-noun_users:before {
+  content: "\e908";
+}
+
+.icon1-noun_Work:before {
+  content: "\e909";
+}
+
+.icon1-Path:before {
+  content: "\e90a";
+}

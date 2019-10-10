@@ -1,0 +1,210 @@
+<div class="loader" *ngIf="preloader">
+    <svg class="spinner" width="65px" height="65px" viewBox="0 0 66 66">
+        <circle class="path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle>
+    </svg>
+</div>
+
+<div class="search__container">
+    <div class="form-group">
+        <input type="text" placeholder="Search" [(ngModel)]="filterkey" class="form-control">
+        <span class="icon icon_search"></span>
+    </div>
+    <div>
+        <a href="#" class="btn btn-primary btn-round" data-toggle="modal" data-target="#addDepartmentModal"
+            (click)="resetForm()">
+            <i class="icon_add"></i>
+        </a>
+    </div>
+</div>
+
+<table class="table support__table table-fixed">
+    <thead>
+        <tr class="border__hide">
+            <th scope="col" class=" col-md-3 pl-0">Department Name</th>
+            <th scope="col" class=" col-md-2 pl-0">Department Code</th>
+            <th scope="col" class="col-md-4 pl-0">Department Description</th>
+            <th scope="col" class="col-md-2 pl-0">Department Lead</th>
+            <th scope="col" class="col-md-1 pl-0 action-head">Actions</th>
+        </tr>
+    </thead>
+    <tbody class="scroll-1">
+        <tr
+            *ngFor="let departmentlistobj of departmentlist  | search: filterkey | paginate: {start: start , limit: limit }; let i = index;">
+            <td scope="row" class="col-md-3">{{departmentlistobj.departmentName}}</td>
+            <td scope="row" class="col-md-2">{{departmentlistobj.departmentCode}}</td>
+            <td scope="row" class="col-md-4">{{departmentlistobj.departmentDescription}}</td>
+            <td scope="row" class="col-md-2"> <span
+                    *ngIf="departmentlistobj.departmentlead">{{departmentlistobj.departmentlead.employeeFirstName}}</span>
+                <span *ngIf="departmentlistobj.departmentlead === null">--</span>
+            </td>
+            <td scope="row" class="col-md-1 action-btn"> <i class="icon_edit_filled" data-toggle="modal"
+                    data-target="#updateModal" (click)="upadteobj(departmentlistobj)"></i>
+                <i class="icon_delete_filled" data-toggle="modal" data-target="#deleteModal"
+                    (click)="deleteObject(departmentlistobj)"></i>
+            </td>
+        </tr>
+        <div class="text-center w-100 py-5" *ngIf="departmentlist.length>0 ? false:true">
+            <h4>No Record Found!</h4>
+        </div>
+    </tbody>
+</table>
+
+<!-- Pagination -->
+<div class="pagination" *ngIf=" (departmentlist | search:filterkey)?.length  > 10">
+    <div class="form-group row">
+        <label class="col col-form-label column-1">Items per page:</label>
+        <select class="form-control col column-2" [(ngModel)]="selectedItemsPerPage" id="pageNo"
+                (ngModelChange)="changeItemPerPage($event)">
+                <option *ngFor="let perpageVal of perpageOption" [value]="perpageVal.value">
+                    {{perpageVal.label}}</option>
+            </select>
+        <div class="col column-3">
+            <app-chutti-pagination [currentPage]="currentPage" [count]="totalCount" [pagesToShow]="totalPages"
+        (goPrev)="goToPrev()" (goNext)="goToNext()" (onPage)="goToPageNo($event)"></app-chutti-pagination>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="addDepartmentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body addDepartmentModal">
+                <h5>Add Department</h5>
+                <form class="support__request" [formGroup]="adddepartmentform">
+                    <div class="form-group support__request--input">
+                        <label class="form-label">Department Name</label>
+                        <input class="form-control" formControlName="departmentName" required /> <small
+                            *ngIf="adddepartmentform.controls['departmentName'].errors && !adddepartmentform.controls['departmentName'].pristine"
+                            class="form-text text-muted"> Enter a departmentName</small>
+                    </div>
+                    <div class="form-group support__request--input">
+                        <label class="form-label">Department Code</label>
+                        <input class="form-control" formControlName="departmentCode" required /> <small
+                            *ngIf="adddepartmentform.controls['departmentCode'].errors && !adddepartmentform.controls['departmentCode'].pristine"
+                            class="form-text text-muted"> Enter a departmentCode</small>
+                    </div>
+                    <div class="form-group support__request--input">
+                        <label class="form-label">Description</label>
+                        <input class="form-control" formControlName="departmentDescription" required /> <small
+                            *ngIf="adddepartmentform.controls['departmentDescription'].errors && !adddepartmentform.controls['departmentDescription'].pristine"
+                            class="form-text text-muted"> Enter a departmentDescription</small>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Assign Department Manager</label>
+                        <!-- <select class="form-control" (ngModelChange)="onChange($event)"
+                            formControlName="departmentlead">
+                            <option *ngFor="let getdepartmentleadobj of getdepartmentleadlist"
+                                [ngValue]="getdepartmentleadobj.gemsDesignationId">
+                                {{getdepartmentleadobj.employeeFirstName}}</option>
+                        </select> -->
+                        <ng-select [items]="getdepartmentleadlist" formControlName="departmentlead"
+                            bindLabel="employeeFirstName" bindValue="gemsDesignationId">
+                            <ng-template ng-option-tmp ng-label-tmp let-item="item">
+                                <img height="35" width="35"
+                                    src="{{item.profileImgData?'data:image/png;base64,'+item.profileImgData:'assets/images/admin/profile_image.png'}}" />
+                                {{item.employeeFirstName}}
+                            </ng-template>
+                        </ng-select>
+                        <div
+                            *ngIf="adddepartmentform.controls['departmentlead'].errors && !adddepartmentform.controls['departmentlead'].pristine">
+                            <small>Departmentlead is Required</small>
+                        </div>
+                    </div>
+                    <div class="bottom__btn">
+                        <button type="submit" class="btn btn-primary cancel" (click)='resetForm()'
+                            data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary submit" data-dismiss="modal"
+                            [disabled]="adddepartmentform.invalid" (click)="savedepartment()">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ////update modal//////// -->
+<!-- Modal -->
+<div class="modal fade" id="updateModal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body ">
+                <h5>Update Department</h5>
+                <form class="support__request" [formGroup]="adddepartmentform">
+                    <div class="form-group support__request--input">
+                        <input type="hidden" class="form-control" formControlName="departmentId" id='departmentId'
+                            name="departmentIds" />
+                    </div>
+                    <div class="form-group support__request--input">
+                        <label class="form-label">Name</label>
+                        <input class="form-control" formControlName="departmentName" required /> <small
+                            *ngIf="adddepartmentform.controls['departmentName'].errors && !adddepartmentform.controls['departmentName'].pristine"
+                            class="form-text text-muted"> Enter a departmentName</small>
+                    </div>
+                    <div class="form-group support__request--input">
+                        <label class="form-label">Code</label>
+                        <input class="form-control" formControlName="departmentCode" required /> <small
+                            *ngIf="adddepartmentform.controls['departmentCode'].errors && !adddepartmentform.controls['departmentCode'].pristine"
+                            class="form-text text-muted"> Enter a departmentCode</small>
+                    </div>
+                    <div class="form-group support__request--input">
+                        <label class="form-label">Description</label>
+                        <input class="form-control" formControlName="departmentDescription" required /> <small
+                            *ngIf="adddepartmentform.controls['departmentDescription'].errors && !adddepartmentform.controls['departmentDescription'].pristine"
+                            class="form-text text-muted"> Enter a departmentDescription</small>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Assign Department Manager</label>
+                        <!-- <select class="form-control" (ngModelChange)="onChange($event)" formControlName="departmentlead">
+                            <option *ngFor="let getdepartmentleadobj of getdepartmentleadlist"[ngValue]="getdepartmentleadobj.gemsDesignationId">{{getdepartmentleadobj.employeeFirstName}}</option>
+                        </select> -->
+                        <ng-select [items]="getdepartmentleadlist" formControlName="departmentlead"
+                            bindLabel="employeeFirstName" bindValue="gemsDesignationId">
+                            <ng-template ng-option-tmp ng-label-tmp let-item="item">
+                                <img height="35" width="35"
+                                    src="{{item.profileImgData?'data:image/png;base64,'+item.profileImgData:'assets/images/admin/profile_image.png'}}" />
+                                {{item.employeeFirstName}}
+                            </ng-template>
+                        </ng-select>
+                        <div
+                            *ngIf="adddepartmentform.controls['departmentlead'].errors && !adddepartmentform.controls['departmentlead'].pristine">
+                            <small>Departmentlead is Required</small>
+                        </div>
+                    </div>
+                    <div class="bottom__btn">
+                        <button type="submit" class="btn btn-primary cancel" (click)='resetForm()'
+                            data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary submit" data-dismiss="modal"
+                            [disabled]="adddepartmentform.invalid" (click)="savedepartment()">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- delete modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+            <div class="modal-body addDepartmentModal">
+                <h5>Delete Department</h5>
+                <form class="support__request">
+                    <div class="col-12 pl-0">
+                        <div class="form-group support__request--input">
+                            <label>Do you remove <b>{{deleteDepartmentName}}</b> from the department list?</label>
+                        </div>
+                    </div>
+                    <div class="bottom__btn">
+                        <button type="submit" class="btn btn-primary cancel" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary submit" data-dismiss="modal"
+                            (click)="deletedepartment()">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

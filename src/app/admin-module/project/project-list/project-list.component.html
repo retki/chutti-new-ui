@@ -1,0 +1,138 @@
+<div class="card">
+    <div class="card-header">
+        <div class="card-title">
+            <h6><i class="icon icon_timesheet"></i><span class="title active">List of Projects </span> <span
+                    class="title">Create Projects</span></h6>
+        </div>
+        <div class="search__container">
+            <div class="form-group">
+                <input type="text" class="form-control" [(ngModel)]="filterkey" placeholder="Search">
+                <span class="icon icon_search"></span>
+            </div>
+            <div>
+                <a href="javascript:;" class="btn btn-primary btn-round" (click)="addProjectList()">
+                    <i class="icon_add"></i>
+                </a>
+                <!-- <span class="open__modal icon_add" (click)="addProjectList()"></span> -->
+            </div>
+        </div>
+    </div>
+
+
+    <div class="card-body">
+        <!-- section -1 -->
+        <div class="project__list--table project__section active">
+            <table class="table table-fixed rwd-table">
+                <thead>
+                    <tr class="border__hide">
+                        <th scope="col" class="col-md-2 pl-0">Project Code</th>
+                        <th scope="col" class="col-md-2 pl-0">Project Name</th>
+                        <th scope="col" class="col-md-2 pl-0">Status</th>
+                        <th scope="col" class="col-md-1 pl-0">Type</th>
+                        <th scope="col" class="col-md-1 pl-0">Start Date</th>
+                        <th scope="col" class="col-md-2 pl-0">End Date</th>
+                        <th scope="col" class="col-md-2 pl-0">Action</th>
+                    </tr>
+                </thead>
+                <tbody class="scroll">
+                    <tr class="d-flex" id="projectList"
+                        *ngFor="let project of totalprojectList| search: filterkey |paginate: {start: start , limit: limit }; let i = index; ">
+                        <td class="col-md-2 pl-0" data-th="Project Code">
+                            <p> {{project.projectCode}}</p>
+                        </td>
+                        <td class="col-md-2 pl-0" data-th="Project Name">
+                            <p> {{project.projectName}}</p>
+                        </td>
+                        <td class="col-md-2 pl-0" data-th="Status">
+                            <p> {{project.projectStatus}}</p>
+                        </td>
+                        <td class="col-md-1 pl-0" data-th="Type">
+                            <p> {{project.billingType}}</p>
+                        </td>
+                        <td class="col-md-1 pl-0" data-th="Start Date">
+                            <p> {{project.projectStartDate}}</p>
+                        </td>
+                        <td class="col-md-2 pl-0" data-th="End Date">
+                            <p> {{project.projectEndDate}}</p>
+                        </td>
+                        <td class="col-md-2 pl-0" data-th="Action">
+                            <p>
+                                <span class="icon_edit_filled" (click)="editProjectList(project)"></span>
+                                <span class="icon_delete_filled" data-toggle="modal" data-target="#deleteModal"
+                                    (click)="deleteProject(project)"></span></p>
+                        </td>
+                    </tr>
+                </tbody>
+
+            </table>
+            <div *ngIf="projectList.length==0">
+                <div class="text-center w-100 py-5">
+                    <h4 class="mt-5">No Records Found!</h4>
+
+                </div>
+                <!-- <div class="table__bottom text-right">
+                <span class="items__nos">
+                    <div class="form-group page__section">
+                        <label for="pageNo">Items per page:</label>
+                        <select class="form-control" id="pageNo">
+                            <option *ngFor="let perpageVal of perpageOption">{{perpageVal.label}}</option>
+                        </select>
+                    </div>
+                </span>
+                <span class="visible__page">
+                    <span> 1 </span> - <span> 2 </span> of <span> 2 </span>
+                </span>
+                <span class="page__selection">
+                    <a><span class="icon_arrow_thick_left"></span></a>
+                    <a><span class="icon_arrow_thick_right"></span></a>
+                </span>
+            </div> -->
+                <div *ngIf="totalCount > 10" class="table__bottom text-right">
+                    <div class="table__bottom text-right">
+                        <span class="items__nos">
+                            <div class="form-group page__section">
+                                <label for="pageNo">Items per page:</label>
+                                <select class="form-control" [(ngModel)]="selectedItemsPerPage" id="pageNo"
+                                    (ngModelChange)="changeItemPerPage($event)">
+                                    <option *ngFor="let perpageVal of perpageOption" [value]="perpageVal.value">
+                                        {{perpageVal.label}}</option>
+                                </select>
+                            </div>
+                        </span>
+                        <app-chutti-pagination [currentPage]="currentPage" [count]="totalCount"
+                            [pagesToShow]="totalPages" (goPrev)="goToPrev()" (goNext)="goToNext()"
+                            (onPage)="goToPageNo($event)"></app-chutti-pagination>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- delete modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+
+                <div class="modal-body addDepartmentModal">
+                    <h5>Delete Department</h5>
+                    <form class="support__request">
+                        <div class="col-12 pl-0">
+                            <div class="form-group support__request--input">
+                                <label>Do you want delete the
+                                    {{selectedDeleteObj!=undefined?selectedDeleteObj.projectName:null}}
+                                    project?</label>
+                            </div>
+                        </div>
+                        <div class="bottom__btn">
+                            <button type="submit" class="btn btn-primary cancel" data-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-primary submit" data-dismiss="modal"
+                                (click)="confirmDelete()">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>

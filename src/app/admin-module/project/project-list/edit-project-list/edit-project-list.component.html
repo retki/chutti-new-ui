@@ -1,0 +1,130 @@
+<ngx-loading-bar [color]="'#6747D4'" [includeSpinner]='false'></ngx-loading-bar>
+<div class="attendance dashboard__content">
+    <h3>Projects</h3>
+
+<div class="inner__section projectList rounded">
+        <h5>
+            <span class="title active">Edit Projects</span>
+        </h5>
+        <form [formGroup]="editprojectform">
+            <div class="project__list">
+                <div class="project__section ">
+                    <div class="new__project row w-100">
+    
+                        <div class="col-12 col-md-6 col-lg-4">
+                            <div class="form-group">
+                                <label class="form-label" for="Customer">Select Customer</label>
+    
+                                <select class="form-control" id="gemsCustomerMaster" formControlName='gemsCustomerMaster'[(ngModel)]="selectedCustomer" required>
+                                    <option *ngFor="let customer of  customerList" [ngValue]="customer.gemsCustomerMasterId">
+                                        {{customer.gemsCustomerName}}
+                                    </option>
+    
+                                </select>
+                                <small *ngIf="editprojectform.controls['gemsCustomerMaster'].errors && !editprojectform.controls['gemsCustomerMaster'].pristine" class="form-text text-muted">
+                                select a customer</small>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-4">
+                            <div class="form-group">
+                                <label class="form-label" for="projectTypeMaster">Project Type </label>
+                                <select class="form-control" id="projectTypeMaster" formControlName='projectTypeMaster' required>
+                                    <option *ngFor='let project of projectTypeList'  [ngValue]="project.projectTypeMasterId">{{project.projectTypeCode}}</option>
+    
+                                </select>
+                                <small *ngIf="editprojectform.controls['projectTypeMaster'].errors && !editprojectform.controls['projectTypeMaster'].pristine" class="form-text text-muted">
+                                    select a project Type</small>
+    
+                            </div>
+                        </div>
+    
+                        <div class="col-12 mb-4">
+                            <h6>PROJECT DETAILS</h6>
+                        </div>
+    
+                        <div class="col-12 col-md-6 col-lg-4">
+                            <div class="form-group">
+                                <label class="form-label" for="">Project Name</label>
+                                <input type="text" class="form-control" formControlName='projectName' (keypress)="omit_special_char_WithoutSpace($event)"
+                                    name="projectName" #projectName minlength="3" maxlength="30" (focus)="clearProjectName()" required
+                                    (ngModelChange)="projectCodeDynamic($event)">
+                                    <small *ngIf="editprojectform.controls['projectName'].errors && !editprojectform.controls['projectName'].pristine" class="form-text text-muted">
+                                        enter a project name</small>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-4">
+                            <div class="form-group">
+                                <label for="" class="form-label">Project Description</label>
+                                <input type="text" class="form-control" placeholder="" formControlName='projectDescription' required>
+                                <small *ngIf="editprojectform.controls['projectDescription'].errors && !editprojectform.controls['projectDescription'].pristine" class="form-text text-muted">
+                                    enter a project description</small>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-4">
+                            <div class="form-group">
+                                <label for="" class="form-label">Project Code (Auto Populated)</label>
+                                <input type="text" name="projectCode" class="form-control" formControlName="projectCode" #projectCode [(ngModel)]="autoProjectCode"
+                                    readonly required>
+                                    <small *ngIf="editprojectform.controls['projectCode'].errors && !editprojectform.controls['projectCode'].pristine" class="form-text text-muted">
+                                        enter a project code</small>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-4">
+                            <div class="form-group">
+                                <label for="exampleFormControlSelect1" class="form-label">Project Status</label>
+    
+                                <input type="text" class="form-control" placeholder="" formControlName='projectStatus' required>
+                                <small *ngIf="editprojectform.controls['projectStatus'].errors && !editprojectform.controls['projectStatus'].pristine" class="form-text text-muted">
+                                    enter a project status</small>
+                            </div>
+                        </div>
+    
+                        <div class="col-12 col-md-6 col-lg-4">
+                            <div class="form-group">
+                                <label for="" class="form-label">Total Project Cost</label>
+                                <input type="number" class="form-control" placeholder="" formControlName='projectCost' required>
+                                <small *ngIf="editprojectform.controls['projectCost'].errors && !editprojectform.controls['projectCost'].pristine" class="form-text text-muted">
+                                    enter a project cost</small>
+                          
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-4">
+                            <div class="form-group">
+                                <label for="" class="form-label">Billing Type</label>
+                                <input type="text" class="form-control" placeholder="" formControlName='billingType' required>
+                          
+                                <small *ngIf="editprojectform.controls['billingType'].errors && !editprojectform.controls['billingType'].pristine" class="form-text text-muted">
+                                    enter a billing Type</small>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-4">
+                            <div class="form-group">
+                                <label for="" class="form-label">Project Start Date</label>
+                                <input [max]="disableBasedDate()" type="date" class="form-control" placeholder="" formControlName='projectStartDate' required (change)="onchangeDate($event)">
+                                <small *ngIf="editprojectform.controls['projectStartDate'].errors && !editprojectform.controls['projectStartDate'].pristine" class="form-text text-muted">
+                                    select a project Start Date</small>
+                            </div>
+                        </div>
+                       
+                        <div class="col-12 col-md-6 col-lg-4">
+                            <div class="form-group">
+                               
+                                <label for="" class="form-label">Project End Date</label>
+                                <input type="date" [min]='disableBasedDate()' class="form-control" placeholder="" formControlName='projectEndDate' required (change)="onchangeDate($event)">
+                                <small *ngIf="editprojectform.controls['projectEndDate'].errors && !editprojectform.controls['projectEndDate'].pristine" class="form-text text-muted">
+                                    select a project End Date</small>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="bottom__btn mt-0">
+                                <button class="btn btn-primary cancel" data-dismiss="modal" type="submit" (click)='cancel()'>Cancel</button>
+                                <button class="btn btn-primary submit" data-dismiss="modal" type="submit" disabled=""  (click)='updateProject()'
+                                [disabled]="editprojectform.invalid">Submit</button>
+                            </div>
+                        </div>
+    
+                    </div>
+                </div>
+            </div>
+        </form>
+        </div>

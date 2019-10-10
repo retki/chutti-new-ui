@@ -1,0 +1,32 @@
+<div class="loader" *ngIf="preloader">
+    <svg class="spinner" width="65px" height="65px" viewBox="0 0 66 66">
+        <circle class="path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle>
+    </svg>
+</div>
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="upload text-center">
+            <label for="fileToUpload" class="upload-file"><img src="../../../assets/images/cloud-computing.svg">Upload
+                .csv
+                file</label>
+            <input class="upload-file-input" multiple [disabled]="isFileChoosen" (change)="chooseFile($event)"
+                type="file" accept=".xls,.xlsx,.csv" id="fileToUpload">
+            <span *ngIf="isFileChoosen" class="d-block">{{fileName}} <span class="icon_cancel custom_color"
+                    (click)="resetFile()"></span>
+            </span>
+            <span class=" d-block custom_color error error-msg" *ngIf="FileSizeError">Please upload file with less
+                than 5 MB.</span>
+            <span class=" d-block custom_color error error-msg" *ngIf="FileExtensionError">Please upload file having
+                extensions .csv/.xlsx/.xls.</span>
+        </div>
+        <a class="download-sample" (click)="downloadSample()">Download a Sample</a>
+    </div>
+
+</div>
+<div class="tabs-prev-next">
+    <button class="btn theme__btn__cancel" type="button" (click)="tabPrev()">Back</button>
+    <button class="btn theme__btn" type="submit" data-target="#nav-import"
+     [disabled]="FileSizeError || FileExtensionError || fileName == ''"   (click)="submitFile();tabNext($event)">Next</button>
+</div>

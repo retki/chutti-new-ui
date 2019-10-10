@@ -1,0 +1,175 @@
+<div class="loader" *ngIf="preloader">
+    <svg class="spinner" width="65px" height="65px" viewBox="0 0 66 66" >
+        <circle class="path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle>
+     </svg>
+</div>
+
+ <div class="white__border inner__section leave__status rounded leave-Aprovals">
+    <h5>Leave Approvals</h5>
+    <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+            Launch demo modal
+          </button> -->
+
+    <div class="leave__table">
+        <div>
+            <table class="table table-fixed rwd-table">
+                <thead>
+                        <!-- <a *ngFor="let leave of details"
+                        [routerLink]="['leavedetails', id]">
+                        {{ product.name }}
+                      </a> -->
+                      
+                    <tr class="" >
+                        <th scope="col" class="col-md-2">Employee</th>
+                        <th scope="col" class="col-md-2">Type</th>
+                        <th scope="col" class="pl-0 col-md-1">From</th>
+                        <th scope="col" class="pl-0 col-md-1">To</th>
+                        <th scope="col" class="pl-0 col-md-1">Duration</th>
+                        <th scope="col" class="pl-0 col-md-2">Reason</th>
+                        <th scope="col" class="pl-0 col-md-1">Status</th>
+                        <th scope="col" class="pl-0 col-md-2">Actions</th>
+                    </tr>
+                </thead>
+                <tbody *ngIf="isData" class="leave__table--body scroll">
+                    <tr *ngFor="let leavestatusobj of leavestausList;let i =index"  class="fix-tr">
+                        <!-- <td scope="row">{{leavestatusobj.employeeFirstName}}</td> -->
+                        <td data-th="Employee" scope="row" class="col-md-2" (click)="viewLeavePage(leavestatusobj)">
+                            <span 
+                                *ngIf="leavestatusobj.profileImgData != null && leavestatusobj.profileImgData != undefined">
+                                <img class="rounded-circle  empimage"
+                                    [src]="leavestatusobj.profileImgData?'data:image/jpg;base64,'+leavestatusobj.profileImgData:'assets/images/admin/profile_image.png'" />
+                            </span>
+
+                            <span    
+                                *ngIf="leavestatusobj.profileImgData == null || leavestatusobj.profileImgData == undefined"
+                                class="user_img4 bg__neptune " placement="top"
+                                triggers="mouseenter:mouseleave">{{leavestatusobj.employeeLastName.charAt(0)}}{{leavestatusobj.employeeFirstName.charAt(0)}}</span>
+                            <span class="nameImg" > {{leavestatusobj.employeeFirstName}}</span>
+                        </td>
+                        <td data-th="From" class="col-md-2" (click)="viewLeavePage(leavestatusobj)">{{leavestatusobj.leaveTypeDescription}}</td>
+                        <td data-th="From" class="col-md-1" (click)="viewLeavePage(leavestatusobj)">{{leavestatusobj.fromDate | date:'dd MMM yy'}}</td>
+                        <td data-th="To" class="col-md-1" (click)="viewLeavePage(leavestatusobj)">{{leavestatusobj.toDate | date:'dd MMM yy'}}</td>
+                        <td data-th="Duration" class="col-md-1" (click)="viewLeavePage(leavestatusobj)">{{leavestatusobj.permissionDuration}}</td>
+                        <td *ngIf="leavestatusobj.reason!=null" 
+                        data-th="Reason" class="col-md-2" (click)="viewLeavePage(leavestatusobj)">
+                        <ng-template #popContent1>
+                                <div class="pop__over">
+                                  <div class="row">
+                                        <div class="col-md-10  pop__over-data">
+                                            <p>{{(leavestatusobj.reason)}}</p>
+    
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-template>
+                            <span [ngbPopover]="popContent1" placement="bottom" triggers="mouseover" class="mouseOver">
+                                    <span *ngIf="(leavestatusobj.reason).length>20">
+                                        {{(leavestatusobj.reason).substr(0,20) +' . . .'}}
+                                    </span>
+                                </span>
+                                <span *ngIf="(leavestatusobj.reason).length<20">
+                                    {{leavestatusobj.reason}}
+                                </span>
+                       
+                    </td>
+                        <td *ngIf="leavestatusobj.reason==null" data-th="Reason" class="col-md-2" (click)="viewLeavePage(leavestatusobj)">Not Feeling well</td>
+
+                        
+
+                        <td data-th="Status" class="col-md-1" (click)="viewLeavePage(leavestatusobj)">
+                        
+                            <!-- for  Approved leave  -->
+                            <span class="leave_approved text-capitalize" *ngIf="leavestatusobj.status == 'APPROVED'">
+                                {{leavestatusobj.status | lowercase}}
+                            </span>
+                            <span class="leave_pending text-capitalize" *ngIf="leavestatusobj.status == 'PENDING'">
+                                {{leavestatusobj.status | lowercase}}..
+                            </span>
+                            <span class="leave_notApproved text-capitalize td-rejected"
+                                *ngIf="leavestatusobj.status == 'REJECTED'">
+                                {{leavestatusobj.status | lowercase}}
+                            </span>
+                            <span class="leave_notApproved text-capitalize td-onhold"
+                                *ngIf="leavestatusobj.status == 'ONHOLD'">
+                                {{leavestatusobj.status | lowercase}}
+                            </span>
+
+                            <!-- for  Not Approved leave  -->
+                            <!-- <span class="leave_notApproved">Not Approved</span> -->
+                        </td>
+                        <td data-th="Actions" class="col-md-2">
+                            <span class="icon_tick approved mr-3" *ngIf="leavestatusobj.status=='ONHOLD' || leavestatusobj.status=='PENDING'"
+                                (click)="leaverequest(leavestatusobj)"></span>
+                                <span *ngIf="approvedLeaveReject(leavestatusobj);"
+                                data-toggle="modal" data-target="#reason__popup" class="icon_cancel mr-3 rejected"
+                                (click)="reject(leavestatusobj)"> </span>
+                            <!-- <span *ngIf="leavestatusobj.status=='ONHOLD' || leavestatusobj.status=='PENDING'"
+                                class="icon_cancel mr-3 rejected" data-toggle="modal" data-target="#trigger"
+                                (click)="reject(leavestatusobj)"></span> -->
+                            <span *ngIf="leavestatusobj.status=='ONHOLD' || leavestatusobj.status=='PENDING'"
+                                data-toggle="modal" data-target="#reason__popup" class="icon_cancel mr-3 rejected"
+                                (click)="reject(leavestatusobj)"> </span>
+                            <!-- <span *ngIf="leavestatusobj.status=='PENDING'" class="icon_hold onhold"
+                                (click)="leaveonhold(leavestatusobj)"></span> -->
+
+                        </td>
+
+                        <td *ngIf="displayHide" data-th="Actions"  class="col-md-2"></td>
+                    </tr>
+                </tbody>
+
+            </table>
+            <!-- commented for error :Property 'getAnimationData' does not exist on type 'LeaveapprovalsComponent'.  -->
+            <!-- <div [@routeAnimation]="getAnimationData(routerOutlet)">
+                    <router-outlet #routerOutlet="outlet"></router-outlet>
+                  </div> -->
+            <div class="text-center w-100 py-5" *ngIf="!isData">
+                <h4 class="mt-4">No Records Found!</h4>
+            </div>
+        </div>
+
+       
+    </div>
+    <div class="table__bottom text-right" *ngIf="isData &&totalCount>10">
+        <span class="items__nos">
+            <div class="form-group page__section">
+                <label for="pageNo">Items per page:</label>
+                <select class="form-control" [(ngModel)]="selectedItemsPerPage" id="pageNo"
+                    (ngModelChange)="changeItemPerPage($event)">
+                    <option *ngFor="let perpageVal of perpageOption" [value]="perpageVal.value">{{perpageVal.label}}
+                    </option>
+                </select>
+            </div>
+        </span>
+        <app-chutti-pagination [currentPage]="currentPage" [count]="totalCount" [pagesToShow]="totalPages"
+            (goPrev)="goToPrev()" (goNext)="goToNext()" (onPage)="goToPageNo($event)"></app-chutti-pagination>
+    </div>
+</div>
+
+<!-- latest modal -->
+<!-- Modal -->
+<div class="modal fade" id="reason__popup" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog leave__reject" role="document">
+        <div class="modal-content">
+            <div class="modal-body ">
+                <form class="support__request" [formGroup]="rejectionform">
+
+                    <div class="col-md-12 px-0">
+                            <h5> Reason for Rejection</h5>
+                        <div class="form-group leave__reject--msg mt-4">
+                            <input class="form-control" placeholder="Reason" formControlName="reason" required />
+                        </div>
+                        <div class="bottom__btn mt-5">
+                                <button type="submit" class="btn btn-primary cancel" data-dismiss="modal" (click)="close()">Cancel</button>
+                                <button type="submit" class="btn btn-primary submit" data-dismiss="modal"
+                                    [disabled]="rejectionform.invalid" (click)="leaverejected(leaveObject)">Submit</button>
+                            </div>
+                    </div>
+                   
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>

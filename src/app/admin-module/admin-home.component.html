@@ -1,0 +1,104 @@
+<div class="main">
+    <!-- <header class="header" [ngClass]="{'class': true}">
+            <div class="row justify-content-center h-100 mx-0">
+                    <div class="col-md-1 col-lg-2  logo__left">
+                        <div class="logo">
+                            <a routerLink="/admin/dashboard">
+                                <img src="../../assets/images/Logo.svg">
+                            </a>
+                        </div>
+                       
+                    </div>                    
+                </div>
+    </header> -->
+    <header class="header" [ngClass]="{'class': true}">
+        <div class="row justify-content-center h-100 mx-0">
+            <div class="col-md-1 col-lg-2  logo__left">
+                <div class="logo">
+                    <a routerLink="/user/dashboard">
+                        <img src="../../assets/images/Logo.svg">
+                    </a>
+                </div>
+
+            </div>
+            <div class="col-md-11 col-lg-10 align-self-center">
+
+                <div class="userTop__selection text-right">
+                    <ul class="userTop__selection--list justify-content-end pointer">
+
+
+                        <!-- <li data-toggle="dropdown">
+                            <span class="notification notification-active icon_notifications "  (click)="notification()"></span>
+                            <div class="notification__content  slideIn dropdown-menu pointer dropdown-menu-right"
+                                aria-labelledby="dropdownMenuButton">
+                                <ul class="notification__list">
+                                    <li class="leave__approved--icon" *ngFor="let notificationListobj of notificationList">
+                                        {{notificationListobj.notification}}</li>
+                                </ul>
+                            </div>
+                        </li> -->
+
+                        <li>
+                            <span class="user__img bg_img_green" id="notification" data-toggle="dropdown">
+                                <span *ngIf="!isImage">{{name}}</span>
+                                <span *ngIf="isImage"><img class="rounded-circle user__img" [src]="name?name:'assets/images/admin/profile_image.png'" />
+                                </span>
+
+                            </span>
+                            <ul class="headerAdmin__info dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <li routerLink="/user/dashboard"> <a>Switch To User </a></li>
+                                <li (click)="logout()">
+                                    <!-- <a  (click)="logout()">Logout </a> -->
+                                    <div class="d-flex"><img class="logout-img"
+                                            src="../../assets/images/admin/logout.svg">
+                                        <a (click)="logout()">Logout </a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+
+            </div>
+
+        </div>
+    </header>
+    <div class="body">
+        <div class="row h-100 mx-0">
+            <div class="col-1 col-lg-2">
+                <nav class="sidebar pointer">
+                    <ul class="nav flex-column mt-5">
+                        <li class="nav-item" routerLinkActive="active" routerLink="/admin/admindashboard"><a
+                                class="nav-link"><span class="icon_dashboard"></span> Dashboard</a>
+                        </li>
+                        <li class="nav-item" routerLinkActive="active" routerLink="/admin/employee"><a
+                                class="nav-link"><span class="icon_profile"></span> Employee</a>
+                        </li>
+                        <li class="nav-item" routerLinkActive="active" routerLink="/admin/leave"><a
+                                class="nav-link"><span class="icon_leave"></span>Leave</a>
+                        </li>
+                        <li class="nav-item" routerLinkActive="active" routerLink="/admin/attendance"><a
+                                class="nav-link"><span class="icon_attendance"></span>Attendance</a>
+                        </li>
+                        <li class="nav-item" routerLinkActive="active" routerLink="/admin/project"><a
+                                class="nav-link"><span class="icon_timesheet"></span>Project</a>
+                        </li>
+                        <li class="nav-item" routerLinkActive="active" routerLink="/admin/holiday"><a
+                                class="nav-link"><span class="icon_attendance1"></span>Holidays</a>
+                        </li>
+                        <li class="nav-item" routerLinkActive="active" routerLink="/admin/organization"><a
+                                class="nav-link"><span class="icon1-building"></span>Organization</a>
+                        </li>
+                        <!-- <li class="nav-item" routerLinkActive="active" routerLink="/admin/shift"><a
+                                class="nav-link"><span class="icon1-building"></span>Shift</a>
+                        </li> -->
+                    </ul>
+                </nav>
+            </div>
+            <div class="col-11 col-lg-10">
+                <router-outlet></router-outlet>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,102 @@
+
+<ngx-loading-bar [color]="'#6747D4'" [includeSpinner]='false'></ngx-loading-bar>
+<div class="inner__section projectAssignment rounded">
+    <h5>
+        <span class="title">Assign Projects to Employees</span>
+    </h5>
+    <div class="search__container float-right">
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="Search" [(ngModel)]="filterkey">
+        </div>
+        <span class="open__modal icon_add" (click)="addAssignment()"></span>
+    </div>
+
+    <div class="project__assignment">
+        <!-- section -1 -->
+        <div class="project__list--table project__section ">
+            <table class="table table-fixed rwd-table">
+                <thead>
+                    <tr class="border__hide">
+                        <th scope="col" class="col-md-3 pl-0">Project Name</th>
+                        <th scope="col" class="col-md-6 pl-0">Assigned To</th>
+                        <th scope="col" class="col-md-1 pl-0">Start Date</th>
+                        <th scope="col" class="col-md-1 pl-0">End Date</th>
+                        <th scope="col" class="col-md-1 pl-0">Action</th>
+
+                    </tr>
+                </thead>
+                <tbody class="scroll">
+                    <tr class="d-flex" id="projectAssignment" *ngFor="let obj of totalprojectAssignList| search: filterkey |paginate: {start: start , limit: limit }; let i = index;">
+                        <td class="col-md-3 pl-0" data-th="Project Name">
+                            <p>{{obj.projectName}}</p>
+                        </td>
+                        <td class="col-md-6 pl-0" data-th="Assigned To" >
+                            <span *ngFor="let employee of obj.gemsProjectResourceMasterList;let i =index">
+                                {{employee.employeeFirstName}}  {{employee.employeeLastName}}{{obj.gemsProjectResourceMasterList.length>i+1?',':' '}}
+                            </span>
+
+                            <td class="col-md-1 pl-0" data-th="Start Date">
+                                <p>{{obj.startDate}}</p>
+                            </td>
+                            <td class="col-md-1 pl-0" data-th="End Date" >
+                                <p>{{obj.endDate}}</p>
+                            </td>
+                            <td class="col-md-1 pl-0" data-th="Action">
+                                <p>
+                                    <span class="icon_edit_filled" (click)="editAssignment(obj)"></span>
+                                    <span class="icon_delete_filled" data-toggle="modal" data-target="#deleteAssignment" (click)="selectedDeleteAssignment(obj)"></span>
+                                </p>
+                            </td>
+                    </tr>
+                </tbody>
+                
+            </table>
+            <div *ngIf="totalprojectAssignList.length==0"   >
+                                <div class="text-center w-100 py-5">
+                                <h4  class="mt-5">No Records Found!</h4>
+                            </div>
+                        </div>
+            <div *ngIf="totalCount > 10" class="table__bottom text-right">
+                <div class="table__bottom text-right">
+                    <span class="items__nos">
+                        <div class="form-group page__section">
+                            <label for="pageNo">Items per page:</label>
+                            <select class="form-control" [(ngModel)]="selectedItemsPerPage" id="pageNo" (ngModelChange)="changeItemPerPage($event)">
+                                <option *ngFor="let perpageVal of perpageOption" [value]="perpageVal.value">
+                                    {{perpageVal.label}}</option>
+                            </select>
+                        </div>
+                    </span>
+                    <app-chutti-pagination [currentPage]="currentPage" [count]="totalCount" [pagesToShow]="totalPages" (goPrev)="goToPrev()"
+                        (goNext)="goToNext()" (onPage)="goToPageNo($event)"></app-chutti-pagination>
+                </div>
+
+            </div>
+          
+        </div>
+       
+
+        <div class="modal fade" id="deleteAssignment" tabindex="-1" role="dialog" aria-labelledby="deleteAssignment" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+
+                    <div class="modal-body ">
+                        <h5>Delete Project Assignment </h5>
+                        <form class="support__request">
+                            <div class="col-12 pl-0">
+                                <div class="form-group support__request--input">
+                                    <label>Do you want delete the project </label>
+                                </div>
+                            </div>
+                            <div class="bottom__btn">
+                                <button type="submit" class="btn btn-primary cancel" data-dismiss="modal">Cancel</button>
+                                <button type="submit" class="btn btn-primary submit" data-dismiss="modal" (click)="deleteProjectAssignment()">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>

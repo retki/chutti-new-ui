@@ -1,0 +1,159 @@
+<div class="inner__section leave__type ">
+    <h5>Manage Leave Type
+    </h5>
+
+
+    <a class="float-right trigger__btn" data-toggle="modal" data-target="#trigger-leave"><span
+            class="open__modal icon_add" (click)="reset()"></span></a>
+
+    <div class="data__table">
+        <div class="table-container">
+            <table class="table support__table table-fixed">
+                <thead>
+                    <tr class="border__hide">
+                        <th scope="col" [class.active]="order == 'leaveTypeCode'" class="col-md-2 pl-0">Leave Name
+                            <span class="arrow-up" (click)="setOrder('leaveTypeCode','asc')"></span>
+                            <span class="arrow-down" (click)="setOrder('leaveTypeCode','desc')"></span>
+                        </th>
+                        <th scope="col" class="col-md-9 pl-0">Description</th>
+                        <th scope="col" class="col-md-1 pl-0">Actions</th>
+
+                    </tr>
+                </thead>
+                <tbody class="scroll-1">
+                    <tr *ngFor="let leavetype of leavetypelist | search: filterkey | sort: order: orderBy  | paginate: {start: start , limit: limit }; let i = index;">
+                        <td scope="row" class="col-md-2">{{leavetype.leaveTypeCode}}</td>
+                        <td scope="row" class="col-md-9"> {{leavetype.leaveTypeDescription}}</td>
+                        <td scope="row" class="col-md-1">
+
+                            <span data-toggle="modal" data-target="#trigger-leaveupdate"
+                                class="icon_edit_filled edit__btn" (click)="update(leavetype)">
+                            </span>
+
+                            <span data-toggle="modal" data-target="#trigger-deleteleave"
+                                class="icon_delete_filled mx-1" (click)="deleteleavetypePopUp(leavetype)"></span>
+                        </td>
+
+                    </tr>
+
+                </tbody>
+            </table>
+
+        </div>
+
+    </div>
+</div>
+
+<!-- Modal -->
+
+<div class="modal fade" id="trigger-leave" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-top modal-dialog--support" role="document">
+        <div class="modal-content">
+            <div class="modal-body support__request-modal">
+                <h5 class="mb-4">Add Leave Type</h5>
+                <form [formGroup]="leaveTypeForm">
+                    <div class="form-group support__request--input">
+                        <label class="form-label">Leave Name</label>
+                        <input type="text" class="form-control" formControlName="leavename" required>
+                        <div *ngIf="leaveTypeForm.controls['leavename'].errors && !leaveTypeForm.controls['leavename'].pristine "
+                            class="error error-msg">
+                            <div [hidden]="!leaveTypeForm.controls['leavename'].errors.required">
+                                <small> Leave Name is required.</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group support__request--input">
+                        <label class="form-label">Description</label>
+                        <input type="text" class="form-control" formControlName="leavetypedescription" required>
+                        <!-- <textarea class="form-control" formControlName="leavetypedescription"
+                            id="exampleFormControlTextarea1" required
+                           </textarea> -->
+                        <div *ngIf="leaveTypeForm.controls['leavetypedescription'].errors && !leaveTypeForm.controls['leavetypedescription'].pristine "
+                            class="error error-msg">
+                            <div [hidden]="!leaveTypeForm.controls['leavetypedescription'].errors.required">
+                                <small> Description is required.</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bottom__btn">
+
+                        <button type="button" class="btn btn-primary cancel" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-primary submit" data-dismiss="modal" [disabled]="leaveTypeForm.invalid"
+                            (click)="addleavetype(leaveTypeForm)">Submit
+
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<!-- updatemodal -->
+
+<div class="modal fade" id="trigger-leaveupdate" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-top modal-dialog--support" role="document">
+        <div class="modal-content">
+            <div class="modal-body support__request-modal">
+                <h5>Edit Leave Type</h5>
+                <form [formGroup]="leaveTypeForm">
+                    <div class="row">
+
+                        <div class="form-group support__request--input">
+                            <div class="col-md-12 pl-0">
+                                <label for="exampleFormControlTextarea1">Leave Name</label>
+                                <input type="text" class="form-control" formControlName="leavename">
+                            </div>
+
+                            <div class="col-md-12 pl-0">
+                                <div class="form-group support__request--input">
+                                    <label for="exampleFormControlTextarea1">Description</label>
+                                    <textarea class="form-control" formControlName="leavetypedescription"
+                                        id="exampleFormControlTextarea1" rows="3">
+                                                  </textarea>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="bottom__btn">
+
+                        <button type="button" class="btn btn-primary cancel" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary submit" data-dismiss="modal"
+                            (click)="updatevalues()">Submit</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Delete model -->
+<div class="modal fade" id="trigger-deleteleave" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-top modal-dialog--support" role="document">
+        <div class="modal-content">
+            <div class="modal-body support__request-modal">
+
+                <h5>Do you want to delete the leave type for sure?</h5>
+                <div class="bottom__btn">
+
+                    <button type="button" class="btn btn-primary cancel" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary submit" data-dismiss="modal"
+                        (click)="deleteleaveType()">Delete</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>

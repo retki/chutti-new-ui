@@ -1,0 +1,47 @@
+@import '../../../assets/scss/variables.scss';
+
+.leaveResponse 
+{
+    background-color: $light-blue;
+    border: none;
+    background-image: url(../../../assets/images/login_bg.png);
+    background-position: right;
+    background-repeat: no-repeat;
+    background-size: contain;
+    position: relative;
+}
+.logo__img 
+{
+    margin-top: 3rem; 
+    img 
+    {
+        width: 200px;
+    }   
+}
+.success__msg 
+{
+    max-width: 620px;
+    width: 100%;
+    background-color: rgba($color: #ffffff, $alpha: 0.8);
+    position: absolute;
+    top:20%;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    padding: 3rem;
+    border-radius: 8px;
+
+    .content 
+    {
+        width: 80%;
+        margin: 0 auto;
+        text-align: center;
+        img 
+        {
+            margin-bottom: 2rem;
+        }
+        h4 
+        {
+            line-height: 40px;
+        }
+    }
+}

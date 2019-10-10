@@ -1,0 +1,68 @@
+@import '../../../../assets/scss/variables.scss';
+@import '../../../../assets/scss/mixin.scss';
+.search__container 
+{
+    display: flex;
+    .form-group
+    {margin-right: 2.5rem;
+        height: 44px;
+        line-height: 44px;
+        position: relative;
+        display: inline-block;
+        .form-control {
+            padding-left: 0 ;
+        }
+    }
+    height: 45px;
+}
+.projectList{
+    position: relative;
+    h5 {
+        .title 
+        {
+            display: none;
+            &.active 
+            {
+                display: block;
+            } 
+        }
+        display: inline-block;
+
+        &::before {
+            content: "\e103";
+        }
+
+        width: 60%;
+    }
+}
+.project__list 
+{
+    .project__section
+    {
+      display: none;
+        opacity: 0;
+        transition:0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        &.active 
+        {
+          display: block;
+            opacity: 1;
+            transition:0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        } 
+    }
+}
+
+.form-group 
+{
+    margin-bottom: 3rem;
+}
+  .form-control {
+    position: relative;
+    padding-left: 0;
+    &:focus {
+      box-shadow: 0 2px 0 0 blue;
+    }
+  }
+  
+  .form-input.filled {
+    box-shadow: 0 2px 0 0 lightgreen;
+  }

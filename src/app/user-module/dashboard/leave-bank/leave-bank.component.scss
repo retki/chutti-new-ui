@@ -1,0 +1,71 @@
+@import '../../../../assets/scss/mixin.scss';
+@import '../../../../assets/scss/variables.scss';
+.leaveBank
+{  
+    h5 
+    {
+        &::before
+        {
+            content: "\e107";
+        }
+    }
+}
+.leaveBank__form 
+{
+    margin-top: 1.6rem;
+    @include breakpoint(big-desktop)
+    {margin-top: 2rem;
+    }
+    .row 
+    {
+        .col-md-4 
+        {
+            margin-bottom: 0;
+        } 
+    }
+}
+.leave__title
+{
+    text-align: center;
+    line-height: 20px;
+    letter-spacing: 1px;
+    margin-top: 10px;
+    font-size: .9em;
+    @include breakpoint(desktop) 
+    {
+        font-size: .8em;
+    }
+    span 
+    {
+        line-height: 18px;
+    }
+    @include breakpoint(mobile) 
+    {
+        margin-bottom: 10;
+        span 
+        {
+           font-size: 1.3em;
+        }
+    }
+}
+.circle-progress 
+{
+    font-size: 30px !important;
+}
+.lop__bottom 
+{
+    position: absolute;
+    bottom: 4.5rem;
+    @include breakpoint(big-desktop)
+    {
+        bottom: 1.5rem;
+    }
+    @include breakpoint(tablet) 
+    {
+        position: inherit;
+    }
+    @include breakpoint(mobile) 
+    {
+        margin-top: 1rem;
+    }
+}

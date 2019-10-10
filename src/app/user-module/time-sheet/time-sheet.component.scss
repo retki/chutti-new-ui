@@ -1,0 +1,29 @@
+.timesheet__section {
+    h5 {
+        display: inline-block;
+
+        &::before {
+            content: "\e103";
+        }
+
+        width: 60%;
+    }
+}
+
+.add__timesheet--btn {
+    width: 40px;
+    display: inline-block;
+    float: right;
+}
+
+.search {
+    width: 25%;
+    display: inline-block;
+    float: right;
+
+    .form-group {
+        width: 80%;
+        display: inline-block;
+    }
+
+}

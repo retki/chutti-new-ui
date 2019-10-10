@@ -1,0 +1,61 @@
+@import '../../../../assets/scss/variables.scss';
+@import '../../../../assets/scss/mixin.scss';
+
+#leavestatus
+{
+  transition: 1s;
+  transition-timing-function: ease-out;
+}
+.leave__status {
+
+  transition: 1s;
+  transition-timing-function: ease-out;
+
+  h5 {
+    &::before {
+      content: "\e101";
+    }
+  }
+
+  h5,
+  h6 {
+    display: inline-block;
+  }
+
+  margin-bottom: 0;
+}
+
+.edit__leave--status {
+  &::before {
+    font-size: 1.3rem;
+    cursor: pointer;
+  }
+
+  &:hover {
+    &::before {
+      color: $darkBlue;
+    }
+  }
+}
+
+.text-capitalize {
+  text-transform: capitalize;
+}
+.leaveData__table 
+{
+ @include breakpoint(mobile) 
+ {
+  tbody tr 
+  {
+    &:nth-child(2),  &:nth-child(3) 
+    {
+      display: none;
+    }
+  } 
+ }
+}
+
+.reason-text {
+  word-wrap: break-word;
+}
+

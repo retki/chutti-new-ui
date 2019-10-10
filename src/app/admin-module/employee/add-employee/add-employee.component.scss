@@ -1,0 +1,184 @@
+@import '../../../../assets/scss/variables.scss';
+@import '../../../../assets/scss/mixin.scss';
+@import '../../../../assets/scss/datepicker.scss';
+// @import '../../../../styles.scss';
+
+
+.employee_add__page {
+    h5 {
+        &::before{
+            content: "\e12a";
+        }
+    }
+    .filters {
+        justify-content: flex-end;
+    }
+}
+
+/*=============================================
+=            NEW Styles            =
+=============================================*/
+.organization {
+    h5 
+    {
+        &::before
+        {
+            content: "\e107";
+        }
+    }
+  
+}
+.employee__tab 
+{ 
+    margin: 1rem 0;
+    a 
+    {
+        font-weight: 500;
+        &.active, &:hover 
+        {
+            color: $darkBlue;
+        }
+        display: flex;
+        color: $black;
+        margin-right: 1rem;
+    p 
+    {
+        color: $black;    line-height: 21px; font-weight: 400;
+    }
+    span 
+    {
+        padding-left: .5rem; color: $black;
+    }
+    }
+    
+}
+.steps_num 
+{
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    border: 1.5px solid $darkBlue;
+    text-align: center;margin-right: .5rem;
+}
+
+.form-group 
+{
+    margin: 1.6rem 0;
+    @include breakpoint(big-desktop)
+    {
+        margin: .8rem 0;
+    }
+}
+.pagination 
+{
+    padding-left: 0;
+    .page-item 
+    {
+        .page-link 
+        {
+            padding: 0.75rem 0.95rem;
+            color: $black;
+        }
+    }
+}
+.quick__apply--type 
+{
+    justify-content: inherit;
+    
+    .radio 
+    {
+        margin-right: 25px;
+    }
+}
+.nav-tabs 
+{
+    border: none;
+}
+.calendar 
+{
+    position: absolute;
+    right: 0;
+    padding-right: 0;
+}
+/*=====  End of NEW Styles  ======*/
+
+.modal-content 
+{
+    border-radius: 10px !important;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+.time__title 
+{
+    h4 
+{
+    font-size: 22px;
+}
+}
+.time__submit
+{
+    button 
+    {
+        display: inline-block;
+    }
+}
+
+.datePicker__header--right 
+{
+    .reset-permission 
+    {
+        color: #6C44E1;
+        font-size: 1em;
+        width: 60px;
+        display: inline-block;
+    }
+    .permissionDate 
+    {
+        font-size: 1em;
+     
+    }
+    .permissionStartTimepicker
+    {
+        font-size: 1em;
+    }
+}
+.reset-permission {
+    color: #007bff;
+    cursor: pointer;
+    background-color: transparent;
+}
+.cancel-button {
+    text-decoration-color: #ffffff;
+    background-color: #e8e8e8;
+    /* border-color: #cccccc; */
+    border: 1px solid #cccccc;
+
+}
+.error_grp, .error-msg {
+    &.focus{
+        border-color: red !important;
+    }
+    border-color: red !important;
+
+}
+.permanent__address {
+    display: contents;
+}
+
+.date__select,
+.name__select {
+    p {
+        font-size: .9em;
+        font-weight: 400;
+    }
+}
+
+.timeModal-dialog {
+    max-width: 510px;
+}
+
+.icon_cancel {
+    position: relative;
+    top: 4px;
+    cursor: pointer;
+}

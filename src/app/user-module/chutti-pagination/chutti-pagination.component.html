@@ -1,0 +1,16 @@
+ <!-- <span class="items__nos">
+     <div class="form-group page__section">
+         <label for="pageNo">Items per page:</label>
+         <select class="form-control" [(ngModel)]="selectedItemsPerPage" id="pageNo">
+             <option *ngFor="let perpageVal of perpageOption" [value]="perpageVal.value">{{perpageVal.label}}</option>
+         </select>
+     </div>
+ </span> -->
+ <div class="visible__page">
+     <span>1</span> - <span>{{pagesToShow}} </span> of <span> {{currentPage}} </span>
+ </div>
+ <div class="page__selection">
+     <a><i class="icon_arrow_thick_left" [class.disabled]="currentPage === 1" (click)="onPrev()"></i></a>
+     <a><i class="icon_arrow_thick_right" [class.disabled]="currentPage === pagesToShow"
+             (click)="onNext()"></i></a>
+ </div>

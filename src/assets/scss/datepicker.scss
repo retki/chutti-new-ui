@@ -1,0 +1,214 @@
+// Datepicker custom style
+@import '../../assets/scss/variables.scss';
+@import '../../assets/scss/mixin.scss';
+
+.daterangepicker {
+    left: 50% !important;
+    top: 50% !important;
+    transform: translate(-50%, -50%);
+}
+
+.daterangepicker .calendar td.active::before,
+.daterangepicker .calendar td:hover::before {
+    opacity: 1;
+    transition: .9s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.permisstion {
+    .daterangepicker.ltr .calendar.right .calendar-table {
+        display: none !important;
+    }
+}
+
+.daterangepicker.ltr .ranges {
+    float: right !important;
+}
+
+.daterangepicker .btn {
+    width: 70px !important;
+    height: 36px !important;
+}
+
+.daterangepicker .input-mini {
+    pointer-events: none !important;
+    border: none !important;
+    position: absolute !important;
+    right: 0px !important;
+    width: 50% !important;
+}
+
+.daterangepicker .daterangepicker_input i {
+    display: none !important;
+    position: absolute !important;
+    right: 10px !important;
+}
+
+
+
+.daterangepicker {
+    border-radius: 10px !important;
+    padding: 2rem 3rem !important;
+
+    &:after,
+    &:before {
+        display: none !important;
+    }
+
+    &.double {
+        width: 100% !important;
+        left: 0 !important;
+        right: 0 !important;
+        transform: translate(50%, 10%) !important;
+        position: fixed;
+        top: 11% !important;
+
+        width: 20px;
+        border-radius: 50% !important;
+
+        @include breakpoint(laptop) {
+            width: 65% !important;
+            transform: translate(28%, 10%) !important;
+        }
+
+    }
+.prev
+{
+    position: absolute;
+    left: 35px;
+    top: 50%;
+    transform: translateX(-50%);
+}
+.next, .prev
+{
+    i 
+    {
+      width: 40px;
+      height: 40px;
+      line-height: 40px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 50%; 
+    }
+    &:hover 
+    {
+background-color: transparent !important;
+    }
+}
+.next 
+{
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateX(-50%);
+}
+    .calendar {
+        max-width: inherit !important;
+        width: 50% !important;
+        margin: 0 !important;
+
+        td,
+        td {
+            padding: 11px 8px !important;
+            font-family: 'Poppins', sans-serif;
+            border-radius: 50% !important;
+
+            @include breakpoint(laptop) {
+                padding: 4px !important;
+            }
+        }
+
+        th {
+            span {
+                color: $gray;
+               
+            }
+            font-weight: 400;
+            padding: 2px 0 18px !important;
+        }
+
+        td {
+            text-align: center;
+            color: $text-color;
+            width: 20px;
+            border-radius: 50%;
+
+            span {
+                width: 40px;
+                display: block;
+                height: 40px;
+                vertical-align: middle;
+                position: relative;
+                color: $black;
+
+                @include breakpoint(laptop) {
+                    width: 36px;
+                    height: 36px;
+                }
+            }
+
+            &.active,
+            &:hover {
+
+                color: $text-color !important;
+                width: 20px !important;
+                border-radius: 50% !important;
+
+                span {
+                    color: $white;
+                }
+            }
+        }
+    }
+
+    .calendar-table {
+        padding: 35px 35px 0 !important;
+    }
+}
+
+
+
+.wide {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1050;
+    overflow: hidden;
+    outline: 0;
+    transition: opacity .15s linear;
+
+    &::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        background-color: rgba(0, 0, 0, 0.2);
+    }
+}
+
+.daterangepicker {
+    display: none;
+
+    &.active {
+        display: block;
+    }
+
+    .buttons {
+        text-align: right;
+        margin: 0 54px 30px 0 !important;
+    }
+
+    .btn {
+        @include theme-btn();
+        padding: 2px 12px !important;
+    }
+}
+.month 
+{
+    text-align: left !important;
+    position: absolute;
+    margin-left: 14px;
+    top: 52px;
+}

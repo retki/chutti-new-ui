@@ -1,0 +1,102 @@
+@import '../../../../assets/scss/variables.scss';
+@import '../../../../assets/scss/mixin.scss';
+
+.attendance
+{
+    h5 
+    {
+        &::before
+        {
+           content: "\e102";
+        }
+    }
+}
+.attendance 
+{
+    h5,h6 
+    {
+        display: inline-block;
+    }
+    h6 
+    {
+        font-size: .9em;
+        .api__month
+        {
+            font-weight: bold;
+        }
+    }
+}
+.attendance__data
+{
+    margin-top: 1rem;
+    @include breakpoint(big-desktop)
+    {
+        margin-top: .5rem;
+    }
+    .attendance__date--number
+    {
+        font-size: 2.4em;
+        @include breakpoint(big-desktop)
+        {
+            font-size: 2em;
+        }
+       
+        color: $gray;
+        margin-bottom: 0px;
+        &.color 
+        {
+            color: $darkBlue;
+        }
+
+        @include breakpoint(tablet) 
+        {
+            margin: 2rem 0 .5rem;
+        }
+        @include breakpoint(mobile) 
+        {
+            font-size: 3em;
+            margin: 1rem 0 .5rem !important;
+        }
+    }
+    p 
+    {
+        font-size: .8em;
+        margin-bottom:10px;
+        @include breakpoint(mobile) 
+        {
+            font-size: 1em;
+            margin-bottom:00px;
+        }
+    }
+    .date__text
+    {
+        margin-bottom: 0;
+        @include breakpoint(big-desktop) 
+        {
+            margin-top: .4rem;
+            br 
+            {
+                display: none;
+            }
+        }
+    }
+
+    &.line 
+    {
+       
+        position: relative;
+        &:after
+        {
+            content: "";
+            position: absolute;
+            top: 15%;
+            right: -9px;
+            border-right: 1px solid $border-color;
+            height: 70%;
+            @include breakpoint(tablet) 
+            {
+                display: none;
+            }
+        }
+    }
+}

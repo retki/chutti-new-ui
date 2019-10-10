@@ -1,0 +1,131 @@
+@import '../../../assets/scss/variables.scss';
+
+.support__page {
+    h5 {
+        &::before {
+            content: "\e105";
+            position: absolute;
+            left: 0px;
+            top: -6px;
+            font-size: 1.7em;
+            color: #6747D4;
+            text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2);
+            font-family: "chutti" !important;
+        }
+    }
+}
+
+%priority {
+    position: relative;
+    padding-left: 1.2rem;
+
+    &::before {
+        position: absolute;
+        left: 0;
+        font-family: 'chutti' !important;
+        padding-right: 5px;
+    }
+}
+
+.api__urgent {
+    &::before {
+        content: "\e11e";
+        color: $darkRed;
+      
+    }
+
+    @extend %priority;
+}
+
+.api__high {
+    &::before {
+        content: "\e11f";
+        color: $orange;
+    }
+
+    @extend %priority;
+}
+
+.api__medium {
+    &::before {
+        content: "\e11f";
+        color: $brown;
+        
+    }
+
+    @extend %priority;
+}
+
+.api__low {
+    // display: inline-block;
+
+    &::before {
+        content: "\e11f";
+        color:$arrowGray ;
+        transform: rotate(180deg);
+        left: -4px;
+    }
+
+    @extend %priority;
+}
+
+.ticket__open {
+    color: $darkBlue;
+}
+
+
+
+
+.support__request--input {
+    .form-control {
+        border-left: none;
+        border-right: none;
+        border-top: none;
+        border-radius: 0;
+        padding-top: 0;
+        font-size: .9em;
+        padding-left: 0px;
+        padding-bottom: 5px;
+
+        &:focus {
+            box-shadow: none;
+        }
+    }
+   
+    label {
+        margin-bottom: 0px;
+        font-size: .8em;
+        color: $arrowGray;
+        padding-left: 4px;
+    }
+}
+
+.support__request-modal {
+    padding: 2rem 1.5rem 2rem;
+
+    h5 {
+        padding-left: 0rem;
+        font-size: 1.1em;
+    }
+
+    .support__request {
+        margin: 1.3rem 0 0rem;
+
+    }
+}
+
+.modal-content {
+    border-radius: 8px;
+}
+.support__page
+{
+    .trigger__btn, h5
+    {
+        display: inline-block;
+    }
+}
+.modal-dialog--support
+{ 
+    padding-top: 55px;
+    max-width: 420px;
+}

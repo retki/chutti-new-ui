@@ -1,0 +1,65 @@
+.btn {
+    min-width: 80px;
+}
+
+// Primary Button
+.btn-primary {
+    color: #fff;
+    border-color: #9c60d2;
+    background-image: linear-gradient(120deg, #9A45D2 20%, #6747D4 80%);
+    background-color: #6747D4;
+
+    &:hover,
+    &:not(:disabled):not(.disabled):active,
+    &:not(:disabled):not(.disabled).active {
+        color: #fff;
+        border-color: #9041c5;
+        background-image: linear-gradient(120deg, #9041c5 20%, #5638be 80%);
+        background-color: #5638be;
+    }
+
+    &:focus,
+    &:not(:disabled):not(.disabled):active:focus,
+    &:not(:disabled):not(.disabled).active:focus {
+        box-shadow: 0 0 0 0.2rem rgba(149, 69, 211, 0.14);
+        box-shadow: 0 0 0 0.2rem rgba(156, 96, 210, .2);
+    }
+}
+
+// Secondary Button
+.btn-secondary {
+    color: #404040;
+    border-color: #E8E8E8;
+    background-color: #E8E8E8;
+
+    &:hover,
+    &:not(:disabled):not(.disabled):active,
+    &:not(:disabled):not(.disabled).active {
+        color: #404040;
+        background-color: #dfdfdf;
+        border-color: #dfdfdf;
+    }
+
+    &:focus,
+    &:not(:disabled):not(.disabled):active:focus,
+    &:not(:disabled):not(.disabled).active:focus {
+        box-shadow: 0 0 0 0.2rem rgba(223, 223, 223, 0.5);
+    }
+}
+
+// button round
+.btn-round {
+    padding: 0;
+    width: 40px;
+    min-width: auto;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    color: #ffffff;
+
+    &:hover {
+        color: #ffffff;
+    }
+}

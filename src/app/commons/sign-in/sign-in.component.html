@@ -1,0 +1,135 @@
+<ngx-loading-bar [color]="'#6747D4'" [includeSpinner]='false'></ngx-loading-bar>
+<section id="login__page" class=" h-100">
+    <div class="container h-100">
+        <div class="row justify-content-center h-100">
+            <div class="col-10">
+                <div class="row h-100">
+                      
+                    <div class="col-12 col-md-8 col-lg-4 align-self-center pr-sm-5">
+                            <div class="login__logo my-2 w-100">
+                                    <img src="../../../assets/images/Logo.svg">
+                                </div>
+                        <div class="signIn">
+                            <h2>Sign In</h2>
+                            <div class="signIn__form">
+                                <form class="signIn__form--input" [formGroup]="loginForm" role="form" novalidate>
+                                    <div class="form-group error__group">
+                                        <span class="name__icon icon_email"></span>
+                                        <span  *ngIf="loginForm.controls['userName'].errors && !loginForm.controls['userName'].pristine"
+                                         class="error__icon icon_warning"></span>
+                                        <input type="email" class="form-control" id="userName"
+                                            formControlName="userName" aria-describedby="emailHelp"
+                                            placeholder="Email Address"  pattern="^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z0-9]{2,3}$"  [ngClass]="{'input erro error__group':loginForm.controls['userName'].errors && !loginForm.controls['userName'].pristine}"   (click)="mouseenter()" required/>
+                                        <small
+                                            *ngIf="loginForm.controls['userName'].errors && !loginForm.controls['userName'].pristine"
+                                            class="form-text text-muted">Enter Valid Email Id
+                                        </small>
+                                            <!-- [ngClass]="{'red-border-class': name.errors}" -->
+                                    </div>
+                                    <div class="form-group input-signin">
+                                        <span class="pwd__icon icon_password"></span>
+                                        <input [type]="show==true ? 'text' : 'password'"
+                                            class="form-control input-signin pwd__input" placeholder="Password"
+                                            formControlName="userPassword" autocomplete="password"  (click)="mouseenter()" required />
+                                        <small
+                                            *ngIf="loginForm.controls['userPassword'].errors && !loginForm.controls['userPassword'].pristine"
+                                            class="form-text text-muted">Enter
+                                            password</small>
+                                        <div class="form-control-icons">
+                                            <i *ngIf="!show"
+                                                class="icon_hide_password field-icon toggle-password input-signin"
+                                                aria-hidden="true" (click)="show=!show"></i>
+                                            <i *ngIf="show"
+                                                class="icon_show_password field-icon toggle-password input-signin"
+                                                aria-hidden="true" (click)="show=!show"></i>
+                                        </div>
+                                    </div>
+                                    <div class="form-check login__check input__password">
+                                        <!-- <span toggle="#password-field"
+                                            class="icon_hide_password field-icon toggle-password"></span>
+                                        <span toggle="#password-field"
+                                            class="icon_show_password field-icon toggle-password"></span> -->
+
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="rememberMe"
+                                                name="rememberMe" [checked]="rememberMe"
+                                                (change)="rememberMeCheck($event)">
+                                            <label class="custom-control-label rememberme float-left" for="rememberMe">Remember
+                                                me</label>
+
+                                            <a routerLink="/forgetPassword" class="float-right  forget__password">Forgot
+                                                Password?</a> </div>
+
+                                    </div>
+
+                                    <button type="submit" id="signIn" class="w-100 btn__submit theme__btn btn-hover color-3"
+                                        [disabled]="loginForm.invalid" (click)='sigin();mouseenter()'>Sign In</button>
+                                    <small *ngIf="failSignIn" class="form-text  failsigin">{{failSignIn}}</small>
+                                    <div class="form-check login__check new__login pl-0  mt-4">
+                                        <a routerLink="">New to Chutti ? </a>
+                                        <a routerLink="/signup" class="signup">Sign Up Now</a>
+                                    </div>
+                                </form>
+                                <div class="line__or text-center">or</div>
+                                <div class="api__login ">
+                                    <button type="submit" class="btn btn-primary w-100 btn__google--login"
+                                        id="googleBtn">Sign In with Google Account</button>
+                                </div>
+                                <small [hidden]="failemailSignIn==null" id="failemailSignIn"
+                                    class="form-text  failsigin"></small>
+                           
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-4 col-lg-6 offset-lg-2">
+                            <div class="login__header">
+                                <a><img src="../../../assets/images/Logo.svg"></a>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-10">
+                    <div class="row">
+                        <div class="col-12 col-md-6 px-0">
+                            <ul class="footer__link">
+                                <li><a (click)="goToPricing()">ABOUT</a></li>
+                                <li><a (click)="goToPricing()">FEATURES</a></li>
+                                <li><a (click)="goToPricing()">PRICING</a></li>
+                                <li><a (click)="goToPricing()">BLOG</a></li>
+                                <li><a (click)="goToPricing()">SUPPORT</a></li>
+                                <li><a (click)="goToPricing()">CONTACT</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-12 col-lg-6 pr-0">
+                            <p class="copy__rights white__color text-lg-right">&copy; 2019 CloudNow Technologies, Made with love in India</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+</section>
+
+<!-- Sign In Failure Modal -->
+<div class="modal fade show" id="fail-sign-in" tabindex="-1" role="dialog" aria-labelledby="fail-sign-in"
+    aria-hidden="true"  style="display: block" [style.display]="showModal ? 'block' : 'none'" >
+    <div class="modal-dialog" role="document" [style.display]="showModal ? 'block' : 'none'">
+        <div class="modal-content">
+            <div class="modal-body projects-body">
+                <form>
+                    <h6>Alert Message</h6>
+                    <p>Please contact administrator.</p>
+                    <div class="bottom__btn mt-0">
+                        <!-- <button class="btn btn-primary cancel" data-dismiss="modal" type="submit">Cancel</button> -->
+                        <!-- <button class="btn btn-primary submit" data-dismiss="modal" type="submit">Ok</button> -->
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

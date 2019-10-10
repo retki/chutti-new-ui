@@ -1,0 +1,32 @@
+.btn-hover {
+    background-position: center;
+    transition: background-color 0.5s ease;
+    &:hover {
+        background: #6253e1 radial-gradient(circle, transparent 1%, #47a7f5 1%) center/15000%;
+    }
+    &:active 
+    {
+        background-color: #6eb9f7;
+        background-size: 100%;
+        transition: background-color 0s ease;
+    }
+    :focus {
+        outline: none;
+    }
+    &.color-1
+    {
+        background-image: linear-gradient(to right, #25aae1, #40e495, #30dd8a, #2bb673);
+       
+    }
+    &.color-2
+    {
+        background-image: linear-gradient(to right, #6253e1, #852D91, #A3A1FF, #6253e1);
+        
+    }
+    &.color-3
+    {
+        background-image: linear-gradient(117deg, #9a45d2, #6747d4);
+       
+    }
+}
+

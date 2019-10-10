@@ -1,0 +1,193 @@
+<div class="inner__section leavePolicy rounded">
+    <h5>Manage Leave Policies </h5>
+
+    <div class="search__container float-right">
+
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="Search" [(ngModel)]="filterkey" />
+        </div>
+        <div class="open__modal icon_add" data-toggle="dropdown" data-target="#downloadLink">
+
+        </div>
+        <div class="dropdown-menu dropdown-menu-left downloadLink" aria-labelledby="downloadLink">
+            <a class="dropdown-item" href="#." data-toggle="modal" data-target="#update__file">Upload File
+            </a>
+            <a class="dropdown-item" href="#." data-toggle="modal" data-backdrop="static" data-target="#triggerpolicymodal" (click)="resetForm()">Add leave Policy</a>
+        </div>
+    </div>
+    <div class="data__table">
+        <div class="table-container">
+            <table class="table support__table table-fixed">
+                <thead>
+                    <tr class="border__hide">
+                        <th scope="col" class="col-md-3 pl-0" [class.active]="order == 'leaveTypeDescription'">Leave Type
+                            <span class="arrow-up" (click)="setOrder('leaveTypeDescription','asc')"></span>
+                            <span class="arrow-down" (click)="setOrder('leaveTypeDescription','desc')"></span>
+                        </th>
+                        <th scope="col" class="col-md-3 pl-0" [class.active]="order == 'statusDescription'">Employee Status
+                            <span class="arrow-up" (click)="setOrder('statusDescription','asc')"></span>
+                            <span class="arrow-down" (click)="setOrder('statusDescription','desc')"></span>
+                        </th>
+                        <th scope="col" class="col-md-2 pl-0">Accrual Type</th>
+                        <th scope="col" class="col-md-2 pl-0" [class.active]="order == 'totalDays'">Total Days
+                            <span class="arrow-up" (click)="setOrder('totalDays','asc')"></span>
+                            <span class="arrow-down" (click)="setOrder('totalDays','desc')"></span>
+                        </th>
+                        <th scope="col" class="col-md-2 pl-0">Action</th>
+
+                    </tr>
+                </thead>
+                <tbody class="scroll-1">
+                    <tr *ngFor="let leaveSummary of leaveSummariesList | search : filterkey | sort: order: orderBy  | paginate: {start: start , limit: limit }; let i = index;">
+                        <td scope="row" class="col-md-3">{{leaveSummary.leaveTypeDescription}}</td>
+                        <td scope="row" class="col-md-3">{{leaveSummary.statusDescription}}</td>
+                        <td scope="row" class="col-md-2">
+                            {{leaveSummary.gemsEmployeeAccruvalType=='M'?'Monthly':'Yearly'}}</td>
+                        <td scope="row" class="col-md-2">{{leaveSummary.totalDays}}</td>
+                        <td scope="row" class="col-md-2 cursor-action">
+                            <span class="icon_edit_filled mx-1" data-toggle="modal" data-target="#triggerpolicymodal" (click)="getLeaveSummary(leaveSummary.leaveSummayMasterId)"></span>
+                            <span class="icon_delete_filled mx-1" (click)="openDeleteModal(deleteModal,leaveSummary)"></span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div *ngIf="totalCount > 10" class="table__bottom text-right">
+                <span class="items__nos">
+                    <div class="form-group page__section">
+                        <label for="pageNo">Items per page:</label>
+                        <select class="form-control" [(ngModel)]="selectedItemsPerPage" id="pageNo" (ngModelChange)="changeItemPerPage($event)">
+                            <option *ngFor="let perpageVal of pageOptions" [value]="perpageVal.value">
+                                {{perpageVal.label}}</option>
+                        </select>
+                    </div>
+                </span>
+                <app-chutti-pagination [currentPage]="currentPage" [count]="totalCount" [pagesToShow]="totalPages" (goPrev)="goToPrev()"
+                    (goNext)="goToNext()" (onPage)="goToPageNo($event)"></app-chutti-pagination>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+<!--Update File  Modal -->
+<div class="modal fade" id="update__file" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="import__attendanceLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="c">
+                    <h5 class="mb-3">Upload Leave Policies</h5>
+                    <p class="lable-error">{{errorMessage}}</p>
+                    <div class="download text-center">
+                        <label class="download-file my-4">
+                            <img src="../../../assets/images/cloud-computing.svg" />
+                             {{selectExcelFileName?selectExcelFileName:'Upload .xls/.xlxs file'}}
+                            <input #myInput type="file" class="custom-file-input" accept="file/xls,file/xlxs"
+                                (change)="selectExcelFile($event)" />
+                        </label>
+                        <a (click)="downloadSampleFile()">Download a Sample</a>
+                    </div>
+                    <div class="bottom__btn mt-5">
+                        <button class="btn btn-primary cancel" id="upload_modal" data-dismiss="modal"
+                            type="button" (click)=" this.selectExcelFileName='';errorMessage='';resetForm()">Cancel</button>
+                        <button class="btn btn-primary submit" type="submit" (click)="uploadFile()">Import</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<!-- Add Leave Policy Modal -->
+<div class="modal fade" id="triggerpolicymodal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="import__attendanceLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="LeavePolicyModal">
+                    <h5 class="mb-3">{{manipulation=='ADD'?'Add':'Update'}} Leave Policy</h5>
+                    <p class="lable-error">{{errorMessage}}</p>
+                    <form [formGroup]="leavePolicyForm" (ngSubmit)="submitPolicyForm()" novalidate>
+                        <div formGroupName="gemsLeaveTypeMaster" class="form-group mt-4">
+                            <label class="form-label">Leave Type</label>
+                            <select class="form-control" formControlName="gemsLeaveTypeMasterId">
+                                <option></option>
+                                <option [value]="leaveType.gemsLeaveTypeMasterId" *ngFor="let leaveType of leaveTypeList">
+                                    {{leaveType.leaveTypeDescription}}</option>
+                            </select>
+                        </div>
+                        <div *ngIf="gemsLeaveTypeMasterId.invalid && (gemsLeaveTypeMasterId.dirty || gemsLeaveTypeMasterId.touched || submitBtn.value)">
+                            <label class="lable-error " *ngIf="gemsLeaveTypeMasterId.hasError('required')">
+                                Leave type is required.
+                            </label>
+                        </div>
+                        <div formGroupName="gemsEmploymentStatus" class="form-group mt-4">
+                            <label class="form-label">Employee Status</label>
+                            <select class="form-control" formControlName="gemsEmploymentStatusId">
+                                <option></option>
+                                <option [value]="employeStatus.gemsEmploymentStatusId" *ngFor="let employeStatus of employementsStatusList">
+                                    {{employeStatus.statusDescription}}</option>
+                            </select>
+                        </div>
+                        <div *ngIf="gemsEmploymentStatusId.invalid && (gemsEmploymentStatusId.dirty || gemsEmploymentStatusId.touched || submitBtn.value)">
+                            <label class="lable-error " *ngIf="gemsEmploymentStatusId.hasError('required')">
+                                Employee status is required.
+                            </label>
+                        </div>
+                        <div class="form-group mt-4">
+                            <label class="form-label">Accrual Type</label>
+                            <select class="form-control" formControlName="gemsEmployeeAccruvalType">
+                                <option></option>
+                                <option value="M">Monthly</option>
+                                <option value="Y">Yearly</option>
+                            </select>
+                        </div>
+                        <div *ngIf="gemsEmployeeAccruvalType.invalid && (gemsEmployeeAccruvalType.dirty || gemsEmployeeAccruvalType.touched || submitBtn.value)">
+                            <label class="lable-error " *ngIf="gemsEmployeeAccruvalType.hasError('required')">
+                                Accrual type is required.
+                            </label>
+                        </div>
+
+                        <div class="form-group mt-4">
+                            <label class="form-label" for="">No.of Days</label>
+                            <input class="form-control" (keypress)="keyPress($event)" type="text" minlength="1" maxlength="3" formControlName="totalDays"
+                            />
+                        </div>
+                        <div *ngIf="totalDays.invalid && (totalDays.dirty || totalDays.touched || submitBtn.value)">
+                            <label class="lable-error " *ngIf="totalDays.hasError('required')">
+                                No.of day is required.
+                            </label>
+                        </div>
+
+                        <div class="bottom__btn mt-5">
+                            <button class="btn btn-primary cancel" data-dismiss="modal" id="dismiss_modal" (click)="resetForm();submitBtn.value=''" type="button">Cancel</button>
+                            <button class="btn btn-primary submit" type="submit" #submitBtn (click)="submitBtn.value=1">{{manipulation=='ADD'?'Add':'Update'}}</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+<ng-template #deleteModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Delete leave policy</h4>
+    </div>
+    <div class="modal-body">
+        <p>Do you want to remove 
+            <b>{{leavePolicyName | uppercase}}</b> from the leave policy list ?</p>
+    </div>
+    <div class="bottom__btn mt-0 modal-footer d-flex justify-content-between">
+        <button type="button" class="btn btn-primary cancel " (click)="dismissModal()">Close</button>
+        <button type="button" class="btn btn-primary submit " (click)="deleteLeaveSummary()">Delete</button>
+    </div>
+</ng-template>

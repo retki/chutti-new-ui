@@ -1,0 +1,14 @@
+.leave__type {
+    h5 {
+        &::before {
+            content: "\e101";
+            position: absolute;
+            left: 0px;
+            top: -6px;
+            font-size: 1.7em;
+            color: #6747D4;
+            text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2);
+            font-family: "chutti" !important;
+        }
+    }
+}

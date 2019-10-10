@@ -1,0 +1,152 @@
+<div class="inner__section projectType rounded">
+    <h5>
+        <span class="title active">List of Projects Type </span>
+        <span class="title">Create Projects</span>
+    </h5>
+    <div class="search__container float-right">
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="Search" [(ngModel)]="filterkey">
+        </div>
+        <span class="open__modal icon_add" data-toggle="modal" data-target="#addProject"></span>
+    </div>
+    <div class="project__type">
+        <div class="project__section active">
+            <table class="table table-fixed rwd-table">
+                <thead>
+                    <tr class="border__hide">
+                        <th scope="col" class="col-md-3 pl-0">Project Type</th>
+                        <th scope="col" class="col-md-7 pl-0">Description</th>
+                        <th scope="col" class="col-md-2 pl-0">Action</th>
+
+                    </tr>
+                </thead>
+                <tbody class="scroll">
+                    <tr class="d-flex" 
+                    *ngFor="let type of projectTypeList | search: filterkey |paginate: {start: start , limit: limit }; let i = index;">
+                        <td class="col-md-3 pl-0" data-th="Project Type">
+                            <p>{{type.projectTypeCode}}</p>
+                        </td>
+                        <td class="col-md-7 pl-0" data-th="Description">
+                            <p>{{type.projectTypeDescription}}</p>
+                        </td>
+                        <td class="col-md-2 pl-0" data-th="Action">
+                            <p>
+                                <span class="icon_edit_filled" data-toggle="modal" data-target="#editProject" (click)="getSelectedProjectType(type)"></span>
+                                <span class="icon_delete_filled" data-toggle="modal" data-target="#deleteProject"  (click)="getDeleteProject(type)"></span>
+                            </p>
+                        </td>
+
+                    </tr>
+                </tbody>
+               
+            </table>
+             <div  *ngIf="projectTypeList.length==0"  >
+                                <div class="text-center w-100 py-5">
+                                <h4  class="mt-5">No Records Found!</h4>
+                            </div>
+                                </div>
+           
+                    <div *ngIf="totalCount > 10" class="table__bottom text-right">
+                            <span class="items__nos">
+                                <div class="form-group page__section">
+                                    <label for="pageNo">Items per page:</label>
+                                    <select class="form-control" [(ngModel)]="selectedItemsPerPage" id="pageNo"
+                                        (ngModelChange)="changeItemPerPage($event)">
+                                        <option *ngFor="let perpageVal of perpageOption" [value]="perpageVal.value">
+                                            {{perpageVal.label}}</option>
+                                    </select>
+                                </div>
+                            </span>
+                            <app-chutti-pagination [currentPage]="currentPage" [count]="totalCount" [pagesToShow]="totalPages"
+                                (goPrev)="goToPrev()" (goNext)="goToNext()" (onPage)="goToPageNo($event)"></app-chutti-pagination>
+                        </div>
+            </div>
+        </div>
+
+    
+
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="addProject" tabindex="-1" role="dialog" aria-labelledby="addProject" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+
+                <div class="modal-body projects-body">
+                    <form [formGroup]="addprojecttype">
+                        <h6>Add Projects Type</h6>
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="project_Type" formControlName='project_Type' required>
+                            <label class="form-label" for="Customer">Project Type</label>
+                            <small *ngIf="addprojecttype.controls['project_Type'].errors && !addprojecttype.controls['project_Type'].pristine" class="form-text text-muted">
+                                   Please enter project type</small>
+                        </div>
+                        <div class="form-group">
+                            <textarea type="text" class="form-control" id="project_Description" required formControlName='project_Description'></textarea>
+                            <label class="form-label" for="Customer">Description</label>
+                            <small *ngIf="addprojecttype.controls['project_Description'].errors && !addprojecttype.controls['project_Description'].pristine" class="form-text text-muted">
+                                   Please enter project description</small>
+                        </div>
+                        <div class="bottom__btn mt-0">
+                            <button class="btn btn-primary cancel" data-dismiss="modal" type="submit" (click)="resetForm()">Cancel</button>
+                            <button class="btn btn-primary submit" data-dismiss="modal" type="submit"[disabled]="addprojecttype.invalid"  (click)='saveProjectType()'>Submit</button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="editProject" tabindex="-1" role="dialog" aria-labelledby="editProject" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+    
+                    <div class="modal-body projects-body">
+                        <form [formGroup]="editprojecttype">
+                            <h6>Edit Projects Type</h6>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="projectTypeCode" formControlName='projectTypeCode' required>
+                                <label class="form-label" for="projectTypeCode">Project Type</label>
+                                <small *ngIf="editprojecttype.controls['projectTypeCode'].errors && !editprojecttype.controls['projectTypeCode'].pristine" class="form-text text-muted">
+                                       Please enter project type</small>
+                            </div>
+                            <div class="form-group">
+                                <textarea type="text" class="form-control" id="projectTypeDescription" required formControlName='projectTypeDescription'></textarea>
+                                <label class="form-label" for="projectTypeDescription">Description</label>
+                                <small *ngIf="editprojecttype.controls['projectTypeDescription'].errors && !editprojecttype.controls['projectTypeDescription'].pristine" class="form-text text-muted">
+                                       Please enter project description</small>
+                            </div>
+                            <div class="bottom__btn mt-0">
+                                <button class="btn btn-primary cancel" data-dismiss="modal" type="submit" (click)="resetForm()">Cancel</button>
+                                <button class="btn btn-primary submit" data-dismiss="modal" type="submit"[disabled]="editprojecttype.invalid"  (click)='updateProjectType()'>Submit</button>
+                            </div>
+                        </form>
+                    </div>
+    
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="deleteProject" tabindex="-1" role="dialog" aria-labelledby="deleteProject"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            
+            <div class="modal-body ">
+                    <h5>Delete Project </h5>
+                <form class="support__request">
+                    <div class="col-12 pl-0">
+                        <div class="form-group support__request--input">
+                            <label>Do you want delete the project  {{selectedDelObj!==undefined?selectedDelObj.projectTypeCode:''}}?</label>
+                        </div>
+                    </div>
+                    <div class="bottom__btn">
+                        <button type="submit" class="btn btn-primary cancel" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary submit" data-dismiss="modal" (click)="deleteProject()">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>

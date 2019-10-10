@@ -1,0 +1,60 @@
+@import '../../../../assets/scss/variables.scss';
+
+.leavePolicy {
+    h5 {
+        &::before {
+            content: "\e101";
+            position: absolute;
+            left: 0px;
+            top: -6px;
+            font-size: 1.7em;
+            color: #6747D4;
+            text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2);
+            font-family: "chutti" !important;
+        }
+    }
+}
+.search__container 
+{
+    position: relative;
+}
+.download {
+    .download-file {
+        border: dashed 1px $darkBlue;
+        border-radius: 4px;
+        padding: .8rem 0;
+
+        img {
+            padding-right: 5px;
+        }
+    }
+
+    a {
+        color: $darkBlue;
+        cursor: pointer;
+    }
+}
+.modal-dialog {
+    margin: 4.75rem auto;
+}
+
+.modal-body {
+    padding: 1.4rem;
+}
+
+
+.lable-error{
+    color: crimson;
+}
+.cursor-action{
+    cursor: pointer;
+}
+
+.custom-file-input {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    height: calc(-0.5em + -1.25rem + 0px) !important;
+    margin: 0;
+    opacity: 0;
+}

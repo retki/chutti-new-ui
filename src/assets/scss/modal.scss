@@ -1,0 +1,40 @@
+// Chutti Modal Design
+.modal {
+    .modal-dialog {
+        margin: 4.5rem auto;
+    }
+
+    .modal-header {
+        padding: 1.5rem 1.5rem 0;
+
+        .modal-title {
+            font-weight: 600;
+            font-size: 1.15rem;
+        }
+    }
+
+    .modal-body {
+        padding: 1.5rem;
+
+        p {
+            margin: 0;
+        }
+    }
+
+    .modal-footer {
+        padding: 1rem 1.5rem 1.5rem;
+        border: 0 none;
+
+        .btn {
+            min-width: 80px;
+        }
+
+        > :not(:last-child) {
+            margin-right: .35rem;
+        }
+
+        > :not(:first-child) {
+            margin-left: .35rem;
+        }
+    }
+}
